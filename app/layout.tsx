@@ -49,7 +49,7 @@ export default function RootLayout({
             "@type": "Organization",
             name: "Fuchs Sales and Consulting Limited",
             url: "https://fuchs-sales.ca",
-            logo: "https://fuchs-sales.ca/Fuchs1.png",
+            logo: "https://fuchs-sales.ca/public/fuchs.png",
             contactPoint: [
               {
                 "@type": "ContactPoint",
