@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import JsonLd from "../components/JsonLd";
+import Script from "next/script";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
 export const metadata: Metadata = {
@@ -39,6 +40,23 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <Script
+        id="ld-org"
+        type="application/ld+json"
+        strategy="afterInteractive"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            name: "Fuchs Sales and Consulting Limited",
+            url: "https://fuchs-sales.ca",
+            logo: "https://fuchs-sales.ca/public/fuchs.png",
+            sameAs: [
+              "https://www.linkedin.com/in/gregory-fuchs-5338b121/?originalSubdomain=ca",
+            ],
+          }),
+        }}
+      />
       <body className="min-h-screen flex flex-col">
         <Navbar />
         <main className="flex-1">{children}</main>

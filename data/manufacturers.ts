@@ -308,8 +308,8 @@ export const MANUFACTURERS: Manufacturer[] = [
         tags: [],
     },
     {
-        id: "Testimonial - Conecpt Aluminum - Tigerloc.01.09.18",
-        title: "Testimonial - Conecpt Aluminum - Tigerloc",
+        id: "Testimonial - Concept Aluminum - Tigerloc.01.09.18",
+        title: "Testimonial - Concept Aluminum - Tigerloc",
         href: "/resources/jk-thermal/Testimonial - Concept Aluminum - Tigerloc.01.09.18.pdf",
         type: "Testimonial",
         size: "117 KB",
