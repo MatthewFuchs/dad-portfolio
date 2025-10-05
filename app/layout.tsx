@@ -27,9 +27,9 @@ export const metadata: Metadata = {
     title: "Fuchs Sales and Consulting Limited",
     description:
       "Technical sales & manufacturer representation for tilt-up and precast.",
-    images: ["/og.jpg"],
+    images: ["/public/og.jpg"],
   },
-  icons: { icon: "/icon.png" },
+  icons: { icon: "icon.png" },
 };
 
 export default function RootLayout({
@@ -70,6 +70,7 @@ export default function RootLayout({
             url: "https://fuchs-sales.ca",
           }}
         />
+        <SpeedInsights />
       </body>
     </html>
   );
