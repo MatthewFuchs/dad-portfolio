@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import JsonLd from "../components/JsonLd";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://fuchs-sales.ca"),
@@ -29,10 +30,13 @@ export const metadata: Metadata = {
     images: ["/og.jpg"],
   },
   icons: { icon: "/icon.png" },
-  
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="en">
       <body className="min-h-screen flex flex-col">
@@ -40,32 +44,32 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <main className="flex-1">{children}</main>
         <Footer />
         <JsonLd
-  data={{
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    name: "Fuchs Sales and Consulting Limited",
-    url: "https://fuchs-sales.ca",
-    logo: "https://fuchs-sales.ca/Fuchs1.png",
-    contactPoint: [
-      {
-        "@type": "ContactPoint",
-        telephone: "+1-778-241-6316",
-        email: "fuchsgreg@icloud.com",
-        contactType: "sales",
-        areaServed: "CA",
-        availableLanguage: ["en"],
-      },
-    ],
-  }}
-/>
-<JsonLd
-  data={{
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    name: "Fuchs Sales and Consulting Limited",
-    url: "https://fuchs-sales.ca",
-  }}
-/>
+          data={{
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            name: "Fuchs Sales and Consulting Limited",
+            url: "https://fuchs-sales.ca",
+            logo: "https://fuchs-sales.ca/Fuchs1.png",
+            contactPoint: [
+              {
+                "@type": "ContactPoint",
+                telephone: "+1-778-241-6316",
+                email: "fuchsgreg@icloud.com",
+                contactType: "sales",
+                areaServed: "CA",
+                availableLanguage: ["en"],
+              },
+            ],
+          }}
+        />
+        <JsonLd
+          data={{
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            name: "Fuchs Sales and Consulting Limited",
+            url: "https://fuchs-sales.ca",
+          }}
+        />
       </body>
     </html>
   );
