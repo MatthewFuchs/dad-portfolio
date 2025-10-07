@@ -80,6 +80,14 @@ export default function Footer() {
                     Learning
                   </Link>
                 </li>
+                <li>
+                  <Link
+                    href="/about"
+                    className="hover:underline hover:text-white/90"
+                  >
+                    About
+                  </Link>
+                </li>
               </ul>
             </div>
 

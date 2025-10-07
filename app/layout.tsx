@@ -5,6 +5,7 @@ import Footer from "../components/Footer";
 import JsonLd from "../components/JsonLd";
 import Script from "next/script";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { Analytics } from "@vercel/analytics/next";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://fuchs-sales.ca"),
@@ -89,6 +90,7 @@ export default function RootLayout({
           }}
         />
         <SpeedInsights />
+        <Analytics />
       </body>
     </html>
   );
