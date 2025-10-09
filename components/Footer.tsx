@@ -17,7 +17,7 @@ export default function Footer() {
           <div>
             <Link href="/" className="inline-flex items-center gap-3">
               <img
-                src="/fuchs.png"
+                src="/fuchs-grey.png"
                 alt="Fuchs Sales & Consulting logo"
                 className="h-10 w-auto"
               />
@@ -25,8 +25,8 @@ export default function Footer() {
             </Link>
 
             <p className="mt-3 text-sm text-white/80 max-w-sm">
-              Technical sales & manufacturer representation for tilt-up and
-              precast construction across Canada.
+              Technical Sales and Marketing Services for Commercial and
+              Industrial Construction Markets in Canada
             </p>
 
             {/* value chips */}

@@ -1,4 +1,3 @@
-// app/api/contact/route.ts
 import nodemailer from "nodemailer";
 
 export const runtime = "nodejs";

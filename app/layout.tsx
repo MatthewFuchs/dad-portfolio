@@ -6,6 +6,7 @@ import JsonLd from "../components/JsonLd";
 import Script from "next/script";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/next";
+import Breadcrumbs from "../components/Breadcrumbs";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://fuchs-sales.ca"),
@@ -29,7 +30,7 @@ export const metadata: Metadata = {
     title: "Fuchs Sales and Consulting Limited",
     description:
       "Technical sales & manufacturer representation for tilt-up and precast.",
-    images: ["/public/og.jpg"],
+    images: ["/og.jpg"],
   },
   icons: { icon: "icon.png" },
 };
@@ -60,8 +61,23 @@ export default function RootLayout({
       />
       <body className="min-h-screen flex flex-col">
         <Navbar />
+        <Breadcrumbs
+          hideOn={["/"]}
+          className="sticky top-[84px] z-20"
+          labelMap={{
+            products: "Products",
+            resources: "Learning Resources",
+            projects: "Projects",
+            contact: "Contact",
+            privacy: "Privacy Policy",
+            terms: "Terms of Use",
+            team: "Team",
+          }}
+        />
         <main className="flex-1">{children}</main>
         <Footer />
+
+        {/* JSON-LD blocks */}
         <JsonLd
           data={{
             "@context": "https://schema.org",
@@ -89,6 +105,7 @@ export default function RootLayout({
             url: "https://fuchs-sales.ca",
           }}
         />
+
         <SpeedInsights />
         <Analytics />
       </body>

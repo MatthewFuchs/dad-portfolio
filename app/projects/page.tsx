@@ -9,8 +9,12 @@ import { MANUFACTURERS } from "../../data/manufacturers";
 
 type Option = { label: string; value: string };
 
-const cx = (...c: Array<string | false | null | undefined>) => c.filter(Boolean).join(" ");
-const manufacturerOptions: Option[] = MANUFACTURERS.map((m) => ({ label: m.name, value: m.id }));
+const cx = (...c: Array<string | false | null | undefined>) =>
+  c.filter(Boolean).join(" ");
+const manufacturerOptions: Option[] = MANUFACTURERS.map((m) => ({
+  label: m.name,
+  value: m.id,
+}));
 
 function Chip({
   label,
@@ -76,7 +80,8 @@ export default function ProjectsIndex() {
   const [mfg, setMfg] = useState<string | null>(null);
 
   const hasFilters = Boolean(sector || mfg);
-  const mfgLabel = manufacturerOptions.find((o) => o.value === mfg)?.label ?? "All";
+  const mfgLabel =
+    manufacturerOptions.find((o) => o.value === mfg)?.label ?? "All";
   const clearFilters = () => {
     setSector(null);
     setMfg(null);
@@ -97,8 +102,7 @@ export default function ProjectsIndex() {
         <div className="max-w-6xl mx-auto">
           <h1 className="text-4xl font-bold">Projects</h1>
           <p className="text-gray-700 mt-3">
-            Browse selected work by sector or manufacturer. Use the filters to find relevant
-            examples—open any card for photos and a short summary. Reset to see everything.
+            Browse selected work by sector or manufacturer.
           </p>
         </div>
       </section>
@@ -108,7 +112,11 @@ export default function ProjectsIndex() {
           <div className="rounded-2xl border border-gray-200 bg-white/70 px-3 py-3 md:px-4 md:py-3">
             <div className="flex flex-col gap-3 md:grid md:grid-cols-[1fr_auto_auto] md:items-center">
               <div className="flex flex-wrap gap-2">
-                <Chip label="All sectors" active={!sector} onClick={() => setSector(null)} />
+                <Chip
+                  label="All sectors"
+                  active={!sector}
+                  onClick={() => setSector(null)}
+                />
                 {ALL_SECTORS.map((s) => (
                   <Chip
                     key={s}
@@ -199,7 +207,9 @@ export default function ProjectsIndex() {
               </div>
 
               <div className="p-4">
-                <h3 className="text-lg font-semibold text-gray-900 line-clamp-2">{p.title}</h3>
+                <h3 className="text-lg font-semibold text-gray-900 line-clamp-2">
+                  {p.title}
+                </h3>
                 <p className="text-sm text-gray-600 mt-1">
                   {p.location}
                   {p.year ? ` • ${p.year}` : ""}
@@ -212,7 +222,8 @@ export default function ProjectsIndex() {
 
         {filtered.length === 0 && (
           <div className="max-w-6xl mx-auto py-16 text-gray-700">
-            No projects match these filters. Try another sector or manufacturer, or{" "}
+            No projects match these filters. Try another sector or manufacturer,
+            or{" "}
             <button
               onClick={clearFilters}
               className="underline underline-offset-2 hover:no-underline"

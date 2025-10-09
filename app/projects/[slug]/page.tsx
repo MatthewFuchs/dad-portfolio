@@ -1,6 +1,4 @@
 import Image from "next/image";
-import Link from "next/link";
-import Script from "next/script";
 import { notFound } from "next/navigation";
 import { PROJECTS } from "../../../data/projects";
 import { MANUFACTURERS } from "../../../data/manufacturers";
@@ -24,40 +22,8 @@ export default async function ProjectDetailPage({
 
   const mfgMap = new Map(MANUFACTURERS.map((m) => [m.id, m]));
 
-  const breadcrumbLd = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      {
-        "@type": "ListItem",
-        position: 1,
-        name: "Home",
-        item: `${SITE_URL}/`,
-      },
-      {
-        "@type": "ListItem",
-        position: 2,
-        name: "Projects",
-        item: `${SITE_URL}/projects`,
-      },
-      {
-        "@type": "ListItem",
-        position: 3,
-        name: project.title,
-        item: `${SITE_URL}/projects/${project.slug}`,
-      },
-    ],
-  };
-
   return (
     <main className="min-h-screen bg-white text-gray-900">
-      {/* JSON-LD breadcrumbs for SEO */}
-      <Script
-        id="breadcrumbs-jsonld"
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
-      />
-
       {/* HERO */}
       <section className="relative h-[42vh] min-h-[320px]">
         <Image
@@ -71,33 +37,6 @@ export default async function ProjectDetailPage({
         <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/25 to-transparent" />
 
         <div className="absolute bottom-8 left-6 right-6 max-w-6xl mx-auto text-white">
-          {/* Visible breadcrumb */}
-          <nav aria-label="Breadcrumb" className="mb-2">
-            <ol className="flex items-center gap-2 text-xs md:text-sm text-white/80">
-              <li>
-                <Link
-                  href="/"
-                  className="hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 rounded"
-                >
-                  Home
-                </Link>
-              </li>
-              <li aria-hidden>›</li>
-              <li>
-                <Link
-                  href="/projects"
-                  className="hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 rounded"
-                >
-                  Projects
-                </Link>
-              </li>
-              <li aria-hidden>›</li>
-              <li aria-current="page" className="truncate max-w-[60%]">
-                <span className="text-white/90">{project.title}</span>
-              </li>
-            </ol>
-          </nav>
-
           <h1 className="text-3xl md:text-5xl font-bold">{project.title}</h1>
           <p className="mt-3 text-white/90 text-sm md:text-base">
             {project.location}

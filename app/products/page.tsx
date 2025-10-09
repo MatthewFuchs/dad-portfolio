@@ -186,19 +186,17 @@ function CompanyModal({
 
   return createPortal(
     <>
-      {/* Backdrop (still closes on click) */}
       <div className="fixed inset-0 z-[100] bg-black/55" onClick={onClose} />
 
-      {/* NEW: clicking anywhere in this full-screen layer (outside the card) closes */}
       <div
         className="fixed inset-0 z-[110] flex items-center justify-center p-4"
         role="dialog"
         aria-modal="true"
-        onClick={onClose} // <-- added
+        onClick={onClose}
       >
         <div
           className="relative w-full max-w-3xl bg-white text-gray-900 rounded-2xl shadow-2xl overflow-hidden"
-          onClick={(e) => e.stopPropagation()} // keep clicks inside from closing
+          onClick={(e) => e.stopPropagation()}
         >
           <div
             className={cx(

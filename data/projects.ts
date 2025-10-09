@@ -1,4 +1,3 @@
-// data/projects.ts
 import type { Manufacturer } from "./manufacturers";
 
 export type ProjectImage = {
@@ -22,19 +21,44 @@ export type Project = {
 
 export const PROJECTS: Project[] = [
   {
-    slug: "metro-data-center-expansion",
-    title: "Metro Data Center Expansion",
-    location: "Vancouver, BC",
+    slug: "east-village-qualicum-beach",
+    title: "East Village | Qualicum Beach",
+    location: "Qualicum Beach, BC",
     year: 2022,
-    sectors: ["Precast", "Mission Critical", "Envelope"],
-    manufacturers: ["jkthermal", "abtdrains"],
-    hero: "/projects/metro-dc.jpg",
+    sectors: ["Drainage", "Landscape Architecture"],
+    manufacturers: ["abtdrains"],
+    hero: "/projects/east-village-qb/IMG_2107.jpg",
     summary:
-      "High-performance envelope detailing with thermal breaks and robust surface-water control in service yards.",
+      "ABT Permavoid is used on the North side of the street to collect surface storm water.  Water is stored in Permavoid and uses patented capillary action to provide water to the trees during drought periods.  Once the water reservoir is full, storm water is released to the municipal collection system through control structures.  Permavoid can support traffic loads while providing a truly sustainable method to manage storm water, excelerating bio mass and reducing storm water management.  Contract Fuchs Sales & Consulting to learn the many ways Permavoid can be used to reduce storm water run-off and prioritize storm water as a resource.",
     gallery: [
-      { src: "/projects/metro-dc.jpg", alt: "Thermal break locations" },
+      { src: "/projects/east-village-qb/IMG_2107.jpg", alt: "Finished Project" },
+      { src: "/projects/east-village-qb/IMG_2109.jpg", alt: "Finished Project" },
+      { src: "/projects/east-village-qb/IMG_2111.jpg", alt: "Finished Project" },
+      { src: "/projects/east-village-qb/IMG_2927.jpg", alt: "Finished Project" },
+      { src: "/projects/east-village-qb/IMG_2928.jpg", alt: "Finished Project" },
     ],
-    tags: ["Thermal", "Drainage"],
+    tags: ["Drainage", "Sustainable Development", "Tree Pits"],
+  },
+  {
+    slug: "cloverdale-athletic-park-soccer-clubhouse",
+    title: "Cloverdale Athletic Park Soccer Clubhouse | Tree Pits",
+    location: "Surrey, BC",
+    year: 2021,
+    sectors: ["Drainage", "Landscape Architecture"],
+    manufacturers: ["abtdrains"],
+    hero: "/projects/cloverdale-athletic-park-soccer-clubhouse/IMG_0191.jpg",
+    summary:
+      "ABT Permavoid is used under trees to store and provide passive irrigation.  Water is collected from catch basins and roof leaders on the adjacent paved surfaces and building and directed to Permavoid for storage and to irrigate the trees.  Once the Permavoid storage tank is full, water is directed through a control structure and slowly released to the city storm system.",
+    gallery: [
+      { src: "/projects/cloverdale-athletic-park-soccer-clubhouse/IMG_0191.jpg", alt: "Finished Project" },
+      { src: "/projects/cloverdale-athletic-park-soccer-clubhouse/IMG_0072.jpg", alt: "Under Construction" },
+      { src: "/projects/cloverdale-athletic-park-soccer-clubhouse/IMG_0073.jpg", alt: "Under Construction" },
+      { src: "/projects/cloverdale-athletic-park-soccer-clubhouse/IMG_0077.jpg", alt: "Under Construction" },
+      { src: "/projects/cloverdale-athletic-park-soccer-clubhouse/IMG_0089.jpg", alt: "Under Construction" },
+      { src: "/projects/cloverdale-athletic-park-soccer-clubhouse/IMG_0092.jpg", alt: "Under Construction" },
+      { src: "/projects/cloverdale-athletic-park-soccer-clubhouse/IMG_0095.jpg", alt: "Under Construction" },
+    ],
+    tags: ["Sustainable Development", "Storm Water Management", "Tree Pits"],
   },
 ];
 

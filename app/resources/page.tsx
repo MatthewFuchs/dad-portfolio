@@ -12,7 +12,6 @@ const PUBLIC_INBOX =
 const cx = (...c: Array<string | false | null | undefined>) =>
   c.filter(Boolean).join(" ");
 
-/* ---------- Resource row ---------- */
 function ResourceRow({
   title,
   href,
@@ -99,7 +98,6 @@ function ResourceRow({
   );
 }
 
-/* ---------- Brand row (accordion with max-h animation) ---------- */
 function BrandRow({
   m,
   open,
@@ -227,7 +225,6 @@ function BrandRow({
         </div>
       </div>
 
-      {/* Animated panel: max-height + opacity (no auto-scroll, no blank gaps) */}
       <div
         id={`${m.id}-resources`}
         aria-hidden={!open}
@@ -248,7 +245,6 @@ function BrandRow({
   );
 }
 
-/* ---------- CTA (unchanged style; no box) ---------- */
 function TinyPresentationCTA({
   manufacturers,
 }: {
@@ -343,7 +339,6 @@ function TinyPresentationCTA({
 export default function LearningPage() {
   const [openId, setOpenId] = useState<string | null>(null);
 
-  // Removed auto-scroll on toggle.
   const items = useMemo(() => MANUFACTURERS, []);
   const onToggle = (id: string) => setOpenId((cur) => (cur === id ? null : id));
 

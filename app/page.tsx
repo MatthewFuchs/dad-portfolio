@@ -1,4 +1,3 @@
-// app/page.tsx
 import Link from "next/link";
 import Image from "next/image";
 import { PROJECTS } from "../data/projects";
@@ -35,11 +34,17 @@ export default function HomePage() {
             Fuchs Sales and Consulting
           </h1>
           <p className="mt-4 max-w-3xl text-lg md:text-2xl">
-            Technical Sales &amp; Marketing Services for Tilt-Up and Precast
+            Technical Sales and Marketing Services for Commercial and Industrial
             Construction Markets in Canada
           </p>
-          <div className="absolute bottom-8 animate-bounce">
-            <span className="text-white text-2xl">↓</span>
+
+          <div className="absolute bottom-8 left-1/2 -translate-x-1/2">
+            <span
+              aria-hidden="true"
+              className="block text-emerald-500 text-4xl drop-shadow-[0_0_10px_rgba(16,185,129,0.65)] animate-bounce motion-reduce:animate-none"
+            >
+              ↓
+            </span>
           </div>
         </div>
       </section>
