@@ -40,7 +40,7 @@ export const PROJECTS: Project[] = [
     tags: ["Drainage", "Sustainable Development", "Tree Pits"],
   },
   {
-    slug: "cloverdale-athletic-park-soccer-clubhouse",
+    slug: "cloverdale-athletic-park-clubhouse",
     title: "Cloverdale Athletic Park Soccer Clubhouse | Tree Pits",
     location: "Surrey, BC",
     year: 2021,

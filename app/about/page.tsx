@@ -1,18 +1,109 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import { Mail, Phone, Quote } from "lucide-react";
 
+const SITE_URL = "https://fuchs-sales.ca";
 const EMAIL = "gfuchs@fuchs-sales.ca";
 const PHONE_TEL = "+17782416316";
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "About | Fuchs Sales & Consulting",
   description:
     "About Fuchs Sales & Consulting — who we are, what we do, and how to reach us.",
+  alternates: { canonical: `${SITE_URL}/about` },
+  robots: { index: true, follow: true },
+  openGraph: {
+    type: "website",
+    url: `${SITE_URL}/about`,
+    title: "About | Fuchs Sales & Consulting",
+    description:
+      "About Fuchs Sales & Consulting — who we are, what we do, and how to reach us.",
+    images: [
+      {
+        url: `${SITE_URL}/og.jpg`,
+        width: 1200,
+        height: 630,
+        alt: "Fuchs Sales",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "About | Fuchs Sales & Consulting",
+    description:
+      "About Fuchs Sales & Consulting — who we are, what we do, and how to reach us.",
+    images: [`${SITE_URL}/og.jpg`],
+  },
 };
 
 export default function AboutPage() {
+  // JSON-LD: breadcrumbs
+  const breadcrumbsJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: SITE_URL },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "About",
+        item: `${SITE_URL}/about`,
+      },
+    ],
+  };
+
+  // JSON-LD: AboutPage + Person
+  const aboutPageJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "AboutPage",
+    name: "About | Fuchs Sales & Consulting",
+    url: `${SITE_URL}/about`,
+    primaryImageOfPage: { "@type": "ImageObject", url: `${SITE_URL}/og.jpg` },
+    about: {
+      "@type": "Organization",
+      name: "Fuchs Sales and Consulting Limited",
+      url: SITE_URL,
+      logo: `${SITE_URL}/fuchs.png`,
+      contactPoint: [
+        {
+          "@type": "ContactPoint",
+          contactType: "sales",
+          telephone: "+1-778-241-6316",
+          email: EMAIL,
+          areaServed: "CA",
+          availableLanguage: ["en"],
+        },
+      ],
+    },
+    mainEntity: {
+      "@type": "Person",
+      name: "Greg Fuchs",
+      jobTitle: "President",
+      email: EMAIL,
+      telephone: "+1-778-241-6316",
+      image: `${SITE_URL}/team/greg.jpg`,
+      worksFor: {
+        "@type": "Organization",
+        name: "Fuchs Sales and Consulting Limited",
+        url: SITE_URL,
+      },
+      sameAs: [
+        "https://www.linkedin.com/in/gregory-fuchs-5338b121/?originalSubdomain=ca",
+      ],
+    },
+  };
+
   return (
     <main className="min-h-screen bg-white text-gray-900">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbsJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(aboutPageJsonLd) }}
+      />
+
       <section className="pt-28 sm:pt-32 pb-10 px-4 sm:px-16">
         <div className="max-w-4xl mx-auto">
           <header className="flex flex-col items-center text-center gap-6 sm:flex-row sm:items-center sm:text-left">
@@ -29,7 +120,8 @@ export default function AboutPage() {
             <div className="min-w-0">
               <h1 className="text-3xl md:text-4xl font-bold">Greg Fuchs</h1>
               <p className="mt-1 text-sm text-gray-600">
-                Fuchs Sales &amp; Consulting — Partnering with leading manufacturers across Canada.
+                Fuchs Sales &amp; Consulting — Partnering with leading
+                manufacturers across Canada.
               </p>
             </div>
           </header>
@@ -38,12 +130,14 @@ export default function AboutPage() {
             <blockquote className="relative rounded-2xl border border-gray-200 bg-gray-50 px-5 py-4 text-gray-800">
               <Quote className="absolute -top-3 -left-3 h-6 w-6 opacity-30" />
               <p className="italic text-[15px] leading-7">
-                “Partnering with manufacturers that provide expert technical support, reliable
-                products and innovative solutions is our biggest asset. We’ve partnered with some
-                of the most responsible and innovative companies in our chosen markets. These
-                partnerships, along with our proven responsiveness and professionalism, have
-                created a reliable network and sales pipeline. Over the past 15 years we’ve built a
-                diverse product offering that lets us bring multiple solutions to our design,
+                “Partnering with manufacturers that provide expert technical
+                support, reliable products and innovative solutions is our
+                biggest asset. We’ve partnered with some of the most responsible
+                and innovative companies in our chosen markets. These
+                partnerships, along with our proven responsiveness and
+                professionalism, have created a reliable network and sales
+                pipeline. Over the past 15 years we’ve built a diverse product
+                offering that lets us bring multiple solutions to our design,
                 owner and contractor partners.”
               </p>
             </blockquote>
@@ -54,32 +148,40 @@ export default function AboutPage() {
 
           <div className="mt-8 grid gap-4">
             <div className="bg-white p-4">
-              <h2 className="text-sm font-semibold text-gray-900">Company overview</h2>
+              <h2 className="text-sm font-semibold text-gray-900">
+                Company overview
+              </h2>
               <div className="mt-2 text-[15px] leading-7 text-gray-800">
                 <p>
-                  Fuchs Sales &amp; Consulting represents manufacturers across Canada. Designers,
-                  owners, and contractors rely on our expert knowledge to make the right product
-                  recommendations. Over the last 15 years, we’ve partnered with leading
-                  manufacturers that provide some of the most reliable materials in the
+                  Fuchs Sales &amp; Consulting represents manufacturers across
+                  Canada. Designers, owners, and contractors rely on our expert
+                  knowledge to make the right product recommendations. Over the
+                  last 15 years, we’ve partnered with leading manufacturers that
+                  provide some of the most reliable materials in the
                   construction industry.
                 </p>
               </div>
             </div>
 
             <div className="bg-white p-4">
-              <h2 className="text-sm font-semibold text-gray-900">Greg Fuchs — President</h2>
+              <h2 className="text-sm font-semibold text-gray-900">
+                Greg Fuchs — President
+              </h2>
               <div className="mt-2 text-[15px] leading-7 text-gray-800 space-y-4">
                 <p>
-                  Greg Fuchs, the President of Fuchs Sales &amp; Consulting, is a passionate sales
-                  leader. In January 2010, Greg partnered with the company’s first manufacturing
-                  partner, Fabrikem Manufacturing, and founded the business.
+                  Greg Fuchs, the President of Fuchs Sales &amp; Consulting, is
+                  a passionate sales leader. In January 2010, Greg partnered
+                  with the company’s first manufacturing partner, Fabrikem
+                  Manufacturing, and founded the business.
                 </p>
                 <p>
-                  Greg combines day-to-day leadership of the business with a continued focus on
-                  sales and service across the complete product line in Canada. He holds a degree
-                  in Economics and Business from the University of Alberta and has been a resident
-                  of British Columbia for the past 15 years. In his spare time he’s with family and
-                  friends, playing hockey and staying active.
+                  Greg combines day-to-day leadership of the business with a
+                  continued focus on sales and service across the complete
+                  product line in Canada. He holds a degree in Economics and
+                  Business from the University of Alberta and has been a
+                  resident of British Columbia for the past 15 years. In his
+                  spare time he’s with family and friends, playing hockey and
+                  staying active.
                 </p>
               </div>
             </div>

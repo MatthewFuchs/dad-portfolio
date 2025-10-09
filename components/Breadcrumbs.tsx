@@ -6,11 +6,9 @@ import { usePathname } from "next/navigation";
 import { ChevronRight } from "lucide-react";
 
 type Props = {
-  /** Hide breadcrumbs on these exact paths */
   hideOn?: string[];
-  /** Extra classes for the outer wrapper (positioning, etc.) */
+  offsetPx?: number;
   className?: string;
-  /** Optional pretty labels per segment */
   labelMap?: Record<string, string>;
 };
 
@@ -20,15 +18,16 @@ function humanize(seg: string) {
 
 export default function Breadcrumbs({
   hideOn = ["/"],
+  offsetPx = 64,
   className = "",
   labelMap = {
-    products: "Manufacturers",
+    products: "Products",
     resources: "Learning Resources",
     projects: "Projects",
     contact: "Contact",
     privacy: "Privacy Policy",
     terms: "Terms of Use",
-    team: "Team",
+    about: "About",
   },
 }: Props) {
   const pathname = usePathname() || "/";
@@ -37,49 +36,68 @@ export default function Breadcrumbs({
   const parts = pathname.split("/").filter(Boolean);
   if (parts.length === 0) return null;
 
-  const crumbs = parts.map((seg, i) => {
-    const href = "/" + parts.slice(0, i + 1).join("/");
-    const label = labelMap[seg] ?? humanize(seg);
-    return { href, label };
-  });
+  const crumbs = parts.map((seg, i) => ({
+    href: "/" + parts.slice(0, i + 1).join("/"),
+    label: labelMap[seg] ?? humanize(seg),
+  }));
 
   return (
-    <div
-      className={
-        "border-b border-gray-200 bg-white/80 backdrop-blur supports-[backdrop-filter]:bg-white/70 " +
-        className
-      }
-    >
-      <nav
-        aria-label="Breadcrumb"
-        className="max-w-6xl mx-auto px-4 md:px-16 py-2.5 text-sm text-gray-600"
+    <>
+      <div
+        className={["sticky z-30 bg-white", className].join(" ")}
+        style={{ top: offsetPx }}
       >
-        <ol className="flex flex-wrap items-center gap-1.5">
-          <li className="shrink-0">
-            <Link
-              href="/"
-              className="underline decoration-transparent hover:decoration-gray-500"
-            >
-              Home
-            </Link>
-          </li>
-          {crumbs.map((c, idx) => (
-            <li key={c.href} className="flex items-center gap-1.5">
-              <ChevronRight className="h-4 w-4 text-gray-400" aria-hidden />
-              {idx === crumbs.length - 1 ? (
-                <span className="text-gray-900 font-medium">{c.label}</span>
-              ) : (
-                <Link
-                  href={c.href}
-                  className="underline decoration-transparent hover:decoration-gray-500"
-                >
-                  {c.label}
-                </Link>
-              )}
+        <nav
+          aria-label="Breadcrumb"
+          className="max-w-6xl mx-auto px-4 md:px-16 py-2 text-sm text-gray-700"
+        >
+          <ol className="flex flex-wrap items-center gap-1.5">
+            <li className="shrink-0">
+              <Link
+                href="/"
+                className="underline decoration-transparent hover:decoration-gray-500"
+              >
+                Home
+              </Link>
             </li>
-          ))}
-        </ol>
-      </nav>
-    </div>
+            {crumbs.map((c, idx) => (
+              <li key={c.href} className="flex items-center gap-1.5">
+                <ChevronRight className="h-4 w-4 text-gray-400" aria-hidden />
+                {idx === crumbs.length - 1 ? (
+                  <span className="text-gray-900 font-medium">{c.label}</span>
+                ) : (
+                  <Link
+                    href={c.href}
+                    className="underline decoration-transparent hover:decoration-gray-500"
+                  >
+                    {c.label}
+                  </Link>
+                )}
+              </li>
+            ))}
+          </ol>
+        </nav>
+      </div>
+
+      {/* SEO JSON-LD */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              { "@type": "ListItem", position: 1, name: "Home", item: "/" },
+              ...crumbs.map((c, i) => ({
+                "@type": "ListItem",
+                position: i + 2,
+                name: c.label,
+                item: c.href,
+              })),
+            ],
+          }),
+        }}
+      />
+    </>
   );
 }

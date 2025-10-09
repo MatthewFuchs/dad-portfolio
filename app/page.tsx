@@ -5,7 +5,7 @@ import { PROJECTS } from "../data/projects";
 export const metadata = {
   title: "Fuchs Sales and Consulting | Home",
   description:
-    "Fuchs Sales and Consulting Limited provides technical sales and manufacturer representation for tilt-up and precast construction across Canada.",
+    "Fuchs Sales and Consulting Limited provides technical sales and manufacturer representation for commercial and industrial construction across Canada.",
   alternates: { canonical: "/" },
 };
 

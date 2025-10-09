@@ -9,17 +9,16 @@ import { Analytics } from "@vercel/analytics/next";
 import Breadcrumbs from "../components/Breadcrumbs";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://fuchs-sales.ca"),
+  metadataBase: new URL("https://www.fuchs-sales.ca"),
   title: {
     default: "Fuchs Sales and Consulting",
     template: "%s | Fuchs Sales & Consulting",
   },
   description:
     "Technical sales & manufacturer representation for tilt-up and precast construction in Canada.",
-  alternates: { canonical: "/" },
   openGraph: {
     type: "website",
-    url: "https://fuchs-sales.ca",
+    url: "https://www.fuchs-sales.ca",
     title: "Fuchs Sales and Consulting Limited",
     description:
       "Technical sales & manufacturer representation for tilt-up and precast.",
@@ -51,8 +50,8 @@ export default function RootLayout({
             "@context": "https://schema.org",
             "@type": "Organization",
             name: "Fuchs Sales and Consulting Limited",
-            url: "https://fuchs-sales.ca",
-            logo: "https://fuchs-sales.ca/public/fuchs.png",
+            url: "https://www.fuchs-sales.ca",
+            logo: "https://www.fuchs-sales.ca/public/fuchs.png",
             sameAs: [
               "https://www.linkedin.com/in/gregory-fuchs-5338b121/?originalSubdomain=ca",
             ],
@@ -63,9 +62,10 @@ export default function RootLayout({
         <Navbar />
         <Breadcrumbs
           hideOn={["/"]}
-          className="sticky top-[84px] z-20"
+          offsetPx={82}
+          className="z-12"
           labelMap={{
-            products: "Products",
+            products: "Manufacturers",
             resources: "Learning Resources",
             projects: "Projects",
             contact: "Contact",
@@ -77,14 +77,13 @@ export default function RootLayout({
         <main className="flex-1">{children}</main>
         <Footer />
 
-        {/* JSON-LD blocks */}
         <JsonLd
           data={{
             "@context": "https://schema.org",
             "@type": "Organization",
             name: "Fuchs Sales and Consulting Limited",
-            url: "https://fuchs-sales.ca",
-            logo: "https://fuchs-sales.ca/public/fuchs.png",
+            url: "https://www.fuchs-sales.ca",
+            logo: "https://www.fuchs-sales.ca/public/fuchs.png",
             contactPoint: [
               {
                 "@type": "ContactPoint",
@@ -102,7 +101,7 @@ export default function RootLayout({
             "@context": "https://schema.org",
             "@type": "WebSite",
             name: "Fuchs Sales and Consulting Limited",
-            url: "https://fuchs-sales.ca",
+            url: "https://www.fuchs-sales.ca",
           }}
         />
 

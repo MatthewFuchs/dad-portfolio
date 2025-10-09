@@ -1,10 +1,34 @@
+import type { Metadata } from "next";
+
 export const dynamic = "force-static";
 
-export const metadata = {
-  title: "Terms of Use | Fuchs Sales and Consulting",
-  description:
-    "Terms of Use for Fuchs Sales and Consulting.",
-  alternates: { canonical: "/terms" },
+const SITE_URL = "https://fuchs-sales.ca";
+
+export const metadata: Metadata = {
+  title: "Terms of Use | Fuchs Sales & Consulting",
+  description: "Terms of Use for Fuchs Sales & Consulting.",
+  alternates: { canonical: `${SITE_URL}/terms` },
+  robots: { index: true, follow: true },
+  openGraph: {
+    type: "website",
+    url: `${SITE_URL}/terms`,
+    title: "Terms of Use | Fuchs Sales & Consulting",
+    description: "Terms of Use for Fuchs Sales & Consulting.",
+    images: [
+      {
+        url: `${SITE_URL}/og.jpg`,
+        width: 1200,
+        height: 630,
+        alt: "Fuchs Sales",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Terms of Use | Fuchs Sales & Consulting",
+    description: "Terms of Use for Fuchs Sales & Consulting.",
+    images: [`${SITE_URL}/og.jpg`],
+  },
 };
 
 export default function TermsPage() {
@@ -19,9 +43,15 @@ export default function TermsPage() {
       />
       <p className="mt-4 text-sm text-gray-600">
         If the document doesn’t load,{" "}
-        <a href="/legal/terms.html" target="_blank" rel="noopener noreferrer" className="underline">
+        <a
+          href="/legal/terms.html"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline"
+        >
           open it in a new tab
-        </a>.
+        </a>
+        .
       </p>
     </main>
   );

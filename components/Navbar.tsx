@@ -36,7 +36,11 @@ export default function Navbar() {
   return (
     <>
       <nav className={navClass}>
-        <Link href="/" className="flex items-center" aria-label="Go to homepage">
+        <Link
+          href="/"
+          className="flex items-center"
+          aria-label="Go to homepage"
+        >
           <img
             src="/fuchs.png"
             alt="Fuchs Sales Logo"
@@ -51,7 +55,11 @@ export default function Navbar() {
           aria-controls="mobile-menu"
           className="z-10 p-2 rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-black transition-transform duration-300 hover:scale-110"
         >
-          {isOpen ? <X size={36} className="stroke-current" /> : <Menu size={36} className="stroke-current" />}
+          {isOpen ? (
+            <X size={36} className="stroke-current" />
+          ) : (
+            <Menu size={36} className="stroke-current" />
+          )}
         </button>
       </nav>
 
