@@ -1,12 +1,58 @@
 import Link from "next/link";
 import Image from "next/image";
 import { PROJECTS } from "../data/projects";
+import type { Metadata } from "next";
 
-export const metadata = {
-  title: "Fuchs Sales and Consulting | Home",
+export const metadata: Metadata = {
+  title: "Fuchs Sales & Consulting — Technical Sales in Canada",
   description:
-    "Fuchs Sales and Consulting Limited provides technical sales and manufacturer representation for commercial and industrial construction across Canada.",
+    "Technical sales & manufacturer representation for commercial and industrial construction across Canada, specializing in tilt-up and precast.",
   alternates: { canonical: "/" },
+  keywords: [
+    "technical sales",
+    "manufacturer representation",
+    "tilt-up",
+    "precast",
+    "concrete",
+    "construction",
+    "Canada",
+    "specification support",
+    "distribution",
+  ],
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      ["max-snippet"]: -1,
+      ["max-image-preview"]: "large",
+      ["max-video-preview"]: -1,
+    },
+  },
+  openGraph: {
+    type: "website",
+    url: "/",
+    siteName: "Fuchs Sales & Consulting",
+    title: "Fuchs Sales & Consulting — Technical Sales in Canada",
+    description:
+      "Technical sales & manufacturer representation for commercial and industrial construction across Canada.",
+    images: [
+      {
+        url: "/og.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Fuchs Sales & Consulting",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Fuchs Sales & Consulting — Technical Sales in Canada",
+    description:
+      "Technical sales & manufacturer representation for commercial and industrial construction across Canada.",
+    images: ["/og.jpg"],
+  },
 };
 
 export default function HomePage() {
