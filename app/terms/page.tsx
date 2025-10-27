@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 
 export const dynamic = "force-static";
 
-const SITE_URL = "https://fuchs-sales.ca";
+const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ||
+  "https://www.fuchs-sales.ca";
 
 export const metadata: Metadata = {
   title: "Terms of Use | Fuchs Sales & Consulting",
@@ -32,27 +34,47 @@ export const metadata: Metadata = {
 };
 
 export default function TermsPage() {
+  const breadcrumbsJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: SITE_URL },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Terms of Use",
+        item: `${SITE_URL}/terms`,
+      },
+    ],
+  };
+
   return (
-    <main className="min-h-screen bg-white text-gray-900 pt-32 px-6 md:px-16 pb-10">
-      <h1 className="text-4xl font-bold mb-6">Terms of Use</h1>
-      <iframe
-        title="Terms of Use"
-        src="/legal/terms.html"
-        loading="lazy"
-        className="w-full h-[70vh] md:h-[calc(100vh-14rem)] border border-gray-200 rounded-xl shadow-sm"
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbsJsonLd) }}
       />
-      <p className="mt-4 text-sm text-gray-600">
-        If the document doesn’t load,{" "}
-        <a
-          href="/legal/terms.html"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="underline"
-        >
-          open it in a new tab
-        </a>
-        .
-      </p>
-    </main>
+      <main className="min-h-screen bg-white text-gray-900 pt-32 px-6 md:px-16 pb-10">
+        <h1 className="text-4xl font-bold mb-6">Terms of Use</h1>
+        <iframe
+          title="Terms of Use"
+          src="/legal/terms.html"
+          loading="lazy"
+          className="w-full h-[70vh] md:h-[calc(100vh-14rem)] border border-gray-200 rounded-xl shadow-sm"
+        />
+        <p className="mt-4 text-sm text-gray-600">
+          If the document doesn’t load,{" "}
+          <a
+            href="/legal/terms.html"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline"
+          >
+            open it in a new tab
+          </a>
+          .
+        </p>
+      </main>
+    </>
   );
 }

@@ -108,11 +108,13 @@ export default function ProjectsIndexClient() {
         </div>
       </section>
 
+      {/* Filters */}
       <section className="px-6 md:px-16">
         <div className="max-w-6xl mx-auto">
           <div className="rounded-2xl border border-gray-200 bg-white/70 px-3 py-3 md:px-4 md:py-3">
             <div className="flex flex-col gap-3 md:grid md:grid-cols-[1fr_auto_auto] md:items-center">
-              <div className="flex flex-wrap gap-2">
+              {/* SCROLLABLE PILLS */}
+              <div className="w-full flex gap-2 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
                 <Chip
                   label="All sectors"
                   active={!sector}
@@ -177,6 +179,7 @@ export default function ProjectsIndexClient() {
         </div>
       </section>
 
+      {/* Grid */}
       <section className="px-6 md:px-16 py-10">
         <div className="max-w-6xl mx-auto grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {filtered.map((p) => (

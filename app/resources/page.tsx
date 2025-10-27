@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import ResourcesClient from "./ResourcesClient";
 
-const SITE_URL = "https://www.fuchs-sales.ca";
+const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ||
+  "https://www.fuchs-sales.ca";
 
 export const metadata: Metadata = {
   title: "Learning Resources | Fuchs Sales & Consulting",
@@ -34,5 +36,27 @@ export const metadata: Metadata = {
 };
 
 export default function ResourcesPage() {
-  return <ResourcesClient />;
+  const breadcrumbsJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: SITE_URL },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Learning Resources",
+        item: `${SITE_URL}/resources`,
+      },
+    ],
+  };
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbsJsonLd) }}
+      />
+      <ResourcesClient />
+    </>
+  );
 }

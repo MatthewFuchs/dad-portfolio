@@ -74,10 +74,18 @@ export default function Footer() {
                 </li>
                 <li>
                   <Link
+                    href="/presentations"
+                    className="hover:underline hover:text-white/90"
+                  >
+                    Presentations
+                  </Link>
+                </li>
+                <li>
+                  <Link
                     href="/resources"
                     className="hover:underline hover:text-white/90"
                   >
-                    Learning
+                    Resources
                   </Link>
                 </li>
                 <li>
@@ -161,9 +169,6 @@ export default function Footer() {
           <p>
             &copy; {year} Fuchs Sales and Consulting Limited. All rights
             reserved.
-          </p>
-          <p className="mt-2 sm:mt-0">
-            <span className="text-white/60">Built with Next.js & Tailwind</span>
           </p>
         </div>
       </div>

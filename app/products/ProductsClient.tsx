@@ -181,13 +181,11 @@ function CompanyModal({
     if (company) window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
   }, [company, onClose]);
-
   if (!company || !mounted) return null;
 
   return createPortal(
     <>
       <div className="fixed inset-0 z-[100] bg-black/55" onClick={onClose} />
-
       <div
         className="fixed inset-0 z-[110] flex items-center justify-center p-4"
         role="dialog"
@@ -222,7 +220,6 @@ function CompanyModal({
           >
             <X className="h-4 w-4" /> Close
           </button>
-
           <div className="p-6">
             <h2 className="text-2xl font-semibold">{company.name}</h2>
             <p className="text-gray-800 mt-2">{company.shortInfo}</p>
@@ -359,7 +356,8 @@ export default function ProductsClient() {
         <div className="max-w-7xl mx-auto px-6 md:px-16">
           <div className="rounded-2xl border border-gray-200 bg-white/70 px-3 py-3 md:px-4 md:py-4">
             <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-              <div className="flex flex-wrap gap-2">
+              {/* SCROLLABLE PILLS */}
+              <div className="w-full flex gap-2 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
                 <Chip
                   label="All categories"
                   active={!hasFilters}

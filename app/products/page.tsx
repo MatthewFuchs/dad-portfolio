@@ -1,4 +1,3 @@
-// app/products/page.tsx
 import type { Metadata } from "next";
 import ProductsClient from "./ProductsClient";
 

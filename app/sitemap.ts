@@ -20,6 +20,7 @@ const PAGES: {
   { url: "/products", file: "app/products/page.tsx", priority: 0.8, changeFrequency: "weekly" },
   { url: "/projects", file: "app/projects/page.tsx", priority: 0.7, changeFrequency: "monthly" },
   { url: "/resources", file: "app/resources/page.tsx", priority: 0.7, changeFrequency: "weekly" },
+  { url: "/presentations", file: "app/presentations/page.tsx", priority: 0.7, changeFrequency: "weekly" }, // ← NEW
   { url: "/about", file: "app/about/page.tsx", priority: 0.5, changeFrequency: "yearly" },
   { url: "/contact", file: "app/contact/page.tsx", priority: 0.6, changeFrequency: "yearly" },
   { url: "/terms", file: "app/terms/page.tsx", priority: 0.2, changeFrequency: "yearly" },
