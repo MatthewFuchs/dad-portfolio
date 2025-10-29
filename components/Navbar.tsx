@@ -16,7 +16,6 @@ export default function Navbar() {
   const navRef = useRef<HTMLElement>(null);
 
   useEffect(() => setMounted(true), []);
-
   useEffect(() => setIsOpen(false), [pathname]);
 
   useEffect(() => {
@@ -62,7 +61,10 @@ export default function Navbar() {
 
   const wrapper =
     "fixed top-0 left-0 w-full z-50 transition-colors duration-300";
-  const surface = onHome
+
+  const surface = isOpen
+    ? "text-white bg-black/40 supports-[backdrop-filter]:bg-black/30 backdrop-blur-md"
+    : onHome
     ? isSolid
       ? "bg-white text-gray-900 border-b border-gray-200 shadow-sm supports-[backdrop-filter]:bg-white/70 backdrop-blur-md"
       : "bg-transparent text-white"
@@ -70,10 +72,9 @@ export default function Navbar() {
 
   return (
     <>
-      {/* Skip link */}
       <a
         href="#main"
-        className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[60] focus:rounded-md focus:bg-black focus:px-3 focus:py-2 focus:text-white"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[70] focus:rounded-md focus:bg-black focus:px-3 focus:py-2 focus:text-white"
       >
         Skip to content
       </a>
@@ -120,20 +121,21 @@ export default function Navbar() {
         </div>
       </nav>
 
-      {/* Mobile drawer */}
       {mounted &&
         createPortal(
           <>
             {isOpen && (
               <div
-                className="fixed inset-0 z-[45] bg-black/50 backdrop-blur-sm"
+                className="fixed inset-0 z-[60] bg-black/50 backdrop-blur-sm"
                 onClick={() => setIsOpen(false)}
               />
             )}
+
+            {/* Drawer */}
             <aside
               role="dialog"
               aria-modal="true"
-              className={`fixed top-0 right-0 z-[55] h-full w-72 max-w-[85vw] transform bg-black text-white transition-transform duration-400 ease-out ${
+              className={`fixed top-0 right-0 z-[70] h-full w-[88vw] max-w-[420px] transform bg-black text-white transition-transform duration-400 ease-out border-l border-white/10 shadow-2xl ${
                 isOpen ? "translate-x-0" : "translate-x-full"
               }`}
             >
@@ -147,7 +149,6 @@ export default function Navbar() {
                   <X size={28} className="stroke-current" />
                 </button>
               </div>
-
               <nav className="flex flex-col p-8 space-y-6 text-lg font-medium">
                 <Link
                   href="/"
@@ -163,7 +164,6 @@ export default function Navbar() {
                     href={l.href}
                     onClick={() => setIsOpen(false)}
                     className="relative group"
-                    aria-current={pathname === l.href ? "page" : undefined}
                   >
                     {l.label}
                     <span className="absolute left-0 -bottom-1 h-0.5 w-0 bg-white transition-all duration-300 group-hover:w-full" />
