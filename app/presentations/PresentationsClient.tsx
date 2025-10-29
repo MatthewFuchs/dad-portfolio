@@ -34,13 +34,14 @@ const PRESENTATIONS: Presentation[] = [
       "Building Envelope",
       "Thermal Breaks",
       "Insulation",
+      "Architecture",
     ],
     brand: "LEVIAT",
-    // panorama-friendly defaults
     bannerFit: "contain",
     bannerAspect: "aspect-[21/9] md:aspect-[21/9]",
     objectPosition: "object-center",
   },
+
   {
     id: "abt-permavoid-blue-green-roofs",
     title: "Designing Blue-Green Connected Roofs for Resilient Cities",
@@ -53,9 +54,118 @@ const PRESENTATIONS: Presentation[] = [
       "Storm Water Management",
       "Resilient Cities",
       "Building Envelope",
+      "Civil Engineering",
+      "Architecture",
     ],
     brand: "ABT",
-    // this image is closer to standard aspect; no overrides needed
+  },
+
+  {
+    id: "handling-graffiti-masonry-concrete",
+    title:
+      "Handling Graffiti on Masonry & Concrete | Innovations in Graffiti Control",
+    blurb:
+      "Graffiti vandalism poses a persistent challenge for masonry and concrete assets. This session covers new-generation coatings—from sacrificial barriers to durable, breathable permanent systems—designed to prevent and simplify removal on porous mineral substrates. We’ll review materials science, real-world case studies, and performance data to help you select systems that protect architectural integrity, enhance durability, and reduce lifecycle maintenance costs.",
+    banner: "/presentations/handling-graffiti.png",
+    tags: ["Fabrikem", "Architecture", "Building Envelope", "Graffiti Control"],
+    brand: "Fabrikem",
+    bannerFit: "contain",
+    bannerAspect: "aspect-[21/9] md:aspect-[21/9]",
+    objectPosition: "object-center",
+  },
+
+  {
+    id: "eliminating-thermal-bridges-ica",
+    title:
+      "Eliminating Thermal Bridges in Insulated Concrete Assemblies | Design Strategies for High Performance Envelopes",
+    blurb:
+      "Thermal bridging remains a key obstacle to true efficiency in concrete envelopes. This presentation explores strategies to maintain continuous insulation in precast and cast-in-place systems, including advanced connectors, detailing methods aligned with modern energy codes, and guidance for evaluating performance/cost/constructability trade-offs.",
+    banner: "/presentations/eliminating-thermal-bridges.png",
+    tags: ["JK Thermal", "Architecture", "Building Envelope"],
+    brand: "JK Thermal",
+    bannerFit: "contain",
+    bannerAspect: "aspect-[21/9] md:aspect-[21/9]",
+    objectPosition: "object-center",
+  },
+
+  {
+    id: "advanced-anchor-channel-connections",
+    title: "Advanced Cast In Place Anchor Channel Connections",
+    blurb:
+      "Anchor channels offer adjustable, reliable cast-in-place connections. This introduction covers configurations, typical applications, and a high-level overview of ICC design methodology—contrasting benefits over weld plates and post-installed anchors for speed, tolerance, and safety.",
+    banner: "/presentations/advanced-anchor-channel-connections.png",
+    tags: [
+      "LEVIAT",
+      "Halfen",
+      "Structural Engineering",
+      "Architecture",
+      "Anchor Channel",
+      "Structural Connections",
+    ],
+    brand: "LEVIAT",
+    bannerFit: "contain",
+    bannerAspect: "aspect-[21/9] md:aspect-[21/9]",
+    objectPosition: "object-center",
+  },
+
+  {
+    id: "alternative-pour-strips-expansion-joints",
+    title: "Alternative Designs for Pour Strips and Expansion Joints",
+    blurb:
+      "Overview of expansion, movement, and temporary joints in modern concrete construction. We’ll examine challenges for contractors and how Leviat’s Shear and Lockable Dowels can offer time savings, improved safety, and added flexibility across building types.",
+    banner: "/presentations/alternative-pour-strips-expansion-joints.png",
+    tags: [
+      "LEVIAT",
+      "Halfen",
+      "Structural Engineering",
+      "Architecture",
+      "Concrete Joints",
+      "Structural Connections",
+    ],
+    brand: "LEVIAT",
+    bannerFit: "contain",
+    bannerAspect: "aspect-[21/9] md:aspect-[21/9]",
+    objectPosition: "object-center",
+  },
+
+  {
+    id: "alternative-solutions-concrete-corbels",
+    title: "Alternative Solutions to Traditional Concrete Corbels",
+    blurb:
+      "Traditional corbels are labor-intensive and costly. This session introduces the Meadow Burke Rapid Lok Ultimate as a safer, more efficient alternative—covering applications, capacities, and guidance on detailing it into upcoming projects.",
+    banner: "/presentations/alternative-solutions-concrete-corbels.png",
+    tags: [
+      "LEVIAT",
+      "Meadow Burke",
+      "Structural Engineering",
+      "Architecture",
+      "Concrete Corbels",
+      "Structural Connections",
+    ],
+    brand: "Meadow Burke",
+    bannerFit: "contain",
+    bannerAspect: "aspect-[21/9] md:aspect-[21/9]",
+    objectPosition: "object-center",
+  },
+
+  {
+    id: "energy-efficient-sandwich-panel-anchors",
+    title: "Energy Efficient Sandwich Panel Anchors",
+    blurb:
+      "With stricter energy codes and sustainability targets, integrally-insulated concrete panels are a compelling solution. Learn how Thermomass fiber composite connectors improve thermal efficiency over steel and reliability over plastic, plus concepts of bridging in insulated walls, anchor types, panel detailing considerations, and analysis tools for design.",
+    banner: "/presentations/energy-efficient-sandwich-panel-anchors.png",
+    tags: [
+      "LEVIAT",
+      "Thermomass",
+      "Structural Engineering",
+      "Architecture",
+      "Building Envelope",
+      "Structural Connections",
+    ],
+    brand: "Thermomass",
+    bannerFit: "contain",
+    bannerAspect: "aspect-[21/9] md:aspect-[21/9]",
+    objectPosition: "object-center",
   },
 ];
 
@@ -169,7 +279,6 @@ export default function PresentationsPage() {
               "",
             ].join("\n");
 
-            // Per-item display controls
             const aspect = p.bannerAspect ?? "aspect-[16/9] md:aspect-[4/3]";
             const fit = p.bannerFit ?? "cover";
             const objPos = p.objectPosition ?? "object-center";
@@ -195,7 +304,6 @@ export default function PresentationsPage() {
                       aspect
                     )}
                   >
-                    {/* Blurred backdrop when using object-contain (so panoramas don’t look letterboxed) */}
                     {fit === "contain" && (
                       <Image
                         src={p.banner}
@@ -207,8 +315,6 @@ export default function PresentationsPage() {
                         priority={i === 0}
                       />
                     )}
-
-                    {/* Foreground image */}
                     <Image
                       src={p.banner}
                       alt={p.title}
@@ -221,7 +327,6 @@ export default function PresentationsPage() {
                       )}
                       priority={i === 0}
                     />
-
                     {p.brand && (
                       <span className="absolute left-3 top-3 z-20 rounded-full bg-white/95 px-3 py-1 text-xs font-semibold ring-1 ring-black/10">
                         {p.brand}
@@ -241,13 +346,9 @@ export default function PresentationsPage() {
                   <h2 className="text-2xl md:text-3xl font-bold leading-tight">
                     {p.title}
                   </h2>
-
-                  {/* Full description – no clamping */}
                   <p className="mt-3 text-[15px] leading-7 text-gray-800">
                     {p.blurb}
                   </p>
-
-                  {/* Tags */}
                   <div className="mt-4 flex flex-wrap gap-2">
                     {p.tags.map((t) => (
                       <span
@@ -258,8 +359,6 @@ export default function PresentationsPage() {
                       </span>
                     ))}
                   </div>
-
-                  {/* CTA */}
                   <div className="mt-6">
                     <a
                       href={`mailto:${EMAIL}?subject=${encodeURIComponent(
