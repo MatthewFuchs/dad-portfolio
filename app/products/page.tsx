@@ -41,7 +41,7 @@ export default function ProductsPage() {
       {
         "@type": "ListItem",
         position: 2,
-        name: "Manufacturers",
+        name: "Products",
         item: `${SITE_URL}/products`,
       },
     ],

@@ -21,8 +21,9 @@ export default function Breadcrumbs({
   className = "",
   labelMap = {
     products: "Products",
-    resources: "Learning Resources",
+    resources: "Resources",
     projects: "Projects",
+    presentations: "Presentations",
     contact: "Contact",
     privacy: "Privacy Policy",
     terms: "Terms of Use",
@@ -40,11 +41,20 @@ export default function Breadcrumbs({
     label: labelMap[seg] ?? humanize(seg),
   }));
 
+  const topValue = `var(--nav-h, ${offsetPx}px)`;
+
   return (
     <>
       <div
-        className={["sticky z-30 bg-white", className].join(" ")}
-        style={{ top: offsetPx }}
+        className={[
+          "sticky z-30 bg-white border-b border-gray-200 supports-[backdrop-filter]:bg-white/80 backdrop-blur",
+          className,
+        ].join(" ")}
+        style={{
+          top: topValue,
+          marginTop: topValue,
+          scrollMarginTop: `calc(${topValue} + 8px)`,
+        }}
       >
         <nav
           aria-label="Breadcrumb"
@@ -78,7 +88,6 @@ export default function Breadcrumbs({
         </nav>
       </div>
 
-      {/* SEO JSON-LD */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{

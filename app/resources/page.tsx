@@ -44,7 +44,7 @@ export default function ResourcesPage() {
       {
         "@type": "ListItem",
         position: 2,
-        name: "Learning Resources",
+        name: "Resources",
         item: `${SITE_URL}/resources`,
       },
     ],
