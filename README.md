@@ -174,4 +174,6 @@ This project is deployed on [Vercel](https://vercel.com/) and served at **https:
 
 ## License
 
-MIT — see `LICENSE`.
+This repository is proprietary. No license is granted to use, modify, or redistribute the code or media assets without prior written permission from the copyright holder.
+
+See `LICENSE`.
