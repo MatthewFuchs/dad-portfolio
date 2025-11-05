@@ -1,6 +1,6 @@
 # Fuchs Sales & Consulting — Website
 
-This is a [Next.js](https://nextjs.org) project for **Fuchs Sales & Consulting**, a technical‑sales & manufacturer‑representation site for commercial and industrial construction across Canada.
+This is a [Next.js](https://nextjs.org) project for Fuchs Sales & Consulting, a technical‑sales & manufacturer‑representation site for commercial and industrial construction across Canada.
 
 **Live site:** https://www.fuchs-sales.ca
 
@@ -35,25 +35,9 @@ You can start editing the home page by modifying `app/page.tsx`. The page auto�
 - **TypeScript**
 - **Tailwind CSS**
 - **lucide-react** icons
-- Sticky **Navbar** + **Breadcrumbs** (smart offset via CSS var)
-- Unified **filtering UX** across Products, Projects, and Presentations
+- Sticky Navbar + Breadcrumbs (smart offset via CSS var)
+- Unified filtering UX across Products, Projects, and Presentations
 - SEO metadata (title, description, canonicals), Open Graph/Twitter, and Breadcrumb JSON‑LD
-
----
-
-## Environment Variables
-
-Create a `.env.local` in the project root:
-
-```env
-# Canonical/OG base URL
-NEXT_PUBLIC_SITE_URL=https://www.fuchs-sales.ca
-
-# Email used by “Email to register” CTAs on the Presentations page
-NEXT_PUBLIC_CONTACT_EMAIL=contact@fuchs-sales.ca
-```
-
-> Keep `.env.local` out of version control.
 
 ---
 
@@ -140,24 +124,24 @@ public/
 
 All listing pages follow the same pattern:
 
-- **Wrapped chips**
-- Leading **“All …”** chip to clear the primary filter
-- **Reset** button when any filter is active
-- **Removable tokens** for active selections
-- Optional secondary **select** for a second dimension
+- Wrapped chips
+- Leading “All …” chip to clear the primary filter
+- Reset button when any filter is active
+- Removable tokens for active selections
+- Optional secondary select for a second dimension
 
 **Pages:**
 
-- **Products:** multi‑select **Categories** (chips)
-- **Projects:** single‑select **Sector** (chips) + **Manufacturer** (select)
-- **Presentations:** multi‑select **Tags** (chips)
+- **Products:** multi‑select Categories (chips)
+- **Projects:** single‑select Sector (chips) + Manufacturer (select)
+- **Presentations:** multi‑select Tags (chips)
 
 ---
 
 ## Accessibility & UX
 
 - “Skip to content” link for keyboard users
-- Navbar publishes `--nav-h` (height) so **Breadcrumbs** can stick directly beneath without overlapping
+- Navbar publishes `--nav-h` (height) so Breadcrumbs can stick directly beneath without overlapping
 - Mobile drawer locks body scroll; ESC closes modals/drawer
 - Fallbacks for limited `backdrop-filter` support on some mobile browsers
 
@@ -184,18 +168,7 @@ All listing pages follow the same pattern:
 
 ## Deployment
 
-This project is **deployed on [Vercel](https://vercel.com/)** and served at **https://www.fuchs-sales.ca**.
-
-To deploy a new build from the CLI:
-
-```bash
-npm run build
-vercel --prod
-```
-
-Or connect the GitHub repo to Vercel and enable automatic deployments on push to `main`.
-
-> Ensure `NEXT_PUBLIC_SITE_URL` matches the production domain and that any analytics or monitoring scripts (if added) respect user privacy.
+This project is deployed on [Vercel](https://vercel.com/) and served at **https://www.fuchs-sales.ca**.
 
 ---
 
