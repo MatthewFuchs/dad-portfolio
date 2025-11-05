@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
 import { X, ArrowUpRight } from "lucide-react";
+import FilterBar from "@/components/FilterBar";
 
 type Company = {
   id: string;
@@ -136,31 +137,6 @@ const ALL_CATEGORIES = Array.from(
 const cx = (...cls: Array<string | false | null | undefined>) =>
   cls.filter(Boolean).join(" ");
 
-function Chip({
-  label,
-  active,
-  onClick,
-}: {
-  label: string;
-  active: boolean;
-  onClick: () => void;
-}) {
-  return (
-    <button
-      onClick={onClick}
-      aria-pressed={active}
-      className={cx(
-        "px-3 py-1.5 rounded-full text-sm border transition whitespace-nowrap",
-        active
-          ? "bg-black text-white border-black"
-          : "bg-white text-gray-900 border-gray-300 hover:border-gray-500"
-      )}
-    >
-      {label}
-    </button>
-  );
-}
-
 function CompanyModal({
   company,
   onClose,
@@ -260,10 +236,7 @@ function CompanyCard({
   onOpen: (c: Company) => void;
 }) {
   return (
-    <div
-      data-testid="company-card"
-      className="group relative bg-white rounded-2xl border border-gray-200 shadow-sm hover:shadow-lg transition-transform duration-300 hover:-translate-y-1"
-    >
+    <div className="group relative bg-white rounded-2xl border border-gray-200 shadow-sm hover:shadow-lg transition-transform duration-300 hover:-translate-y-1">
       <div
         className={cx(
           "relative h-28 sm:h-32 border-b border-gray-200",
@@ -326,19 +299,12 @@ export default function ProductsClient() {
   const [activeCats, setActiveCats] = useState<string[]>([]);
   const [selected, setSelected] = useState<Company | null>(null);
 
-  const toggleCat = (cat: string) =>
-    setActiveCats((prev) =>
-      prev.includes(cat) ? prev.filter((c) => c !== cat) : [...prev, cat]
-    );
-  const hasFilters = activeCats.length > 0;
-  const clearFilters = () => setActiveCats([]);
-
   const filtered = useMemo(() => {
-    if (!hasFilters) return COMPANIES;
+    if (activeCats.length === 0) return COMPANIES;
     return COMPANIES.filter((c) =>
       c.categories.some((cat) => activeCats.includes(cat))
     );
-  }, [hasFilters, activeCats]);
+  }, [activeCats]);
 
   return (
     <main className="bg-white text-gray-900 min-h-screen">
@@ -354,53 +320,15 @@ export default function ProductsClient() {
 
       <section>
         <div className="max-w-7xl mx-auto px-6 md:px-16">
-          <div className="rounded-2xl border border-gray-200 bg-white/70 px-3 py-3 md:px-4 md:py-4">
-            <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-              {/* SCROLLABLE PILLS */}
-              <div className="w-full flex gap-2 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                <Chip
-                  label="All categories"
-                  active={!hasFilters}
-                  onClick={clearFilters}
-                />
-                {ALL_CATEGORIES.map((cat) => (
-                  <Chip
-                    key={cat}
-                    label={cat}
-                    active={activeCats.includes(cat)}
-                    onClick={() => toggleCat(cat)}
-                  />
-                ))}
-              </div>
-
-              {hasFilters && (
-                <button
-                  type="button"
-                  onClick={clearFilters}
-                  className="self-start md:self-auto text-sm text-gray-600 underline decoration-transparent hover:decoration-gray-400 hover:text-gray-900"
-                >
-                  Reset
-                </button>
-              )}
-            </div>
-
-            {hasFilters && (
-              <div className="mt-3 flex flex-wrap items-center gap-2 px-3 md:px-4">
-                {activeCats.map((cat) => (
-                  <button
-                    key={cat}
-                    onClick={() =>
-                      setActiveCats((prev) => prev.filter((c) => c !== cat))
-                    }
-                    className="inline-flex items-center gap-1 rounded-full border border-gray-300 bg-white px-2.5 py-1 text-xs text-gray-700 hover:bg-gray-50"
-                    aria-label={`Remove category filter ${cat}`}
-                  >
-                    {cat} <span aria-hidden>×</span>
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
+          <FilterBar
+            title="Filter"
+            allLabel="All categories"
+            options={ALL_CATEGORIES}
+            active={activeCats}
+            onChange={setActiveCats}
+            multi
+            className="mb-0"
+          />
         </div>
       </section>
 
@@ -410,7 +338,7 @@ export default function ProductsClient() {
             <p className="text-gray-800">
               No matches. Try another category or{" "}
               <button
-                onClick={clearFilters}
+                onClick={() => setActiveCats([])}
                 className="underline underline-offset-2 hover:no-underline"
               >
                 reset

@@ -20,6 +20,21 @@ export type Project = {
 };
 
 export const PROJECTS: Project[] = [
+    {
+    slug: "the-linx-vancouver",
+    title: "The Linx | City of Vancouver Storm Water Management",
+    location: "Vancouver, BC",
+    year: 2025,
+    sectors: ["Drainage", "Landscape Architecture", "Storm Water Management"],
+    manufacturers: ["abtdrains"],
+    hero: "/projects/the-linx-vancouver/the-linx-banner.jpg",
+    summary: "ABT Permavoid is used in various site locations of this residential mid rise project in the City of Vancouver. By utilizing Permavoid, the Design team was able to meet strict water management by-laws to store and use storm water to irrigate landscape features through the site. Peramovid provided a low cost, reliable, long term solution to manage storm water through the unique capillary irrigation system that Permavoid can provide. By prioritizing storm water as a resource, the design team can incorporate Permaovid to deliver a high quality project that contributes to resilient cities.",
+      gallery: [
+      { src: "/projects/the-linx-vancouver/the-linx-1.jpg", alt: "In Progress" },
+      { src: "/projects/the-linx-vancouver/the-linx-2.jpg", alt: "In Progress" },
+    ],
+    tags: ["Drainage", "Sustainable Development", "Storm Water Management", "ABT Drains", "Resilient Cities"],
+  },
   {
     slug: "east-village-qualicum-beach",
     title: "East Village | Qualicum Beach",

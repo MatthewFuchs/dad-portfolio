@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import Image from "next/image";
 import { Mail } from "lucide-react";
+import FilterBar from "@/components/FilterBar";
 
 export const dynamic = "force-static";
 
@@ -172,31 +173,6 @@ const PRESENTATIONS: Presentation[] = [
 const cx = (...c: Array<string | false | null | undefined>) =>
   c.filter(Boolean).join(" ");
 
-function Chip({
-  label,
-  active,
-  onClick,
-}: {
-  label: string;
-  active: boolean;
-  onClick: () => void;
-}) {
-  return (
-    <button
-      onClick={onClick}
-      aria-pressed={active}
-      className={cx(
-        "shrink-0 rounded-full border px-3 py-1.5 text-sm transition",
-        active
-          ? "bg-black text-white border-black"
-          : "bg-white text-gray-900 border-gray-300 hover:border-gray-500"
-      )}
-    >
-      {label}
-    </button>
-  );
-}
-
 export default function PresentationsPage() {
   const [active, setActive] = useState<string[]>([]);
 
@@ -209,13 +185,6 @@ export default function PresentationsPage() {
     if (active.length === 0) return PRESENTATIONS;
     return PRESENTATIONS.filter((p) => p.tags.some((t) => active.includes(t)));
   }, [active]);
-
-  const toggleTag = (t: string) =>
-    setActive((cur) =>
-      cur.includes(t) ? cur.filter((x) => x !== t) : [...cur, t]
-    );
-
-  const clear = () => setActive([]);
 
   return (
     <main className="min-h-screen bg-white text-gray-900">
@@ -232,33 +201,14 @@ export default function PresentationsPage() {
       {/* Filters */}
       <section className="px-6 md:px-16">
         <div className="max-w-6xl mx-auto">
-          <div className="rounded-2xl border border-gray-200 bg-white/70 px-3 py-3 md:px-4">
-            <div className="mb-2 flex items-center justify-between gap-2">
-              <span className="text-sm font-semibold text-gray-900">
-                Filter topics
-              </span>
-              {active.length > 0 && (
-                <button
-                  onClick={clear}
-                  className="text-sm text-gray-600 underline decoration-transparent hover:decoration-gray-400 hover:text-gray-900"
-                >
-                  Reset
-                </button>
-              )}
-            </div>
-
-            <div className="flex gap-2 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-              <Chip label="All" active={active.length === 0} onClick={clear} />
-              {allTags.map((t) => (
-                <Chip
-                  key={t}
-                  label={t}
-                  active={active.includes(t)}
-                  onClick={() => toggleTag(t)}
-                />
-              ))}
-            </div>
-          </div>
+          <FilterBar
+            title="Filter topics"
+            allLabel="All"
+            options={allTags}
+            active={active}
+            onChange={setActive}
+            multi
+          />
         </div>
       </section>
 
