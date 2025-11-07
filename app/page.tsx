@@ -96,23 +96,23 @@ export default function HomePage() {
                 </p>
               </div>
 
-              {/* Slide 2 */}
+              {/* Slide 2 — make headline + subline olive green */}
               <div className="hero-slide absolute inset-0 flex flex-col items-center justify-center px-2">
-                <h2 className="text-3xl md:text-5xl font-semibold">
+                <h2 className="text-3xl md:text-5xl font-semibold text-[#9CAF88]">
                   Sustainable Materials & Envelopes
                 </h2>
-                <p className="mt-3 max-w-2xl text-base md:text-xl text-white/90">
+                <p className="mt-3 max-w-2xl text-base md:text-xl text-[#9CAF88]">
                   Thermal breaks, insulation systems, and energy-efficient
                   details.
                 </p>
               </div>
 
-              {/* Slide 3 */}
+              {/* Slide 3 — make headline + subline olive green */}
               <div className="hero-slide absolute inset-0 flex flex-col items-center justify-center px-2">
-                <h2 className="text-3xl md:text-5xl font-semibold">
+                <h2 className="text-3xl md:text-5xl font-semibold text-[#9CAF88]">
                   Blue-Green Stormwater Systems
                 </h2>
-                <p className="mt-3 max-w-2xl text-base md:text-xl text-white/90">
+                <p className="mt-3 max-w-2xl text-base md:text-xl text-[#9CAF88]">
                   Capture, store, and reuse rainwater where it falls with
                   Permavoid.
                 </p>
@@ -131,10 +131,11 @@ export default function HomePage() {
             </div>
           </div>
 
+          {/* Hero arrow — switch to olive green */}
           <div className="absolute bottom-8 left-1/2 -translate-x-1/2">
             <span
               aria-hidden="true"
-              className="block text-emerald-500 text-4xl drop-shadow-[0_0_10px_rgba(16,185,129,0.65)] animate-bounce motion-reduce:animate-none"
+              className="block text-[#9CAF88] text-4xl drop-shadow-[0_0_10px_rgba(156,175,136,0.65)] animate-bounce motion-reduce:animate-none"
             >
               ↓
             </span>
@@ -231,7 +232,7 @@ export default function HomePage() {
             <div className="lg:pl-8 lg:border-l lg:border-gray-200 first:lg:border-none first:lg:pl-0">
               <div className="flex items-center gap-3">
                 <span className="inline-flex h-9 w-9 items-center justify-center rounded-full ring-1 ring-gray-200">
-                  <MapPin className="h-4 w-4 text-emerald-600" />
+                  <MapPin className="h-4 w-4 text-[#9CAF88]" />
                 </span>
                 <div>
                   <div className="text-2xl md:text-3xl font-bold text-gray-900">
@@ -244,7 +245,7 @@ export default function HomePage() {
             <div className="lg:pl-8 lg:border-l lg:border-gray-200">
               <div className="flex items-center gap-3">
                 <span className="inline-flex h-9 w-9 items-center justify-center rounded-full ring-1 ring-gray-200">
-                  <Award className="h-4 w-4 text-emerald-600" />
+                  <Award className="h-4 w-4 text-[#9CAF88]" />
                 </span>
                 <div>
                   <div className="text-2xl md:text-3xl font-bold text-gray-900">
@@ -259,7 +260,7 @@ export default function HomePage() {
             <div className="lg:pl-8 lg:border-l lg:border-gray-200">
               <div className="flex items-center gap-3">
                 <span className="inline-flex h-9 w-9 items-center justify-center rounded-full ring-1 ring-gray-200">
-                  <Handshake className="h-4 w-4 text-emerald-600" />
+                  <Handshake className="h-4 w-4 text-[#9CAF88]" />
                 </span>
                 <div>
                   <div className="text-2xl md:text-3xl font-bold text-gray-900">
@@ -274,7 +275,7 @@ export default function HomePage() {
             <div className="lg:pl-8 lg:border-l lg:border-gray-200">
               <div className="flex items-center gap-3">
                 <span className="inline-flex h-9 w-9 items-center justify-center rounded-full ring-1 ring-gray-200">
-                  <Clock className="h-4 w-4 text-emerald-600" />
+                  <Clock className="h-4 w-4 text-[#9CAF88]" />
                 </span>
                 <div>
                   <div className="text-2xl md:text-3xl font-bold text-gray-900">
@@ -300,7 +301,7 @@ export default function HomePage() {
             <Link
               key={p.slug}
               href={`/projects/${p.slug}`}
-              className="group rounded-2xl overflow-hidden border border-gray-200 bg-white hover:shadow-lg transition text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
+              className="group rounded-2xl overflow-hidden border border-gray-200 bg-white hover:shadow-lg transition text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#9CAF88]"
             >
               <div className="relative aspect-[16/9]">
                 <Image
@@ -316,7 +317,7 @@ export default function HomePage() {
                   {p.sectors.slice(0, 2).map((s) => (
                     <span
                       key={s}
-                      className="px-2 py-0.5 rounded-full text-xs font-medium bg-white/90 text-gray-900 ring-1 ring-emerald-200/60"
+                      className="px-2 py-0.5 rounded-full text-xs font-medium bg-white/90 text-gray-900 ring-1 ring-[rgba(156,175,136,0.6)]"
                     >
                       {s}
                     </span>
@@ -340,7 +341,7 @@ export default function HomePage() {
 
         <Link
           href="/projects"
-          className="mt-8 inline-block bg-black text-white px-6 py-3 rounded-lg font-semibold hover:bg-gray-900 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
+          className="mt-8 inline-block bg-black text-white px-6 py-3 rounded-lg font-semibold hover:bg-gray-900 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#9CAF88]"
         >
           View All Projects
         </Link>
@@ -352,12 +353,12 @@ export default function HomePage() {
           Looking for representation in Canada?
         </h2>
         <p className="max-w-2xl mx-auto mb-6 text-lg text-white/90">
-          Let us connect your products with the right partners in the tilt-up
-          and precast construction markets.
+          Let us connect your products with the right partners in the industrial
+          and commercial construction markets.
         </p>
         <Link
           href="/contact"
-          className="inline-block bg-white text-black px-6 py-3 rounded-lg font-semibold hover:bg-gray-200 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
+          className="inline-block bg-white text-black px-6 py-3 rounded-lg font-semibold hover:bg-gray-200 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#9CAF88]"
         >
           Contact Us
         </Link>

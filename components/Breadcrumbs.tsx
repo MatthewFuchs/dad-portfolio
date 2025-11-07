@@ -51,14 +51,13 @@ export default function Breadcrumbs({
           className,
         ].join(" ")}
         style={{
-          top: topValue,
-          marginTop: topValue,
+          top: topValue, // sits directly under the nav
           scrollMarginTop: `calc(${topValue} + 8px)`,
         }}
       >
         <nav
           aria-label="Breadcrumb"
-          className="max-w-6xl mx-auto px-4 md:px-16 py-2 text-sm text-gray-700"
+          className="mx-auto max-w-6xl px-6 md:px-16 py-2 text-sm text-gray-700"
         >
           <ol className="flex flex-wrap items-center gap-1.5">
             <li className="shrink-0">
@@ -88,6 +87,7 @@ export default function Breadcrumbs({
         </nav>
       </div>
 
+      {/* SEO JSON-LD */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{

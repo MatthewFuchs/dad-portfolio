@@ -25,6 +25,7 @@ export default function Navbar() {
     };
   }, [isOpen]);
 
+  // Publish nav height to --nav-h CSS var (used by Breadcrumbs)
   useEffect(() => {
     const el = navRef.current;
     if (!el) return;
@@ -66,12 +67,13 @@ export default function Navbar() {
     ? "text-white bg-black/40 supports-[backdrop-filter]:bg-black/30 backdrop-blur-md"
     : onHome
     ? isSolid
-      ? "bg-white text-gray-900 border-b border-gray-200 shadow-sm supports-[backdrop-filter]:bg-white/70 backdrop-blur-md"
+      ? "bg-[#9CAF88] text-black shadow-sm"
       : "bg-transparent text-white"
-    : "bg-white text-gray-900 border-b border-gray-200 shadow-sm";
+    : "bg-[#9CAF88] text-black shadow-sm";
 
   return (
     <>
+      {/* a11y skip link */}
       <a
         href="#main"
         className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[70] focus:rounded-md focus:bg-black focus:px-3 focus:py-2 focus:text-white"
@@ -121,6 +123,7 @@ export default function Navbar() {
         </div>
       </nav>
 
+      {/* Mobile drawer */}
       {mounted &&
         createPortal(
           <>
@@ -131,7 +134,6 @@ export default function Navbar() {
               />
             )}
 
-            {/* Drawer */}
             <aside
               role="dialog"
               aria-modal="true"
@@ -164,6 +166,7 @@ export default function Navbar() {
                     href={l.href}
                     onClick={() => setIsOpen(false)}
                     className="relative group"
+                    aria-current={pathname === l.href ? "page" : undefined}
                   >
                     {l.label}
                     <span className="absolute left-0 -bottom-1 h-0.5 w-0 bg-white transition-all duration-300 group-hover:w-full" />
