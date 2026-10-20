@@ -1,5 +1,5 @@
 Fuchs Sales & Consulting Proprietary License
-Copyright (c) 2025 Fuchs Sales & Consulting. All rights reserved.
+Copyright (c) 2025-2026 Fuchs Sales and Consulting Limited. All rights reserved.
 
 Permission is granted only for normal web browsing of the deployed site at https://www.fuchs-sales.ca,
 including temporary caching by web browsers and CDNs. No other rights are granted.
@@ -10,6 +10,15 @@ from this software, its source code, or any included media assets, without prior
 from the copyright holder.
 
 No license is granted to any trademarks, trade dress, names, or logos associated with Fuchs Sales & Consulting.
+
+THIRD-PARTY MATERIALS
+This repository also contains material owned by others. It remains the property of its respective
+owners, is not licensed by this document, and is subject to its owners' own terms:
+  - Manufacturer names, logos, product images, brochures, data sheets and other documents
+    (for example under public/logos, public/presentations and public/resources). All trademarks
+    belong to their respective owners.
+  - The Switzer typeface (app/fonts) by Indian Type Foundry, distributed under the ITF Free Font License.
+  - Open-source software packages installed through npm (see package.json), each under its own license.
 
 THE SOFTWARE AND CONTENT ARE PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
 INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE,

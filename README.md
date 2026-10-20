@@ -1,179 +1,116 @@
 # Fuchs Sales & Consulting — Website
 
-This is a [Next.js](https://nextjs.org) project for Fuchs Sales & Consulting, a technical‑sales & manufacturer‑representation site for commercial and industrial construction across Canada.
+Website for Fuchs Sales & Consulting, technical sales and manufacturer representation for commercial and industrial construction across Canada (tilt-up, precast, building envelope and stormwater products).
 
 **Live site:** https://www.fuchs-sales.ca
 
 ---
 
-## Getting Started
+## Getting started
 
-First, install dependencies and run the development server:
+Requires Node.js 20+.
 
 ```bash
 npm install
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+cp .env.example .env.local   # then fill in the SMTP values (see below)
+npm run dev                  # http://localhost:3000
 ```
-
-Open <http://localhost:3000> with your browser to see the result.
-
-You can start editing the home page by modifying `app/page.tsx`. The page auto‑updates as you edit the file.
-
-> This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) for automatic font optimization.
-
----
-
-## What’s Inside
-
-- **Next.js** with primarily static rendering
-- **TypeScript**
-- **Tailwind CSS**
-- **lucide-react** icons
-- Sticky Navbar + Breadcrumbs (smart offset via CSS var)
-- Unified filtering UX across Products, Projects, and Presentations
-- SEO metadata (title, description, canonicals), Open Graph/Twitter, and Breadcrumb JSON‑LD
-
----
 
 ## Scripts
 
 ```bash
-npm run dev        # Start Next.js dev server
-npm run build      # Production build
-npm start          # Run the production build
-npm run lint       # Lint code
-npm run typecheck  # Type-check only
+npm run dev         # Development server (Turbopack)
+npm run build       # Production build
+npm start           # Serve the production build on port 3000
+npm run test:unit   # Vitest: contact API (tests/contact-api.spec.ts)
+npm run test:e2e    # Playwright: builds, starts the server, runs tests/e2e on desktop Chrome + iPhone 12
+npm test            # Both
 ```
 
----
+`test:e2e` starts its own server on port 3000, so stop `npm run dev` first. The e2e suite covers responsive layout (360–1440px), tap-target sizes, SEO metadata, security headers / CSP, accessibility (axe) and the contact form's loading and failure states. Contact tests mock the API, so no email is sent.
 
-## Project Structure
+## Environment variables
+
+The contact form (`app/api/contact/route.ts`) sends mail through iCloud SMTP with nodemailer. Set these in `.env.local` locally and in Vercel → Settings → Environment Variables:
+
+| Variable | Example | Notes |
+| --- | --- | --- |
+| `SMTP_HOST` | `smtp.mail.me.com` | |
+| `SMTP_PORT` | `587` | |
+| `SMTP_SECURE` | `false` | STARTTLS on 587 |
+| `SMTP_USER` | `you@icloud.com` | iCloud account |
+| `SMTP_PASS` | — | An Apple **app-specific password** (appleid.apple.com → Sign-In and Security). Apple revokes these when the Apple ID password changes; if the form stops sending, Vercel logs show `CONTACT SEND ERROR: EAUTH 535`. Create a new one, update it here and redeploy. |
+| `SMTP_FROM` | `Fuchs Sales and Consulting <you@icloud.com>` | Must use the `SMTP_USER` address; iCloud rejects other senders. |
+| `SMTP_TO` | `you@icloud.com` | Inbox that receives enquiries (defaults to `fuchsgreg@icloud.com`). |
+| `NEXT_PUBLIC_CONTACT_EMAIL` | `gfuchs@fuchs-sales.ca` | Address shown in mailto links. |
+
+Changing a variable in Vercel only takes effect after a redeploy.
+
+## What's inside
+
+- **Next.js 15** (App Router, statically rendered pages), **React 19**, **TypeScript**
+- **Tailwind CSS 4**: design tokens in `app/globals.css` (concrete-grey ground, ink, olive accent; `btn`, `btn-light`, `btn-ghost`, `link`, `gutter` utilities)
+- **Switzer** typeface, self-hosted in `app/fonts/` via `next/font/local`
+- **Lenis** smooth scrolling with a light parallax on large photos (`components/SmoothScroll.tsx`); both are off for `prefers-reduced-motion`
+- **Hero video**: re-encoded 720p/540p clips in `public/video/`, poster shown first, loaded after the page; skipped on reduced motion, Data Saver and 2G
+- **Contact API**: validation, honeypot, same-origin check, 20 KB body cap and a per-IP rate limit
+- **Security headers** (CSP, frame, nosniff, referrer, permissions) in `next.config.ts`
+- **SEO**: per-page metadata with `www` canonicals, one Organization/WebSite JSON-LD graph in `app/layout.tsx`, per-page BreadcrumbList, project CreativeWork JSON-LD, `app/sitemap.ts` and `app/robots.ts`
+- Error and global-error pages, plus loading and failure states on the form, photos and video
+
+## Project structure
 
 ```text
 app/
-  layout.tsx                  # App shell; renders <Navbar/> and optional <Breadcrumbs/>
-  page.tsx                    # Home (video hero + sections)
-
-  products/
-    page.tsx                  # Metadata layer
-    ProductsClient.tsx        # UI (filters + cards)
-
-  projects/
-    page.tsx
-    ProjectsIndexClient.tsx   # UI (sector chips + manufacturer select)
-    /[slug]
-        page.tsx
-
-  presentations/
-    page.tsx
-    PresentationsClient.tsx   # UI (tag chips + email CTA)
-
-  resources/
-    page.tsx
-    ResourcesClient.tsx
-
-  contact/
-    page.tsx
-
-  about/
-    page.tsx
-
-  terms/
-    page.tsx                  # iframe to /public/legal/terms.html
-
-  privacy/
-    page.tsx                  # iframe to /public/legal/privacy.html
+  layout.tsx                 # Shell: fonts, Navbar, Breadcrumbs, Footer, JSON-LD, smooth scroll
+  page.tsx                   # Home
+  globals.css                # Design tokens and utilities
+  error.tsx, global-error.tsx, not-found.tsx
+  api/contact/route.ts       # Contact form endpoint (nodemailer)
+  products/                  # Manufacturers (logo cards + details dialog)
+  projects/                  # Project index + [slug] detail (gallery or build sequence)
+  presentations/             # Technical presentations (manufacturer filter, request by email)
+  resources/                 # Downloadable PDFs per manufacturer
+  about/, contact/, privacy/, terms/
+  fonts/                     # Switzer woff2 files
+  sitemap.ts, robots.ts
 
 components/
-  Navbar.tsx                  # Sticky navbar
-  Breadcrumbs.tsx             # Sticky breadcrumbs positioned below navbar
-  EmailForm.tsx               # Form to send inquiries straight from the website
-  FilterBar.tsx               # Used for filter pills on some pages
-  Footer.tsx
-  Gallery.tsx                 # Gallery on project pages
-  JsonLd.tsx
+  Navbar.tsx, Footer.tsx, Breadcrumbs.tsx, PageHeader.tsx
+  Card.tsx                   # Shared tappable card (projects, manufacturers)
+  HeroVideo.tsx              # Poster-first hero video with fallbacks
+  BuildSequence.tsx          # Step-through photo sequence on project pages
+  Gallery.tsx                # Photo grid + lightbox
+  FilterBar.tsx              # Filter chips (single swipeable row on phones)
+  EmailForm.tsx              # Contact form with sending / sent / error states
+  SmoothScroll.tsx, JsonLd.tsx
 
 data/
-  projects.ts                 # PROJECTS, ALL_SECTORS
-  manufacturers.ts            # MANUFACTURERS (ids/labels for filters)
-  team.ts                     # Can be used in the future if more team members join the company
+  projects.ts                # PROJECTS (gallery photos with a `stage` render as a build sequence)
+  manufacturers.ts           # MANUFACTURERS (logos, resources)
+  team.ts                    # Kept for future team members (not used yet)
 
 public/
-  fuchs.png                   # Logo
-  fuchs-grey.png              # Grey Logo
-  og.jpg                      # Social preview image
-  video.mp4                   # Hero background video
-  logos/...                   # Manufacturer logos
-  presentations/...           # Presentation banners
-  projects/...                # Project images
-  resources/...               # PDF's and presentation resources per manufacturer
-  legal/terms.html            # Terms of Use
-  legal/privacy.html          # Privacy Policy
-  logos/...                   # Company logos
+  video/                     # Hero clips + poster
+  logos/, presentations/, projects/, resources/, team/
+  legal/                     # terms.html, privacy.html (shown in iframes)
+  fuchs.png, fuchs-grey.png, og.jpg
+
+tests/
+  contact-api.spec.ts        # Unit tests (Vitest)
+  e2e/                       # Playwright: smoke, a11y, responsive, seo, states, security
 ```
 
----
+## Adding content
 
-## Consistent Filtering UX
-
-All listing pages follow the same pattern:
-
-- Wrapped chips
-- Leading “All …” chip to clear the primary filter
-- Reset button when any filter is active
-- Removable tokens for active selections
-- Optional secondary select for a second dimension
-
-**Pages:**
-
-- **Products:** multi‑select Categories (chips)
-- **Projects:** single‑select Sector (chips) + Manufacturer (select)
-- **Presentations:** multi‑select Tags (chips)
-
----
-
-## Accessibility & UX
-
-- “Skip to content” link for keyboard users
-- Navbar publishes `--nav-h` (height) so Breadcrumbs can stick directly beneath without overlapping
-- Mobile drawer locks body scroll; ESC closes modals/drawer
-- Fallbacks for limited `backdrop-filter` support on some mobile browsers
-
----
-
-## Images & Banners
-
-- `<Image>` uses responsive `sizes` and priority for key items
-- Panoramic banners can set per‑item display controls:
-  - `bannerFit: "contain"`
-  - `bannerAspect: "aspect-[21/9]"`
-  - `objectPosition` for focal point
-- A blurred cover layer renders behind “contain” images to avoid letterboxing
-
----
-
-## SEO
-
-- Per‑page `metadata` (title, description, canonical, OG/Twitter)
-- Breadcrumb JSON‑LD emitted by `components/Breadcrumbs.tsx`
-- Descriptive `alt` text and semantic headings
-
----
+- **Project:** add an entry to `PROJECTS` in `data/projects.ts` and its photos under `public/projects/<slug>/`. Give every gallery photo a `stage` to show it as a step-through build sequence.
+- **Manufacturer resource:** add to the manufacturer's `resources` in `data/manufacturers.ts`, with the PDF under `public/resources/<manufacturer>/`.
+- **Presentation:** add to `PRESENTATIONS` in `app/presentations/PresentationsClient.tsx`, with a banner under `public/presentations/`.
 
 ## Deployment
 
-This project is deployed on [Vercel](https://vercel.com/) and served at **https://www.fuchs-sales.ca**.
-
----
+Deployed on [Vercel](https://vercel.com/). Every push to `main` deploys to https://www.fuchs-sales.ca (the bare domain redirects to `www`).
 
 ## License
 
-This repository is proprietary. No license is granted to use, modify, or redistribute the code or media assets without prior written permission from the copyright holder.
-
-See `LICENSE`.
+All Rights Reserved — see `LICENSE`.
