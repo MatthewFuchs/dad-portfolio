@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import Image from "next/image";
 import { Mail } from "lucide-react";
 import FilterBar from "@/components/FilterBar";
+import PageHeader from "@/components/PageHeader";
 
 export const dynamic = "force-static";
 
@@ -175,48 +176,51 @@ const cx = (...c: Array<string | false | null | undefined>) =>
 
 export default function PresentationsPage() {
   const [active, setActive] = useState<string[]>([]);
+  const [open, setOpen] = useState<Set<string>>(new Set());
 
-  const allTags = useMemo(
-    () => Array.from(new Set(PRESENTATIONS.flatMap((p) => p.tags))).sort(),
+  const brands = useMemo(
+    () =>
+      Array.from(
+        new Set(PRESENTATIONS.map((p) => p.brand).filter(Boolean) as string[])
+      ).sort(),
     []
   );
 
   const filtered = useMemo(() => {
     if (active.length === 0) return PRESENTATIONS;
-    return PRESENTATIONS.filter((p) => p.tags.some((t) => active.includes(t)));
+    return PRESENTATIONS.filter((p) => p.brand && active.includes(p.brand));
   }, [active]);
 
+  const toggle = (id: string) =>
+    setOpen((cur) => {
+      const next = new Set(cur);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+
   return (
-    <main className="min-h-screen bg-white text-gray-900">
-      {/* Header */}
-      <section className="pt-28 sm:pt-32 pb-6 px-6 md:px-16">
-        <div className="max-w-6xl mx-auto">
-          <h1 className="text-4xl font-bold">Technical Presentations</h1>
-          <p className="mt-3 text-gray-700">
-            Short, practical sessions. Browse by topic and email us to schedule.
-          </p>
-        </div>
+    <div className="bg-ground text-ink">
+      <PageHeader
+        title="Presentations"
+        lead="Eight technical sessions for architects, engineers and contractors. Pick one and request a time for your team."
+      />
+
+      <section className="gutter">
+        <FilterBar
+          title="Filter by manufacturer"
+          allLabel="All"
+          options={brands}
+          active={active}
+          onChange={setActive}
+          multi
+        />
       </section>
 
-      {/* Filters */}
-      <section className="px-6 md:px-16">
-        <div className="max-w-6xl mx-auto">
-          <FilterBar
-            title="Filter topics"
-            allLabel="All"
-            options={allTags}
-            active={active}
-            onChange={setActive}
-            multi
-          />
-        </div>
-      </section>
-
-      {/* List */}
-      <section className="px-6 md:px-16 py-10">
-        <div className="max-w-6xl mx-auto">
+      <section className="gutter pt-8 md:pt-12 pb-20 md:pb-24">
+        <ul className="grid gap-4 md:grid-cols-2">
           {filtered.map((p, i) => {
-            const imageLeft = i % 2 === 0;
+            const [title, subtitle] = p.title.split("|").map((t) => t.trim());
             const subject = `Presentation request: ${p.title}`;
             const body = [
               "Hi Greg,",
@@ -228,117 +232,76 @@ export default function PresentationsPage() {
               "-",
               "",
             ].join("\n");
-
-            const aspect = p.bannerAspect ?? "aspect-[16/9] md:aspect-[4/3]";
             const fit = p.bannerFit ?? "cover";
-            const objPos = p.objectPosition ?? "object-center";
+            const expanded = open.has(p.id);
 
             return (
-              <article
-                key={p.id}
-                className={cx(
-                  "grid items-center gap-6 md:grid-cols-2 py-10 md:py-16 border-t border-gray-200",
-                  i === 0 && "border-t-0"
-                )}
-              >
-                {/* Image */}
-                <div
-                  className={cx(
-                    "order-1 md:order-none md:row-start-1",
-                    imageLeft ? "md:col-start-1" : "md:col-start-2"
-                  )}
-                >
-                  <div
+              <li key={p.id} className="flex flex-col bg-white">
+                <div className="relative aspect-[16/9] overflow-hidden bg-white">
+                  <Image
+                    src={p.banner}
+                    alt={p.title}
+                    fill
+                    sizes="(min-width:768px) 50vw, 100vw"
                     className={cx(
-                      "relative overflow-hidden rounded-2xl shadow-sm",
-                      aspect
+                      fit === "contain" ? "object-contain p-4 md:p-6" : "object-cover",
+                      p.objectPosition ?? "object-center"
                     )}
-                  >
-                    {fit === "contain" && (
-                      <Image
-                        src={p.banner}
-                        alt=""
-                        aria-hidden
-                        fill
-                        sizes="(min-width:1024px) 45vw, 100vw"
-                        className="object-cover blur-xl scale-110 opacity-30"
-                        priority={i === 0}
-                      />
-                    )}
-                    <Image
-                      src={p.banner}
-                      alt={p.title}
-                      fill
-                      sizes="(min-width:1024px) 45vw, 100vw"
-                      className={cx(
-                        fit === "contain" ? "object-contain" : "object-cover",
-                        objPos,
-                        "relative z-10"
-                      )}
-                      priority={i === 0}
-                    />
-                    {p.brand && (
-                      <span className="absolute left-3 top-3 z-20 rounded-full bg-white/95 px-3 py-1 text-xs font-semibold ring-1 ring-black/10">
-                        {p.brand}
-                      </span>
-                    )}
-                    <div className="pointer-events-none absolute inset-0 z-20 bg-gradient-to-t from-black/10 via-transparent to-transparent" />
-                  </div>
+                    priority={i === 0}
+                  />
                 </div>
-
-                {/* Content */}
-                <div
-                  className={cx(
-                    "order-2 md:row-start-1",
-                    imageLeft ? "md:col-start-2" : "md:col-start-1"
+                <div className="flex flex-1 flex-col p-4 sm:p-6">
+                  {p.brand && (
+                    <p className="text-[length:var(--text-small)] text-olive-ink font-medium">
+                      {p.brand}
+                    </p>
                   )}
-                >
-                  <h2 className="text-2xl md:text-3xl font-bold leading-tight">
-                    {p.title}
+                  <h2 className="mt-1 text-[length:var(--text-lead)] tracking-[-0.02em] leading-[1.15]">
+                    {title}
                   </h2>
-                  <p className="mt-3 text-[15px] leading-7 text-gray-800">
+                  {subtitle && <p className="mt-1 text-soft">{subtitle}</p>}
+                  <p
+                    id={`${p.id}-blurb`}
+                    className={cx("mt-3", !expanded && "line-clamp-2")}
+                  >
                     {p.blurb}
                   </p>
-                  <div className="mt-4 flex flex-wrap gap-2">
-                    {p.tags.map((t) => (
-                      <span
-                        key={t}
-                        className="rounded-full border border-gray-300 bg-white px-2.5 py-1 text-xs text-gray-900"
-                      >
-                        {t}
-                      </span>
-                    ))}
-                  </div>
-                  <div className="mt-6">
+                  <button
+                    type="button"
+                    onClick={() => toggle(p.id)}
+                    aria-expanded={expanded}
+                    aria-controls={`${p.id}-blurb`}
+                    className="link mt-1 min-h-11 self-start font-medium"
+                  >
+                    {expanded ? "Show less" : "Read more"}
+                  </button>
+                  <div className="mt-auto pt-4">
                     <a
                       href={`mailto:${EMAIL}?subject=${encodeURIComponent(
                         subject
                       )}&body=${encodeURIComponent(body)}`}
-                      className="inline-flex items-center gap-2 rounded-full bg-black text-white px-4 py-2 text-sm font-semibold hover:bg-gray-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-300"
+                      className="btn w-full sm:w-auto"
                     >
-                      <Mail className="h-4 w-4" />
-                      Email to register
+                      <Mail className="h-4 w-4" aria-hidden />
+                      Request this session
                     </a>
                   </div>
                 </div>
-              </article>
+              </li>
             );
           })}
+        </ul>
 
-          {filtered.length === 0 && (
-            <p className="py-20 text-gray-700">
-              No presentations match these filters. Try another topic or{" "}
-              <button
-                onClick={() => setActive([])}
-                className="underline underline-offset-2 hover:no-underline"
-              >
-                reset
-              </button>
-              .
-            </p>
-          )}
-        </div>
+        {filtered.length === 0 && (
+          <p className="py-16">
+            No presentations match this filter.{" "}
+            <button onClick={() => setActive([])} className="link">
+              Show all
+            </button>
+            .
+          </p>
+        )}
       </section>
-    </main>
+    </div>
   );
 }

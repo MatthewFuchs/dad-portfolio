@@ -1,12 +1,11 @@
 import type { Metadata } from "next";
 import ResourcesClient from "./ResourcesClient";
 
-const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ||
-  "https://www.fuchs-sales.ca";
+// The live site redirects the bare domain to www, so www is canonical.
+const SITE_URL = "https://www.fuchs-sales.ca";
 
 export const metadata: Metadata = {
-  title: "Learning Resources | Fuchs Sales & Consulting",
+  title: "Technical Data Sheets & Brochures",
   description:
     "Download brochures, specifications, installation guides, and technical documents from the manufacturers we represent.",
   alternates: { canonical: `${SITE_URL}/resources` },

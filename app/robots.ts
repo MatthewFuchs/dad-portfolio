@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
-const BASE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") || "https://www.fuchs-sales.ca";
+// The live site redirects the bare domain to www, so www is canonical.
+const BASE_URL = "https://www.fuchs-sales.ca";
 
 export default function robots(): MetadataRoute.Robots {
   return {

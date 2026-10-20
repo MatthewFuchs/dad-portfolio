@@ -4,7 +4,7 @@ import ProductsClient from "./ProductsClient";
 const SITE_URL = "https://www.fuchs-sales.ca";
 
 export const metadata: Metadata = {
-  title: "Products | Fuchs Sales & Consulting",
+  title: "Construction Product Manufacturers",
   description:
     "Browse manufacturers we represent and filter by solution area: insulation, connections, lifting, drainage and more.",
   alternates: { canonical: "/products" },

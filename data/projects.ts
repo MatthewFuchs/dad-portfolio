@@ -3,6 +3,9 @@ import type { Manufacturer } from "./manufacturers";
 export type ProjectImage = {
   src: string;          // /public/projects/...
   alt?: string;
+  // Build stage. When every photo has one, the project page shows the photos
+  // as a step-through build sequence instead of a gallery.
+  stage?: string;
 };
 
 export type Project = {
@@ -61,13 +64,13 @@ export const PROJECTS: Project[] = [
     summary:
       "ABT Permavoid is used under trees to store and provide passive irrigation.  Water is collected from catch basins and roof leaders on the adjacent paved surfaces and building and directed to Permavoid for storage and to irrigate the trees.  Once the Permavoid storage tank is full, water is directed through a control structure and slowly released to the city storm system.",
     gallery: [
-      { src: "/projects/cloverdale-athletic-park-soccer-clubhouse/IMG_0191.jpg", alt: "Finished Project" },
-      { src: "/projects/cloverdale-athletic-park-soccer-clubhouse/IMG_0072.jpg", alt: "Under Construction" },
-      { src: "/projects/cloverdale-athletic-park-soccer-clubhouse/IMG_0073.jpg", alt: "Under Construction" },
-      { src: "/projects/cloverdale-athletic-park-soccer-clubhouse/IMG_0077.jpg", alt: "Under Construction" },
-      { src: "/projects/cloverdale-athletic-park-soccer-clubhouse/IMG_0089.jpg", alt: "Under Construction" },
-      { src: "/projects/cloverdale-athletic-park-soccer-clubhouse/IMG_0092.jpg", alt: "Under Construction" },
-      { src: "/projects/cloverdale-athletic-park-soccer-clubhouse/IMG_0095.jpg", alt: "Under Construction" },
+      { src: "/projects/cloverdale-athletic-park-soccer-clubhouse/IMG_0072.jpg", alt: "Control structure set in the excavation", stage: "Control structure" },
+      { src: "/projects/cloverdale-athletic-park-soccer-clubhouse/IMG_0073.jpg", alt: "Excavated tree pit beside the clubhouse", stage: "Excavation" },
+      { src: "/projects/cloverdale-athletic-park-soccer-clubhouse/IMG_0077.jpg", alt: "Liner laid in the tree pit", stage: "Liner" },
+      { src: "/projects/cloverdale-athletic-park-soccer-clubhouse/IMG_0089.jpg", alt: "Permavoid units placed inside the liner", stage: "Permavoid units" },
+      { src: "/projects/cloverdale-athletic-park-soccer-clubhouse/IMG_0092.jpg", alt: "Backfilling around the clubhouse", stage: "Backfill" },
+      { src: "/projects/cloverdale-athletic-park-soccer-clubhouse/IMG_0095.jpg", alt: "Geotextile and soil over the units", stage: "Covered" },
+      { src: "/projects/cloverdale-athletic-park-soccer-clubhouse/IMG_0191.jpg", alt: "Finished tree pits in front of the red clubhouse", stage: "Finished" },
     ],
     tags: ["Sustainable Development", "Storm Water Management", "Tree Pits"],
   },

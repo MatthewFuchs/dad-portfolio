@@ -1,12 +1,26 @@
 import "./globals.css";
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import JsonLd from "../components/JsonLd";
-import Script from "next/script";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/next";
 import Breadcrumbs from "../components/Breadcrumbs";
+import SmoothScroll from "../components/SmoothScroll";
+import localFont from "next/font/local";
+
+const switzer = localFont({
+  src: [
+    { path: "./fonts/Switzer-Regular.woff2", weight: "400", style: "normal" },
+    { path: "./fonts/Switzer-Medium.woff2", weight: "500", style: "normal" },
+  ],
+  variable: "--font-switzer",
+  display: "swap",
+});
+
+export const viewport: Viewport = {
+  themeColor: "#9caf88",
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.fuchs-sales.ca"),
@@ -40,25 +54,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <Script
-        id="ld-org"
-        type="application/ld+json"
-        strategy="afterInteractive"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Organization",
-            name: "Fuchs Sales and Consulting Limited",
-            url: "https://www.fuchs-sales.ca",
-            logo: "https://www.fuchs-sales.ca/public/fuchs.png",
-            sameAs: [
-              "https://www.linkedin.com/in/gregory-fuchs-5338b121/?originalSubdomain=ca",
-            ],
-          }),
-        }}
-      />
-      <body className="min-h-screen flex flex-col">
+    <html lang="en-CA" className={switzer.variable}>
+      <body className="min-h-svh flex flex-col">
         <Navbar />
         <Breadcrumbs
           hideOn={["/"]}
@@ -74,34 +71,65 @@ export default function RootLayout({
             team: "Team",
           }}
         />
-        <main className="flex-1">{children}</main>
+        <main id="main" className="flex-1">
+          {children}
+        </main>
+        <SmoothScroll />
         <Footer />
 
         <JsonLd
           data={{
             "@context": "https://schema.org",
-            "@type": "Organization",
-            name: "Fuchs Sales and Consulting Limited",
-            url: "https://www.fuchs-sales.ca",
-            logo: "https://www.fuchs-sales.ca/public/fuchs.png",
-            contactPoint: [
+            "@graph": [
               {
-                "@type": "ContactPoint",
+                "@type": "ProfessionalService",
+                "@id": "https://www.fuchs-sales.ca/#org",
+                name: "Fuchs Sales and Consulting Limited",
+                alternateName: "Fuchs Sales & Consulting",
+                description:
+                  "Technical sales and manufacturer representation for commercial and industrial construction in Canada: tilt-up, precast, building envelope and stormwater products.",
+                url: "https://www.fuchs-sales.ca",
+                logo: "https://www.fuchs-sales.ca/fuchs.png",
+                image: "https://www.fuchs-sales.ca/og.jpg",
+                foundingDate: "2010",
+                founder: { "@type": "Person", name: "Greg Fuchs" },
                 telephone: "+1-778-241-6316",
-                email: "fuchsgreg@icloud.com",
-                contactType: "sales",
-                areaServed: "CA",
-                availableLanguage: ["en"],
+                email: "gfuchs@fuchs-sales.ca",
+                address: {
+                  "@type": "PostalAddress",
+                  addressRegion: "BC",
+                  addressCountry: "CA",
+                },
+                areaServed: { "@type": "Country", name: "Canada" },
+                knowsAbout: [
+                  "Tilt-up construction",
+                  "Precast concrete",
+                  "Thermal breaks",
+                  "Sandwich panel connectors",
+                  "Blue-green roofs",
+                  "Stormwater management",
+                ],
+                contactPoint: {
+                  "@type": "ContactPoint",
+                  telephone: "+1-778-241-6316",
+                  email: "gfuchs@fuchs-sales.ca",
+                  contactType: "sales",
+                  areaServed: "CA",
+                  availableLanguage: ["en"],
+                },
+                sameAs: [
+                  "https://www.linkedin.com/in/gregory-fuchs-5338b121/",
+                ],
+              },
+              {
+                "@type": "WebSite",
+                "@id": "https://www.fuchs-sales.ca/#website",
+                name: "Fuchs Sales & Consulting",
+                url: "https://www.fuchs-sales.ca",
+                inLanguage: "en-CA",
+                publisher: { "@id": "https://www.fuchs-sales.ca/#org" },
               },
             ],
-          }}
-        />
-        <JsonLd
-          data={{
-            "@context": "https://schema.org",
-            "@type": "WebSite",
-            name: "Fuchs Sales and Consulting Limited",
-            url: "https://www.fuchs-sales.ca",
           }}
         />
 

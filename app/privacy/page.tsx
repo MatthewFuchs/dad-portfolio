@@ -5,7 +5,7 @@ export const dynamic = "force-static";
 const SITE_URL = "https://www.fuchs-sales.ca";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy | Fuchs Sales and Consulting",
+  title: "Privacy Policy",
   description: "Privacy Policy for Fuchs Sales and Consulting.",
   alternates: { canonical: `${SITE_URL}/privacy` },
   robots: { index: true, follow: true },
@@ -48,30 +48,30 @@ export default function PrivacyPage() {
   };
 
   return (
-    <main className="min-h-screen bg-white text-gray-900 pt-32 px-6 md:px-16 pb-10">
+    <div className="bg-ground text-ink gutter pt-24 lg:pt-28 pb-20">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbsJsonLd) }}
       />
-      <h1 className="text-4xl font-bold mb-6">Privacy Policy</h1>
+      <h1 className="text-[length:var(--text-head)] mb-10 md:mb-14">Privacy Policy</h1>
       <iframe
         title="Privacy Policy"
         src="/legal/privacy.html"
         loading="lazy"
-        className="w-full h-[70vh] md:h-[calc(100vh-14rem)] border border-gray-200 rounded-xl shadow-sm"
+        className="block w-full h-[70svh] md:h-[calc(100svh-14rem)] bg-white"
       />
-      <p className="mt-4 text-sm text-gray-600">
+      <p className="mt-5 text-[length:var(--text-small)] text-soft">
         If the document doesn’t load,{" "}
         <a
           href="/legal/privacy.html"
           target="_blank"
           rel="noopener noreferrer"
-          className="underline"
+          className="link text-ink"
         >
           open it in a new tab
         </a>
         .
       </p>
-    </main>
+    </div>
   );
 }

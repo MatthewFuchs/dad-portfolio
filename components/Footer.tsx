@@ -1,138 +1,46 @@
 import Link from "next/link";
 
+const SITE_LINKS = [
+  { href: "/", label: "Home" },
+  { href: "/products", label: "Products" },
+  { href: "/projects", label: "Projects" },
+  { href: "/presentations", label: "Presentations" },
+  { href: "/resources", label: "Resources" },
+  { href: "/about", label: "About" },
+];
+
+const LEGAL_LINKS = [
+  { href: "/terms", label: "Terms of Use" },
+  { href: "/privacy", label: "Privacy Policy" },
+];
+
+// min-h-11 keeps every footer link a comfortable tap target on phones.
+const linkCls =
+  "link inline-flex min-h-11 items-center decoration-transparent hover:decoration-current md:min-h-0";
+
 export default function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="bg-neutral-950 text-white">
-      {/* subtle gradient hairline */}
-      <div
-        aria-hidden
-        className="h-px w-full bg-gradient-to-r from-transparent via-white/20 to-transparent"
-      />
+    <footer className="bg-ink text-white">
+      <div className="gutter pt-16 md:pt-20 pb-8">
+        {/* The name, at full width */}
+        <Link
+          href="/"
+          aria-label="Fuchs Sales & Consulting, home"
+          className="block whitespace-nowrap text-[8.6vw] leading-[0.95] tracking-[-0.04em] transition-colors hover:text-olive"
+        >
+          Fuchs Sales &amp; Consulting
+        </Link>
 
-      <div className="px-6 md:px-16">
-        <div className="mx-auto max-w-6xl py-10 md:py-12 grid gap-8 md:grid-cols-3">
-          {/* Brand / Mission */}
-          <div>
-            <Link href="/" className="inline-flex items-center gap-3">
-              <img
-                src="/fuchs-grey.png"
-                alt="Fuchs Sales & Consulting logo"
-                className="h-10 w-auto"
-              />
-              <span className="sr-only">Fuchs Sales & Consulting</span>
-            </Link>
-
-            <p className="mt-3 text-sm text-white/80 max-w-sm">
-              Technical Sales and Marketing Services for Commercial and
-              Industrial Construction Markets in Canada
-            </p>
-
-            {/* value chips */}
-            <div className="mt-4 flex flex-wrap gap-2">
-              <span className="px-2.5 py-1 rounded-full text-xs bg-white/10 border border-white/15">
-                Sustainability-minded
-              </span>
-              <span className="px-2.5 py-1 rounded-full text-xs bg-white/10 border border-white/15">
-                Partner-first
-              </span>
-            </div>
-          </div>
-
-          {/* Site links */}
-          <nav
-            aria-label="Footer navigation"
-            className="grid grid-cols-2 gap-6"
-          >
-            <div>
-              <h3 className="text-sm font-semibold">Site</h3>
-              <ul className="mt-3 space-y-2 text-sm">
-                <li>
-                  <Link
-                    href="/"
-                    className="hover:underline hover:text-white/90"
-                  >
-                    Home
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/products"
-                    className="hover:underline hover:text-white/90"
-                  >
-                    Products
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/projects"
-                    className="hover:underline hover:text-white/90"
-                  >
-                    Projects
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/presentations"
-                    className="hover:underline hover:text-white/90"
-                  >
-                    Presentations
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/resources"
-                    className="hover:underline hover:text-white/90"
-                  >
-                    Resources
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/about"
-                    className="hover:underline hover:text-white/90"
-                  >
-                    About
-                  </Link>
-                </li>
-              </ul>
-            </div>
-
-            <div>
-              <h3 className="text-sm font-semibold">Legal</h3>
-              <ul className="mt-3 space-y-2 text-sm">
-                <li>
-                  <Link
-                    href="/terms"
-                    className="hover:underline hover:text-white/90"
-                  >
-                    Terms of Use
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/privacy"
-                    className="hover:underline hover:text-white/90"
-                  >
-                    Privacy Policy
-                  </Link>
-                </li>
-              </ul>
-            </div>
-          </nav>
-
-          {/* Contact / CTA */}
-          <div>
-            <h3 className="text-sm font-semibold">Get in touch</h3>
-            <p className="mt-3 text-sm text-white/80">
-              Based in British Columbia, Canada
-            </p>
-            <ul className="mt-3 space-y-2 text-sm">
+        <div className="mt-12 md:mt-14 grid gap-14 md:grid-cols-12 md:gap-x-6">
+          {/* Ways to reach us */}
+          <div className="md:col-span-6 lg:col-span-5">
+            <ul className="space-y-2 text-[length:var(--text-lead)] leading-tight tracking-[-0.02em]">
               <li>
                 <a
                   href="mailto:gfuchs@fuchs-sales.ca"
-                  className="underline hover:text-white/90"
+                  className="inline-flex min-h-11 items-center text-olive transition-colors hover:text-white"
                 >
                   gfuchs@fuchs-sales.ca
                 </a>
@@ -140,36 +48,77 @@ export default function Footer() {
               <li>
                 <a
                   href="tel:+17782416316"
-                  className="underline hover:text-white/90"
+                  className="inline-flex min-h-11 items-center text-olive transition-colors hover:text-white"
                 >
                   +1 (778) 241-6316
                 </a>
               </li>
+              <li className="text-white/75">British Columbia, Canada</li>
             </ul>
-
-            <div className="mt-4 flex flex-wrap gap-2">
-              <Link
-                href="/contact"
-                className="inline-flex items-center justify-center rounded-md bg-white text-black px-3 py-1.5 text-sm font-semibold hover:bg-white/90"
-              >
-                Contact
-              </Link>
-              <a
-                href="mailto:gfuchs@fuchs-sales.ca?subject=Presentation%20request"
-                className="inline-flex items-center justify-center rounded-md border border-white/20 bg-white/5 px-3 py-1.5 text-sm font-semibold hover:bg-white/10"
-              >
-                Request a presentation
-              </a>
-            </div>
+            <p className="mt-8 max-w-[40ch] text-white/75">
+              Technical sales and marketing services for commercial and
+              industrial construction markets in Canada.
+            </p>
           </div>
+
+          {/* Links */}
+          <nav
+            aria-label="Footer navigation"
+            className="md:col-start-7 md:col-span-6 grid grid-cols-2 sm:grid-cols-3 gap-8 text-[length:var(--text-small)]"
+          >
+            <div>
+              <h2 className="text-white/60 text-[length:var(--text-small)] tracking-normal">Site</h2>
+              <ul className="mt-2 md:mt-4 md:space-y-2.5">
+                {SITE_LINKS.map((l) => (
+                  <li key={l.href}>
+                    <Link href={l.href} className={linkCls}>
+                      {l.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <h2 className="text-white/60 text-[length:var(--text-small)] tracking-normal">Legal</h2>
+              <ul className="mt-2 md:mt-4 md:space-y-2.5">
+                {LEGAL_LINKS.map((l) => (
+                  <li key={l.href}>
+                    <Link href={l.href} className={linkCls}>
+                      {l.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="col-span-2 sm:col-span-1">
+              <h2 className="text-white/60 text-[length:var(--text-small)] tracking-normal">Get in touch</h2>
+              <ul className="mt-2 md:mt-4 md:space-y-2.5">
+                <li>
+                  <Link href="/contact" className={linkCls}>
+                    Contact
+                  </Link>
+                </li>
+                <li>
+                  <a
+                    href="mailto:gfuchs@fuchs-sales.ca?subject=Presentation%20request"
+                    className={linkCls}
+                  >
+                    Request a presentation
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </nav>
         </div>
 
-        {/* bottom bar */}
-        <div className="mx-auto max-w-6xl border-t border-white/10 py-4 flex flex-col sm:flex-row items-center justify-between text-xs text-white/70">
+        <div className="mt-14 md:mt-16 flex flex-wrap items-baseline justify-between gap-4 text-[length:var(--text-small)] text-white/60">
           <p>
             &copy; {year} Fuchs Sales and Consulting Limited. All rights
             reserved.
           </p>
+          <a href="#main" className={`${linkCls} hover:text-white`}>
+            Back to top
+          </a>
         </div>
       </div>
     </footer>

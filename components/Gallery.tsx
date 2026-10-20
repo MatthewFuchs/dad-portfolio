@@ -6,10 +6,15 @@ import { X, ChevronLeft, ChevronRight } from "lucide-react";
 
 type Item = { src: string; alt?: string };
 
+
 export default function Gallery({ items }: { items: Item[] }) {
   const [open, setOpen] = useState(false);
   const [idx, setIdx] = useState(0);
   const [animKey, setAnimKey] = useState(0);
+  // Load state per full-size image, so revisiting one does not flash again.
+  const [loaded, setLoaded] = useState<Record<string, "ready" | "failed">>({});
+  const mark = (src: string, v: "ready" | "failed") =>
+    setLoaded((m) => (m[src] === v ? m : { ...m, [src]: v }));
   const dialogRef = useRef<HTMLDivElement | null>(null);
 
   const openAt = (i: number) => {
@@ -65,22 +70,21 @@ export default function Gallery({ items }: { items: Item[] }) {
   return (
     <>
       {/* Thumbs */}
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid grid-cols-2 gap-2 md:grid-cols-3">
         {items.map((it, i) => (
           <button
             key={it.src + i}
             onClick={() => openAt(i)}
-            className="group relative aspect-[4/3] rounded-xl overflow-hidden border border-gray-200 bg-white"
-            aria-label={`Open image ${i + 1}`}
+            className="group relative block aspect-[4/3] overflow-hidden bg-surface"
+            aria-label={`Open image ${i + 1}${it.alt ? `: ${it.alt}` : ""}`}
           >
             <Image
               src={it.src}
               alt={it.alt || ""}
               fill
-              sizes="(min-width:1024px) 33vw, (min-width:640px) 50vw, 100vw"
-              className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+              sizes="(min-width:768px) 33vw, 50vw"
+              className="object-cover transition-transform duration-700 ease-[var(--ease-out-strong)] group-hover:scale-[1.03]"
             />
-            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition" />
           </button>
         ))}
       </div>
@@ -88,9 +92,8 @@ export default function Gallery({ items }: { items: Item[] }) {
       {/* Lightbox */}
       {open && (
         <div
-          className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm"
+          className="fixed inset-0 z-[80] flex items-center justify-center p-4 bg-black/90"
           onClick={close}
-          aria-hidden="true"
         >
           <div
             ref={dialogRef}
@@ -105,24 +108,48 @@ export default function Gallery({ items }: { items: Item[] }) {
             onTouchStart={onTouchStart}
             onTouchEnd={onTouchEnd}
           >
-            <div className="relative aspect-[16/10] rounded-2xl overflow-hidden ring-1 ring-white/10 bg-black/30">
-              <div className="pointer-events-none absolute inset-y-0 left-0 w-28 bg-gradient-to-r from-black/30 to-transparent" />
-              <div className="pointer-events-none absolute inset-y-0 right-0 w-28 bg-gradient-to-l from-black/30 to-transparent" />
+            <div className="relative aspect-[4/3] md:aspect-[16/10] overflow-hidden">
 
               <figure
                 key={animKey}
-                className="absolute inset-0 will-change-[opacity,transform] animate-[fadeIn_320ms_ease-out] motion-reduce:animate-none"
+                className="absolute inset-0 animate-[fade-up_400ms_var(--ease-out-strong)_both] motion-reduce:animate-none"
               >
-                <Image
-                  src={items[idx].src}
-                  alt={items[idx].alt || ""}
-                  fill
-                  sizes="100vw"
-                  className="object-contain"
-                  priority
-                />
+                {loaded[items[idx].src] !== "failed" && (
+                  <Image
+                    src={items[idx].src}
+                    alt={items[idx].alt || ""}
+                    fill
+                    sizes="100vw"
+                    className="object-contain"
+                    priority
+                    onLoad={() => mark(items[idx].src, "ready")}
+                    onError={() => mark(items[idx].src, "failed")}
+                  />
+                )}
+                {!loaded[items[idx].src] && (
+                  <span
+                    role="status"
+                    className="absolute inset-0 grid place-items-center text-[length:var(--text-small)] text-white/80"
+                  >
+                    <span className="inline-flex items-center gap-2">
+                      <span
+                        aria-hidden
+                        className="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white motion-reduce:animate-none"
+                      />
+                      Loading photo
+                    </span>
+                  </span>
+                )}
+                {loaded[items[idx].src] === "failed" && (
+                  <p
+                    role="alert"
+                    className="absolute inset-0 grid place-items-center px-6 text-center text-white/80"
+                  >
+                    This photo could not be loaded.
+                  </p>
+                )}
                 {items[idx].alt && (
-                  <figcaption className="absolute bottom-2 left-3 right-3 text-[13px] leading-5 text-white/95 drop-shadow">
+                  <figcaption className="absolute bottom-3 left-3 bg-ink px-3 py-1.5 text-[length:var(--text-small)] text-white">
                     {items[idx].alt}
                   </figcaption>
                 )}
@@ -131,7 +158,7 @@ export default function Gallery({ items }: { items: Item[] }) {
               <button
                 onClick={close}
                 aria-label="Close"
-                className="absolute top-2 right-2 inline-flex items-center justify-center h-10 w-10 rounded-full bg-white/90 ring-1 ring-gray-300 shadow-sm hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-300"
+                className="absolute top-2 right-2 inline-flex items-center justify-center h-11 w-11 bg-ground text-ink transition-colors hover:bg-olive"
               >
                 <X className="h-5 w-5" />
               </button>
@@ -141,14 +168,14 @@ export default function Gallery({ items }: { items: Item[] }) {
                   <button
                     onClick={prev}
                     aria-label="Previous image"
-                    className="absolute left-3 top-1/2 -translate-y-1/2 inline-flex h-11 w-11 items-center justify-center rounded-full bg-white/90 ring-1 ring-gray-300 shadow-sm hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-300"
+                    className="absolute left-2 top-1/2 -translate-y-1/2 inline-flex h-11 w-11 items-center justify-center bg-ground text-ink transition-colors hover:bg-olive"
                   >
                     <ChevronLeft className="h-5 w-5" />
                   </button>
                   <button
                     onClick={next}
                     aria-label="Next image"
-                    className="absolute right-3 top-1/2 -translate-y-1/2 inline-flex h-11 w-11 items-center justify-center rounded-full bg-white/90 ring-1 ring-gray-300 shadow-sm hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-300"
+                    className="absolute right-2 top-1/2 -translate-y-1/2 inline-flex h-11 w-11 items-center justify-center bg-ground text-ink transition-colors hover:bg-olive"
                   >
                     <ChevronRight className="h-5 w-5" />
                   </button>
@@ -156,8 +183,8 @@ export default function Gallery({ items }: { items: Item[] }) {
               )}
 
               {items.length > 1 && (
-                <div className="absolute bottom-2 left-0 right-0 flex items-center justify-center">
-                  <span className="rounded-full bg-white/90 px-2.5 py-1 text-xs font-medium ring-1 ring-gray-300 shadow-sm">
+                <div className="absolute bottom-3 right-3">
+                  <span className="bg-ground px-3 py-1.5 text-[length:var(--text-small)] tabular-nums text-ink">
                     {idx + 1} / {items.length}
                   </span>
                 </div>
@@ -167,18 +194,6 @@ export default function Gallery({ items }: { items: Item[] }) {
         </div>
       )}
 
-      <style jsx global>{`
-        @keyframes fadeIn {
-          from {
-            opacity: 0;
-            transform: scale(0.995);
-          }
-          to {
-            opacity: 1;
-            transform: scale(1);
-          }
-        }
-      `}</style>
     </>
   );
 }

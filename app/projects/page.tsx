@@ -1,12 +1,11 @@
 import type { Metadata } from "next";
 import ProjectsIndexClient from "./ProjectsIndexClient";
 
-const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ||
-  "https://www.fuchs-sales.ca";
+// The live site redirects the bare domain to www, so www is canonical.
+const SITE_URL = "https://www.fuchs-sales.ca";
 
 export const metadata: Metadata = {
-  title: "Projects",
+  title: "Projects in British Columbia",
   description:
     "Browse selected work by sector or manufacturer. Tilt-up & precast projects represented by Fuchs Sales & Consulting across Canada.",
   alternates: { canonical: "/projects" },

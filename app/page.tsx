@@ -1,11 +1,14 @@
 import Link from "next/link";
 import Image from "next/image";
 import type { Metadata } from "next";
+import { ArrowRight } from "lucide-react";
 import { PROJECTS } from "../data/projects";
-import { MapPin, Award, Handshake, Clock } from "lucide-react";
+import { MANUFACTURERS } from "../data/manufacturers";
+import HeroVideo from "../components/HeroVideo";
+import Card from "../components/Card";
 
 export const metadata: Metadata = {
-  title: "Fuchs Sales & Consulting — Technical Sales in Canada",
+  title: { absolute: "Fuchs Sales & Consulting | Technical Sales in Canada" },
   description:
     "Technical sales & manufacturer representation for commercial and industrial construction across Canada, specializing in tilt-up and precast.",
   alternates: { canonical: "/" },
@@ -37,7 +40,7 @@ export const metadata: Metadata = {
     type: "website",
     url: "/",
     siteName: "Fuchs Sales & Consulting",
-    title: "Fuchs Sales & Consulting — Technical Sales in Canada",
+    title: "Fuchs Sales & Consulting | Technical Sales in Canada",
     description:
       "Technical sales & manufacturer representation for commercial and industrial construction across Canada.",
     images: [
@@ -51,12 +54,57 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Fuchs Sales & Consulting — Technical Sales in Canada",
+    title: "Fuchs Sales & Consulting | Technical Sales in Canada",
     description:
       "Technical sales & manufacturer representation for commercial and industrial construction across Canada.",
     images: ["/og.jpg"],
   },
 };
+
+const SERVICES = [
+  {
+    name: "Specification",
+    items: [
+      "Technical presentations",
+      "Lunch and learns",
+      "Spec reviews",
+      "Detailing support",
+      "Training for design teams",
+    ],
+    text: "We bring manufacturers to design teams early, through technical presentations and product training, so the right product is written into the specification.",
+  },
+  {
+    name: "Distribution",
+    items: [
+      "Regional distributors",
+      "National distributors",
+      "Product availability",
+      "Supply coordination",
+    ],
+    text: "Our regional and national distribution partners keep product in stock and close to the job, with sales support behind every order.",
+  },
+  {
+    name: "Sales",
+    items: [
+      "General contractors",
+      "Tilt-up and precast trades",
+      "Product knowledge",
+      "Site and install support",
+    ],
+    text: "We work directly with general and specialty contractors, answering the technical questions that close the order and get it installed right.",
+  },
+];
+
+const FIGURES = [
+  { figure: "2010", text: "Founded, with Fabrikem as the first partner" },
+  { figure: "10", text: "Manufacturers represented" },
+  { figure: "8", text: "Technical presentations to book" },
+  { figure: "0", text: "Retainers: commission only" },
+];
+
+// Secondary button on photographs: white outline, fills white on hover.
+const onPhotoGhost =
+  "btn [--btn-bg:transparent] [--btn-fg:#fff] [--btn-line:#fff] [--btn-hover:#fff] [--btn-hover-fg:var(--color-ink)]";
 
 export default function HomePage() {
   const featured = [...PROJECTS]
@@ -64,305 +112,198 @@ export default function HomePage() {
     .slice(0, 3);
 
   return (
-    <main className="bg-white text-gray-900">
+    <div className="bg-ground text-ink">
       {/* HERO */}
-      <section className="relative h-screen w-full overflow-hidden">
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="auto"
-          className="absolute inset-0 h-full w-full object-cover"
-        >
-          <source src="/video.mp4" type="video/mp4" />
-        </video>
-        <div className="absolute inset-0 bg-black/55" />
+      <section className="relative h-svh min-h-[560px] w-full overflow-hidden bg-ink text-white">
+        <HeroVideo />
+        <div className="absolute inset-0 bg-black/50" />
 
-        <div className="relative z-10 flex flex-col items-center justify-center h-full text-center text-white px-4">
-          <div className="max-w-3xl w-full">
-            <div
-              className="hero-rotator relative h-[9.5rem] md:h-[12rem]"
-              aria-live="off"
-            >
-              {/* Slide 1: brand + description */}
-              <div className="hero-slide absolute inset-0 flex flex-col items-center justify-center px-2">
-                <h1 className="text-4xl md:text-6xl font-bold">
-                  Fuchs Sales and Consulting
-                </h1>
-                <p className="mt-4 max-w-3xl text-lg md:text-2xl text-white/95">
-                  Technical Sales and Marketing Services for Commercial and
-                  Industrial Construction Markets in Canada
-                </p>
-              </div>
-
-              {/* Slide 2 — make headline + subline olive green */}
-              <div className="hero-slide absolute inset-0 flex flex-col items-center justify-center px-2">
-                <h2 className="text-3xl md:text-5xl font-semibold text-[#9CAF88]">
-                  Sustainable Materials & Envelopes
-                </h2>
-                <p className="mt-3 max-w-2xl text-base md:text-xl text-[#9CAF88]">
-                  Thermal breaks, insulation systems, and energy-efficient
-                  details.
-                </p>
-              </div>
-
-              {/* Slide 3 — make headline + subline olive green */}
-              <div className="hero-slide absolute inset-0 flex flex-col items-center justify-center px-2">
-                <h2 className="text-3xl md:text-5xl font-semibold text-[#9CAF88]">
-                  Blue-Green Stormwater Systems
-                </h2>
-                <p className="mt-3 max-w-2xl text-base md:text-xl text-[#9CAF88]">
-                  Capture, store, and reuse rainwater where it falls with
-                  Permavoid.
-                </p>
-              </div>
-
-              {/* Slide 4 */}
-              <div className="hero-slide absolute inset-0 flex flex-col items-center justify-center px-2">
-                <h2 className="text-3xl md:text-5xl font-semibold">
-                  From Spec to Install
-                </h2>
-                <p className="mt-3 max-w-2xl text-base md:text-xl text-white/90">
-                  Presentations, distribution, and hands-on technical support
-                  across Canada.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          {/* Hero arrow — switch to olive green */}
-          <div className="absolute bottom-8 left-1/2 -translate-x-1/2">
-            <span
-              aria-hidden="true"
-              className="block text-[#9CAF88] text-4xl drop-shadow-[0_0_10px_rgba(156,175,136,0.65)] animate-bounce motion-reduce:animate-none"
-            >
-              ↓
-            </span>
-          </div>
-        </div>
-
-        <style
-          dangerouslySetInnerHTML={{
-            __html: `
-              .hero-rotator .hero-slide{
-                opacity:0; transform:translateY(8px) scale(.985);
-                transition:opacity .6s ease, transform .6s ease;
-                animation:heroFade 24s infinite;
-              }
-              .hero-rotator .hero-slide:nth-child(1){ animation-delay: 0s; }
-              .hero-rotator .hero-slide:nth-child(2){ animation-delay: 6s; }
-              .hero-rotator .hero-slide:nth-child(3){ animation-delay: 12s; }
-              .hero-rotator .hero-slide:nth-child(4){ animation-delay: 18s; }
-              @keyframes heroFade{
-                0%   { opacity:0; transform:translateY(8px) scale(.985); }
-                6%   { opacity:1; transform:translateY(0) scale(1); }
-                25%  { opacity:1; transform:translateY(0) scale(1); }
-                31%  { opacity:0; transform:translateY(-6px) scale(.99); }
-                100% { opacity:0; transform:translateY(-6px) scale(.99); }
-              }
-              @media (prefers-reduced-motion: reduce){
-                .hero-rotator{ height:auto }
-                .hero-rotator .hero-slide{ animation:none; opacity:1; position:static; transform:none }
-                .hero-rotator .hero-slide:not(:first-child){ display:none }
-              }
-            `,
-          }}
-        />
-      </section>
-
-      {/* ABOUT */}
-      <section className="py-20 px-6 md:px-16 text-center bg-gray-50">
-        <h2 className="text-3xl md:text-4xl font-bold mb-6">About Us</h2>
-        <p className="max-w-4xl mx-auto text-lg text-gray-700 leading-relaxed">
-          We provide technical sales and marketing services for manufacturers in
-          the commercial and industrial construction markets in Canada. From
-          specification to installation, we are your partner through the entire
-          process. Manufacturers can leverage their sales and marketing dollars
-          into a results-only expense through our commission-only fee structure.
-          <br />
-          <br />
-          Our strong relationships with designers, distributors, and contractors
-          drive product sales through the full sales cycle. We pride ourselves
-          on delivering expert technical support and product knowledge to the
-          entire construction team. We specialize in cast-in-place and precast
-          construction materials, working with leading manufacturers who provide
-          ongoing technical innovation and reliable, cost-effective solutions.
-        </p>
-      </section>
-
-      {/* SERVICES */}
-      <section className="py-20 px-6 md:px-16 bg-white text-center">
-        <h2 className="text-3xl md:text-4xl font-bold mb-12">
-          Services Provided
-        </h2>
-        <div className="grid gap-8 md:grid-cols-3 max-w-6xl mx-auto">
-          {[
-            {
-              t: "Product Specifications",
-              p: "We provide technical training and product expertise to design professionals. Through technical presentations, we introduce effective methods and connect manufacturers with design teams early in the process to drive product specifications.",
-            },
-            {
-              t: "Distribution",
-              p: "Our network of regional and national distribution partners helps streamline the supply chain. We work with leading distribution companies to ensure reliable product availability and sales support for manufacturers.",
-            },
-            {
-              t: "Sales",
-              p: "We maintain relationships with general and specialized contractors, providing expert product knowledge and technical support. These trusted relationships help manufacturers achieve results through proven sales performance.",
-            },
-          ].map((c) => (
-            <div
-              key={c.t}
-              className="group rounded-2xl border border-gray-200 bg-white p-6 shadow-sm transition hover:shadow-lg hover:border-gray-300 focus-within:shadow-lg"
-            >
-              <h3 className="text-xl font-semibold mb-2">{c.t}</h3>
-              <p className="text-gray-700">{c.p}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* PROOF POINTS */}
-      <section className="px-6 md:px-16 py-12 bg-white">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-bold">
-            Why Teams Work With Us
-          </h2>
-          <div className="mt-8 grid gap-y-8 gap-x-12 sm:grid-cols-2 lg:grid-cols-4">
-            <div className="lg:pl-8 lg:border-l lg:border-gray-200 first:lg:border-none first:lg:pl-0">
-              <div className="flex items-center gap-3">
-                <span className="inline-flex h-9 w-9 items-center justify-center rounded-full ring-1 ring-gray-200">
-                  <MapPin className="h-4 w-4 text-[#9CAF88]" />
-                </span>
-                <div>
-                  <div className="text-2xl md:text-3xl font-bold text-gray-900">
-                    Canada-Wide
-                  </div>
-                  <p className="text-sm text-gray-600">Coverage & support</p>
-                </div>
-              </div>
-            </div>
-            <div className="lg:pl-8 lg:border-l lg:border-gray-200">
-              <div className="flex items-center gap-3">
-                <span className="inline-flex h-9 w-9 items-center justify-center rounded-full ring-1 ring-gray-200">
-                  <Award className="h-4 w-4 text-[#9CAF88]" />
-                </span>
-                <div>
-                  <div className="text-2xl md:text-3xl font-bold text-gray-900">
-                    15+ Years
-                  </div>
-                  <p className="text-sm text-gray-600">
-                    Technical sales experience
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="lg:pl-8 lg:border-l lg:border-gray-200">
-              <div className="flex items-center gap-3">
-                <span className="inline-flex h-9 w-9 items-center justify-center rounded-full ring-1 ring-gray-200">
-                  <Handshake className="h-4 w-4 text-[#9CAF88]" />
-                </span>
-                <div>
-                  <div className="text-2xl md:text-3xl font-bold text-gray-900">
-                    0 Retainers
-                  </div>
-                  <p className="text-sm text-gray-600">
-                    Commission-only representation
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="lg:pl-8 lg:border-l lg:border-gray-200">
-              <div className="flex items-center gap-3">
-                <span className="inline-flex h-9 w-9 items-center justify-center rounded-full ring-1 ring-gray-200">
-                  <Clock className="h-4 w-4 text-[#9CAF88]" />
-                </span>
-                <div>
-                  <div className="text-2xl md:text-3xl font-bold text-gray-900">
-                    Fast Response
-                  </div>
-                  <p className="text-sm text-gray-600">
-                    We respond fast and promptly
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* FEATURED PROJECTS */}
-      <section className="py-20 px-6 md:px-16 bg-gray-50 text-center">
-        <h2 className="text-3xl md:text-4xl font-bold mb-12">
-          Featured Projects
-        </h2>
-        <div className="grid gap-6 md:grid-cols-3 max-w-6xl mx-auto">
-          {featured.map((p, i) => (
-            <Link
-              key={p.slug}
-              href={`/projects/${p.slug}`}
-              className="group rounded-2xl overflow-hidden border border-gray-200 bg-white hover:shadow-lg transition text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#9CAF88]"
-            >
-              <div className="relative aspect-[16/9]">
-                <Image
-                  src={p.hero}
-                  alt={p.title}
-                  fill
-                  sizes="(min-width:1024px) 33vw, (min-width:640px) 50vw, 100vw"
-                  className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
-                  priority={i === 0}
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/10 to-transparent" />
-                <div className="absolute bottom-2 left-2 flex flex-wrap gap-2">
-                  {p.sectors.slice(0, 2).map((s) => (
-                    <span
-                      key={s}
-                      className="px-2 py-0.5 rounded-full text-xs font-medium bg-white/90 text-gray-900 ring-1 ring-[rgba(156,175,136,0.6)]"
-                    >
-                      {s}
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-              <div className="p-4">
-                <h3 className="text-lg font-semibold text-gray-900 line-clamp-2">
-                  {p.title}
-                </h3>
-                <p className="text-sm text-gray-600 mt-1">
-                  {p.location}
-                  {p.year ? ` • ${p.year}` : ""}
-                </p>
-                <p className="text-gray-800 mt-3 line-clamp-3">{p.summary}</p>
-              </div>
+        <div className="gutter relative z-10 flex h-full flex-col justify-end pb-[8svh]">
+          <h1 className="text-[length:var(--text-display)] leading-[0.98] tracking-[-0.035em]">
+            Fuchs Sales
+            <br />
+            &amp; Consulting
+          </h1>
+          <p className="mt-6 max-w-[34ch] text-[length:var(--text-lead)] leading-snug">
+            Technical sales and marketing for commercial and industrial
+            construction in Canada.
+          </p>
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+            <Link href="/contact" className="btn btn-light">
+              Talk to Greg
             </Link>
+            <Link href="/projects" className={onPhotoGhost}>
+              See projects
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* INTRO */}
+      <section className="pt-16 md:pt-24">
+        <div className="gutter">
+          <h2 className="text-[length:var(--text-head)]">From spec to install.</h2>
+          <div className="mt-5 grid gap-x-12 gap-y-2 text-soft sm:grid-cols-2 sm:max-w-3xl">
+            <p>Commission only. Manufacturers pay for results, never for a retainer.</p>
+            <p>
+              Based in British Columbia, working with design teams,
+              distributors and contractors across Canada.
+            </p>
+          </div>
+        </div>
+        <div className="relative mt-8 aspect-[4/3] sm:aspect-[16/9] lg:aspect-[21/9] w-full overflow-hidden bg-surface">
+          <Image
+            src="/projects/seaborne-tilt-up/seaborne-1.jpg"
+            alt="Tilt-up panels formed on the slab at the Seaborne project in Coquitlam"
+            fill
+            sizes="100vw"
+            data-parallax
+            className="object-cover"
+          />
+        </div>
+        <div className="gutter mt-10 md:mt-14 grid gap-6 md:grid-cols-2 md:gap-12">
+          <p className="text-[length:var(--text-lead)] leading-snug">
+            Manufacturers turn their sales and marketing budget into a cost
+            that only arrives when product sells.
+          </p>
+          <p>
+            Our relationships with designers, distributors and contractors
+            carry a product through the full sales cycle. We specialize in
+            cast-in-place and precast construction materials, and we work with
+            manufacturers who keep innovating and stand behind reliable,
+            cost-effective products.
+          </p>
+        </div>
+      </section>
+
+      {/* WHAT WE DO */}
+      <section className="gutter py-16 md:py-24">
+        <h2 className="text-[length:var(--text-head)]">What we do</h2>
+        <div className="mt-8 md:mt-12 grid gap-4 md:grid-cols-3">
+          {SERVICES.map((s) => (
+            <div key={s.name} className="bg-surface p-5 sm:p-6">
+              <h3 className="text-[length:var(--text-lead)] tracking-[-0.02em]">
+                {s.name}
+              </h3>
+              <p className="mt-3">{s.text}</p>
+              <ul className="mt-4 space-y-1.5 text-[length:var(--text-small)]">
+                {s.items.map((it) => (
+                  <li key={it} className="flex items-baseline gap-2.5">
+                    <span aria-hidden className="h-0.5 w-3 shrink-0 translate-y-[-0.2em] bg-olive-ink" />
+                    {it}
+                  </li>
+                ))}
+              </ul>
+            </div>
           ))}
         </div>
-
-        <Link
-          href="/projects"
-          className="mt-8 inline-block bg-black text-white px-6 py-3 rounded-lg font-semibold hover:bg-gray-900 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#9CAF88]"
-        >
-          View All Projects
+        <Link href="/presentations" className="btn btn-ghost mt-6 w-full sm:w-auto">
+          See the 8 presentations
+          <ArrowRight className="h-4 w-4" aria-hidden />
         </Link>
       </section>
 
-      {/* CTA */}
-      <section className="py-20 px-6 md:px-16 bg-black text-white text-center">
-        <h2 className="text-3xl md:text-4xl font-bold mb-6">
-          Looking for representation in Canada?
-        </h2>
-        <p className="max-w-2xl mx-auto mb-6 text-lg text-white/90">
-          Let us connect your products with the right partners in the industrial
-          and commercial construction markets.
-        </p>
-        <Link
-          href="/contact"
-          className="inline-block bg-white text-black px-6 py-3 rounded-lg font-semibold hover:bg-gray-200 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#9CAF88]"
-        >
-          Contact Us
+      {/* PROJECTS */}
+      <section className="bg-surface py-16 md:py-24">
+        <div className="gutter">
+          <h2 className="text-[length:var(--text-head)]">Recent projects</h2>
+          <p className="mt-3 max-w-[44ch] text-soft">
+            Every project here has a product we represent cast, buried or
+            bolted into it.
+          </p>
+          <ul className="mt-8 md:mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {featured.map((p) => (
+              <li key={p.slug}>
+                <Card
+                  href={`/projects/${p.slug}`}
+                  title={p.title.split("|")[0].trim()}
+                  meta={`${p.location}${p.year ? `, ${p.year}` : ""}`}
+                  cue="View project"
+                  image={{ src: p.hero, alt: p.title }}
+                />
+              </li>
+            ))}
+          </ul>
+          <Link href="/projects" className="btn btn-ghost mt-6 w-full sm:w-auto">
+            All projects
+            <ArrowRight className="h-4 w-4" aria-hidden />
+          </Link>
+        </div>
+      </section>
+
+      {/* FIGURES */}
+      <section className="bg-olive py-14 md:py-20">
+        <ul className="gutter grid grid-cols-2 gap-x-6 gap-y-8 md:grid-cols-4">
+          {FIGURES.map((f) => (
+            <li key={f.figure}>
+              <span className="block text-[length:var(--text-head)] leading-none tabular-nums tracking-[-0.03em]">
+                {f.figure}
+              </span>
+              <span className="mt-2 block text-[length:var(--text-small)] leading-snug">
+                {f.text}
+              </span>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      {/* PARTNERS */}
+      <section className="gutter py-16 md:py-24">
+        <h2 className="text-[length:var(--text-head)]">Who we represent</h2>
+        <ul className="mt-8 md:mt-12 grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-5">
+          {MANUFACTURERS.map((m) => (
+            <li key={m.id}>
+              <Link
+                href={`/products`}
+                aria-label={`${m.name}: see manufacturers`}
+                className={`group relative block aspect-[3/2] overflow-hidden transition-transform active:scale-[0.98] ${
+                  m.logoBgClass ?? "bg-white"
+                }`}
+              >
+                <Image
+                  src={m.logoSrc}
+                  alt={`${m.name} logo`}
+                  fill
+                  sizes="(min-width:1024px) 18vw, 45vw"
+                  className="object-contain p-5 transition-transform duration-300 group-hover:scale-[1.05]"
+                />
+              </Link>
+            </li>
+          ))}
+        </ul>
+        <Link href="/products" className="btn btn-ghost mt-6 w-full sm:w-auto">
+          See all manufacturers
+          <ArrowRight className="h-4 w-4" aria-hidden />
         </Link>
       </section>
-    </main>
+
+      {/* CLOSING */}
+      <section className="relative bg-ink text-white md:h-[78svh] md:min-h-[560px]">
+        <div className="relative h-[55svh] md:absolute md:inset-0 md:h-full overflow-hidden">
+          <Image
+            src="/projects/east-village-qb/IMG_2107.jpg"
+            alt="Finished street at East Village, Qualicum Beach, with Permavoid under the new trees"
+            fill
+            sizes="100vw"
+            data-parallax
+            className="object-cover brightness-[0.5]"
+          />
+        </div>
+        <div className="gutter relative py-12 md:absolute md:inset-0 md:grid md:grid-cols-12 md:items-end md:pb-[12svh]">
+          <div className="md:col-start-6 md:col-span-7 lg:col-start-8 lg:col-span-5">
+            <h2 className="text-[length:var(--text-head)] leading-[1.02]">
+              Have a product to place?
+            </h2>
+            <p className="mt-4 max-w-[42ch]">
+              Tell us what you make and where it belongs. We will tell you who
+              in Canada needs to hear about it, and take it to them.
+            </p>
+            <Link href="/contact" className="btn btn-light mt-7 w-full sm:w-auto">
+              Talk to Greg
+            </Link>
+          </div>
+        </div>
+      </section>
+    </div>
   );
 }

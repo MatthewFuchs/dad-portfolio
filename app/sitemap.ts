@@ -6,9 +6,8 @@ import { PROJECTS } from "../data/projects";
 export const runtime = "nodejs";
 export const revalidate = 86400;
 
-const BASE_URL =
-  (process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ||
-    "https://www.fuchs-sales.ca") as string;
+// The live site redirects the bare domain to www, so www is canonical.
+const BASE_URL = "https://www.fuchs-sales.ca";
 
 const PAGES: {
   url: string;

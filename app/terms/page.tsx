@@ -2,12 +2,11 @@ import type { Metadata } from "next";
 
 export const dynamic = "force-static";
 
-const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ||
-  "https://www.fuchs-sales.ca";
+// The live site redirects the bare domain to www, so www is canonical.
+const SITE_URL = "https://www.fuchs-sales.ca";
 
 export const metadata: Metadata = {
-  title: "Terms of Use | Fuchs Sales & Consulting",
+  title: "Terms of Use",
   description: "Terms of Use for Fuchs Sales & Consulting.",
   alternates: { canonical: `${SITE_URL}/terms` },
   robots: { index: true, follow: true },
@@ -54,27 +53,27 @@ export default function TermsPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbsJsonLd) }}
       />
-      <main className="min-h-screen bg-white text-gray-900 pt-32 px-6 md:px-16 pb-10">
-        <h1 className="text-4xl font-bold mb-6">Terms of Use</h1>
+      <div className="bg-ground text-ink gutter pt-24 lg:pt-28 pb-20">
+        <h1 className="text-[length:var(--text-head)] mb-10 md:mb-14">Terms of Use</h1>
         <iframe
           title="Terms of Use"
           src="/legal/terms.html"
           loading="lazy"
-          className="w-full h-[70vh] md:h-[calc(100vh-14rem)] border border-gray-200 rounded-xl shadow-sm"
+          className="block w-full h-[70svh] md:h-[calc(100svh-14rem)] bg-white"
         />
-        <p className="mt-4 text-sm text-gray-600">
+        <p className="mt-5 text-[length:var(--text-small)] text-soft">
           If the document doesn’t load,{" "}
           <a
             href="/legal/terms.html"
             target="_blank"
             rel="noopener noreferrer"
-            className="underline"
+            className="link text-ink"
           >
             open it in a new tab
           </a>
           .
         </p>
-      </main>
+      </div>
     </>
   );
 }

@@ -47,7 +47,7 @@ export default function Breadcrumbs({
     <>
       <div
         className={[
-          "sticky z-30 bg-white border-b border-gray-200 supports-[backdrop-filter]:bg-white/80 backdrop-blur",
+          "sticky z-30 bg-ground",
           className,
         ].join(" ")}
         style={{
@@ -57,26 +57,26 @@ export default function Breadcrumbs({
       >
         <nav
           aria-label="Breadcrumb"
-          className="mx-auto max-w-6xl px-6 md:px-16 py-2 text-sm text-gray-700"
+          className="gutter py-3 text-[length:var(--text-small)] text-soft"
         >
           <ol className="flex flex-wrap items-center gap-1.5">
             <li className="shrink-0">
               <Link
                 href="/"
-                className="underline decoration-transparent hover:decoration-gray-500"
+                className="link decoration-transparent hover:decoration-current hover:text-ink"
               >
                 Home
               </Link>
             </li>
             {crumbs.map((c, idx) => (
               <li key={c.href} className="flex items-center gap-1.5">
-                <ChevronRight className="h-4 w-4 text-gray-400" aria-hidden />
+                <ChevronRight className="h-3.5 w-3.5" aria-hidden />
                 {idx === crumbs.length - 1 ? (
-                  <span className="text-gray-900 font-medium">{c.label}</span>
+                  <span className="text-ink" aria-current="page">{c.label}</span>
                 ) : (
                   <Link
                     href={c.href}
-                    className="underline decoration-transparent hover:decoration-gray-500"
+                    className="link decoration-transparent hover:decoration-current hover:text-ink"
                   >
                     {c.label}
                   </Link>
@@ -87,25 +87,6 @@ export default function Breadcrumbs({
         </nav>
       </div>
 
-      {/* SEO JSON-LD */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "BreadcrumbList",
-            itemListElement: [
-              { "@type": "ListItem", position: 1, name: "Home", item: "/" },
-              ...crumbs.map((c, i) => ({
-                "@type": "ListItem",
-                position: i + 2,
-                name: c.label,
-                item: c.href,
-              })),
-            ],
-          }),
-        }}
-      />
     </>
   );
 }

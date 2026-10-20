@@ -4,6 +4,8 @@ import { useEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
 import { X, ArrowUpRight } from "lucide-react";
 import FilterBar from "@/components/FilterBar";
+import PageHeader from "@/components/PageHeader";
+import Card from "@/components/Card";
 
 type Company = {
   id: string;
@@ -163,18 +165,20 @@ function CompanyModal({
     <>
       <div className="fixed inset-0 z-[100] bg-black/55" onClick={onClose} />
       <div
-        className="fixed inset-0 z-[110] flex items-center justify-center p-4"
+        className="fixed inset-0 z-[110] flex items-end sm:items-center justify-center sm:p-4"
         role="dialog"
         aria-modal="true"
+        aria-label={company.name}
         onClick={onClose}
       >
         <div
-          className="relative w-full max-w-3xl bg-white text-gray-900 rounded-2xl shadow-2xl overflow-hidden"
+          data-lenis-prevent
+          className="relative w-full max-w-3xl max-h-[92svh] overflow-y-auto bg-ground text-ink animate-[fade-up_400ms_var(--ease-out-strong)_both] motion-reduce:animate-none"
           onClick={(e) => e.stopPropagation()}
         >
           <div
             className={cx(
-              "relative h-44 sm:h-56 border-b border-gray-200",
+              "relative h-40 sm:h-52",
               company.logoBgClass ?? "bg-white"
             )}
           >
@@ -183,7 +187,7 @@ function CompanyModal({
                 src={company.logoSrc}
                 alt={`${company.name} logo`}
                 className={cx(
-                  "absolute inset-0 h-full w-full object-contain p-6",
+                  "absolute inset-0 h-full w-full object-contain p-8",
                   company.logoImgClass
                 )}
               />
@@ -192,106 +196,33 @@ function CompanyModal({
           <button
             onClick={onClose}
             aria-label="Close"
-            className="absolute top-3 right-3 inline-flex items-center gap-2 rounded-full border border-gray-300 bg-white/90 px-3 py-1.5 text-sm font-medium hover:bg-white transition"
+            className="absolute top-3 right-3 inline-flex min-h-11 items-center gap-2 bg-ink px-4 text-[length:var(--text-small)] text-white transition-colors hover:bg-black"
           >
             <X className="h-4 w-4" /> Close
           </button>
-          <div className="p-6">
-            <h2 className="text-2xl font-semibold">{company.name}</h2>
-            <p className="text-gray-800 mt-2">{company.shortInfo}</p>
-            <div className="mt-4 flex flex-wrap gap-2">
-              {company.categories.map((cat) => (
-                <span
-                  key={cat}
-                  className="px-2.5 py-1 rounded-full text-xs border border-gray-300 text-gray-900"
-                >
-                  {cat}
-                </span>
-              ))}
-            </div>
-            <div className="mt-6 border-t border-gray-200 pt-4">
-              <h3 className="text-sm font-semibold">Innovation</h3>
-              <p className="text-gray-800 mt-1">{company.innovation}</p>
-            </div>
+          <div className="p-6 sm:p-10">
+            <h2 className="text-[length:var(--text-head)]">{company.name}</h2>
+            <p className="mt-4 text-[length:var(--text-lead)] leading-snug">
+              {company.shortInfo}
+            </p>
+            <p className="mt-2 text-soft">{company.categories.join(", ")}</p>
+            <h3 className="mt-8 text-[length:var(--text-body)] font-medium tracking-normal">
+              Innovation
+            </h3>
+            <p className="mt-2 max-w-[60ch]">{company.innovation}</p>
             <a
               href={company.website}
               target="_blank"
-              className="mt-6 inline-flex items-center justify-center gap-2 rounded-lg bg-black text-white px-5 py-3 font-semibold hover:bg-gray-800 transition"
+              rel="noopener noreferrer"
+              className="btn mt-8"
             >
-              Visit Website <ArrowUpRight className="h-4 w-4" />
+              Visit website <ArrowUpRight className="h-4 w-4" />
             </a>
           </div>
         </div>
       </div>
     </>,
     document.body
-  );
-}
-
-function CompanyCard({
-  company,
-  onOpen,
-}: {
-  company: Company;
-  onOpen: (c: Company) => void;
-}) {
-  return (
-    <div className="group relative bg-white rounded-2xl border border-gray-200 shadow-sm hover:shadow-lg transition-transform duration-300 hover:-translate-y-1">
-      <div
-        className={cx(
-          "relative h-28 sm:h-32 border-b border-gray-200",
-          company.logoBgClass ?? "bg-white"
-        )}
-      >
-        {company.logoSrc && (
-          <img
-            src={company.logoSrc}
-            alt={`${company.name} logo`}
-            className={cx(
-              "absolute inset-0 h-full w-full object-contain p-6",
-              company.logoImgClass
-            )}
-          />
-        )}
-      </div>
-      <div className="p-6">
-        <div className="flex items-start justify-between gap-4">
-          <div>
-            <h2 className="text-lg font-semibold text-gray-900">
-              {company.name}
-            </h2>
-            <p className="text-gray-800 mt-1">{company.shortInfo}</p>
-          </div>
-          <button
-            onClick={() => onOpen(company)}
-            aria-label="Open details"
-            className="shrink-0 inline-flex items-center justify-center rounded-full border border-gray-300 w-9 h-9 transition hover:border-gray-500 text-gray-900"
-            title="Show details"
-          >
-            ▼
-          </button>
-        </div>
-        <div className="mt-4 flex flex-wrap gap-2">
-          {company.categories.map((cat) => (
-            <span
-              key={cat}
-              className="px-2.5 py-1 rounded-full text-xs border border-gray-300 text-gray-900"
-            >
-              {cat}
-            </span>
-          ))}
-        </div>
-        <div className="mt-4">
-          <a
-            href={company.website}
-            target="_blank"
-            className="inline-flex items-center gap-2 text-sm font-medium underline text-gray-900 hover:opacity-80"
-          >
-            Visit Website <ArrowUpRight className="h-4 w-4" />
-          </a>
-        </div>
-      </div>
-    </div>
   );
 }
 
@@ -307,55 +238,58 @@ export default function ProductsClient() {
   }, [activeCats]);
 
   return (
-    <main className="bg-white text-gray-900 min-h-screen">
-      <section className="pt-32 pb-6">
-        <div className="max-w-7xl mx-auto px-6 md:px-16">
-          <h1 className="text-4xl font-bold">Manufacturers We Represent</h1>
-          <p className="text-gray-800 mt-3">
-            Browse by solution area. Use the filters to quickly find a
-            manufacturer.
+    <div className="bg-ground text-ink">
+      <PageHeader
+        title="Manufacturers"
+        lead="The ten manufacturers we represent across Canada: concrete, envelope, safety and site-works products. Filter by what you are building."
+      />
+
+      <section className="gutter">
+        <FilterBar
+          title="Filter"
+          allLabel="All categories"
+          options={ALL_CATEGORIES}
+          active={activeCats}
+          onChange={setActiveCats}
+          multi
+        />
+      </section>
+
+      <section className="gutter pt-6 pb-20 md:pb-24">
+        {filtered.length === 0 ? (
+          <p className="py-16">
+            No matches. Try another category or{" "}
+            <button onClick={() => setActiveCats([])} className="link">
+              reset
+            </button>
+            .
           </p>
-        </div>
-      </section>
-
-      <section>
-        <div className="max-w-7xl mx-auto px-6 md:px-16">
-          <FilterBar
-            title="Filter"
-            allLabel="All categories"
-            options={ALL_CATEGORIES}
-            active={activeCats}
-            onChange={setActiveCats}
-            multi
-            className="mb-0"
-          />
-        </div>
-      </section>
-
-      <section>
-        <div className="max-w-7xl mx-auto px-6 md:px-16 py-12">
-          {filtered.length === 0 ? (
-            <p className="text-gray-800">
-              No matches. Try another category or{" "}
-              <button
-                onClick={() => setActiveCats([])}
-                className="underline underline-offset-2 hover:no-underline"
-              >
-                reset
-              </button>
-              .
-            </p>
-          ) : (
-            <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-              {filtered.map((c) => (
-                <CompanyCard key={c.id} company={c} onOpen={setSelected} />
-              ))}
-            </div>
-          )}
-        </div>
+        ) : (
+          <ul className="grid grid-cols-2 gap-2 sm:gap-4 md:grid-cols-3 lg:grid-cols-4">
+            {filtered.map((c) => (
+              <li key={c.id}>
+                <Card
+                  testId="company-card"
+                  onClick={() => setSelected(c)}
+                  title={c.name}
+                  meta={c.shortInfo}
+                  cue="Details"
+                  ratio="aspect-[4/3]"
+                  sizes="(min-width:1024px) 25vw, (min-width:768px) 33vw, 50vw"
+                  image={{
+                    src: c.logoSrc ?? "/fuchs.png",
+                    alt: `${c.name} logo`,
+                    fit: "contain",
+                    bg: c.logoBgClass ?? "bg-white",
+                  }}
+                />
+              </li>
+            ))}
+          </ul>
+        )}
       </section>
 
       <CompanyModal company={selected} onClose={() => setSelected(null)} />
-    </main>
+    </div>
   );
 }

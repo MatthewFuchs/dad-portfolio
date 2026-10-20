@@ -5,7 +5,7 @@ import EmailForm from "../../components/EmailForm";
 const SITE_URL = "https://www.fuchs-sales.ca";
 
 export const metadata: Metadata = {
-  title: "Contact | Fuchs Sales and Consulting",
+  title: "Contact",
   description:
     "Get in touch about manufacturer representation, tilt-up and precast consulting.",
   alternates: { canonical: `${SITE_URL}/contact` },
@@ -78,7 +78,7 @@ export default function ContactPage() {
   };
 
   return (
-    <main className="min-h-screen bg-white text-gray-900 pt-32 px-6 md:px-16 pb-16">
+    <div className="bg-ground text-ink">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbsJsonLd) }}
@@ -88,16 +88,39 @@ export default function ContactPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(contactPageJsonLd) }}
       />
 
-      <h1 className="text-4xl font-bold mb-4">Contact</h1>
-      <p className="text-gray-700 mb-10">
-        Ready to talk representation or a project in tilt-up / precast? Reach
-        out and we’ll respond promptly.
-      </p>
+      <section className="gutter pt-24 lg:pt-28 pb-16 md:pb-24 grid gap-14 md:grid-cols-12 md:gap-x-6">
+        <div className="md:col-span-5">
+          <h1 className="text-[length:var(--text-display)] leading-[0.98] tracking-[-0.035em]">
+            Talk to Greg
+          </h1>
+          <p className="mt-5 text-[length:var(--text-lead)] leading-snug max-w-[34ch]">
+            Representation, a product question or a project in tilt-up or
+            precast. We reply promptly.
+          </p>
+          <ul className="mt-10 space-y-2 text-[length:var(--text-lead)] tracking-[-0.02em]">
+            <li>
+              <a href="mailto:gfuchs@fuchs-sales.ca" className="link inline-flex min-h-11 items-center text-olive-ink">
+                gfuchs@fuchs-sales.ca
+              </a>
+            </li>
+            <li>
+              <a href="tel:+17782416316" className="link inline-flex min-h-11 items-center text-olive-ink">
+                +1 (778) 241-6316
+              </a>
+            </li>
+            <li className="text-soft">British Columbia, Canada</li>
+          </ul>
+        </div>
 
-      <section className="rounded-xl border border-gray-200 p-6">
-        <h2 className="text-xl font-semibold mb-4">Send a quick message</h2>
-        <EmailForm />
+        <div className="md:col-start-7 md:col-span-6 bg-surface p-6 sm:p-10">
+          <h2 className="text-[length:var(--text-lead)] tracking-[-0.02em]">
+            Send a message
+          </h2>
+          <div className="mt-6">
+            <EmailForm />
+          </div>
+        </div>
       </section>
-    </main>
+    </div>
   );
 }

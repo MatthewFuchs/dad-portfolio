@@ -1,14 +1,13 @@
 import type { Metadata } from "next";
 import PresentationsClient from "./PresentationsClient";
 
-const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ||
-  "https://www.fuchs-sales.ca";
+// The live site redirects the bare domain to www, so www is canonical.
+const SITE_URL = "https://www.fuchs-sales.ca";
 
 export const dynamic = "force-static";
 
 export const metadata: Metadata = {
-  title: "Technical Presentations | Fuchs Sales & Consulting",
+  title: "Technical Presentations",
   description:
     "Filter and register for technical presentations on thermal breaks, blue-green roofs, storm water management, and more from our manufacturer partners.",
   alternates: { canonical: `${SITE_URL}/presentations` },

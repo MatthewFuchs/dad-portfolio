@@ -41,10 +41,10 @@ function Chip({
       onClick={onClick}
       aria-pressed={active}
       className={cx(
-        "px-3 py-1.5 rounded-full text-sm border transition",
+        "min-h-11 shrink-0 snap-start whitespace-nowrap px-4 text-[length:var(--text-small)] transition-[background-color,color,transform] duration-200 active:scale-[0.98]",
         active
-          ? "bg-black text-white border-black"
-          : "bg-white text-gray-900 border-gray-300 hover:border-gray-500"
+          ? "bg-olive text-ink font-medium shadow-[inset_0_0_0_1px_var(--color-olive-ink)]"
+          : "bg-white text-ink shadow-[inset_0_0_0_1px_rgba(22,24,21,0.2)] hover:bg-surface"
       )}
     >
       {label}
@@ -87,14 +87,11 @@ export default function FilterBar({
 
   return (
     <div
-      className={cx(
-        "rounded-2xl border border-gray-200 bg-white/70 px-3 py-3 md:px-4 md:py-3",
-        className
-      )}
+      className={className}
     >
-      <div className="flex flex-col gap-3 md:grid md:grid-cols-[1fr_auto_auto] md:items-center">
+      <div className="flex min-w-0 flex-col gap-3 md:grid md:grid-cols-[1fr_auto_auto] md:items-center">
         {/* WRAPPED PRIMARY PILLS */}
-        <div className="w-full flex flex-wrap gap-2">
+        <div className="-mx-[clamp(1rem,5vw,5.5rem)] flex snap-x gap-1.5 overflow-x-auto px-[clamp(1rem,5vw,5.5rem)] pb-1 [scrollbar-width:none] md:mx-0 md:flex-wrap md:overflow-visible md:px-0 md:pb-0">
           <Chip label={allLabel} active={!hasPrimary} onClick={clear} />
           {options.map((opt) => (
             <Chip
@@ -113,7 +110,7 @@ export default function FilterBar({
               <select
                 value={secondary.value ?? ""}
                 onChange={(e) => secondary.onChange(e.target.value || null)}
-                className="appearance-none rounded-full border border-gray-300 bg-white pl-3 pr-8 py-1.5 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-300"
+                className="appearance-none min-h-11 bg-surface pl-4 pr-10 text-[length:var(--text-small)] text-ink"
                 aria-label={secondary.placeholder}
               >
                 <option value="">{secondary.placeholder}</option>
@@ -123,7 +120,7 @@ export default function FilterBar({
                   </option>
                 ))}
               </select>
-              <ChevronDown className="pointer-events-none absolute right-2 h-4 w-4 text-gray-500" />
+              <ChevronDown className="pointer-events-none absolute right-3 h-4 w-4" />
             </div>
           )}
         </div>
@@ -137,7 +134,7 @@ export default function FilterBar({
                 clear();
                 if (secondary) secondary.onChange(null);
               }}
-              className="text-sm text-gray-600 underline decoration-transparent hover:decoration-gray-400 hover:text-gray-900"
+              className="link min-h-11 px-1 text-[length:var(--text-small)]"
             >
               Reset
             </button>
@@ -147,13 +144,13 @@ export default function FilterBar({
 
       {/* ACTIVE TOKENS */}
       {hasFilters && (
-        <div className="mt-3 flex flex-wrap items-center gap-2">
+        <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1">
           {active.map((a) => (
             <button
               key={a}
               type="button"
               onClick={() => onChange(active.filter((x) => x !== a))}
-              className="inline-flex items-center gap-1 rounded-full border border-gray-300 bg-white px-2.5 py-1 text-xs text-gray-700 hover:bg-gray-50"
+              className="inline-flex items-center gap-1 text-[length:var(--text-small)] text-soft hover:text-ink transition-colors"
               aria-label={`Remove filter ${a}`}
             >
               {a} <XIcon className="h-3.5 w-3.5" aria-hidden />
@@ -163,7 +160,7 @@ export default function FilterBar({
             <button
               type="button"
               onClick={() => secondary.onChange(null)}
-              className="inline-flex items-center gap-1 rounded-full border border-gray-300 bg-white px-2.5 py-1 text-xs text-gray-700 hover:bg-gray-50"
+              className="inline-flex items-center gap-1 text-[length:var(--text-small)] text-soft hover:text-ink transition-colors"
               aria-label={`Remove ${secondary.placeholder}`}
             >
               {secondary.placeholder.replace(/:\s*All$/i, ":")} {secondaryLabel}{" "}
