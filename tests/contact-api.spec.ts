@@ -31,17 +31,17 @@ beforeEach(() => {
   vi.clearAllMocks();
   vi.spyOn(console, 'error').mockImplementation(() => {});
   for (const k of ENV_KEYS) delete process.env[k];
-  // Mirrors .env.local: iCloud SMTP login, mail delivered to the work inbox.
+  // Mirrors the Vercel production variables: iCloud login, sent to and from it.
   process.env.SMTP_HOST = 'smtp.example.com';
   process.env.SMTP_PORT = '587';
   process.env.SMTP_USER = 'sender@example.com';
   process.env.SMTP_PASS = 'test-password';
-  process.env.CONTACT_FROM = 'Fuchs Website <sender@example.com>';
-  process.env.CONTACT_TO = 'gfuchs@fuchs-sales.ca';
+  process.env.SMTP_FROM = 'Fuchs Sales and Consulting <sender@example.com>';
+  process.env.SMTP_TO = 'fuchsgreg@icloud.com';
 });
 
 describe('contact POST', () => {
-  it('sends to work email and respects replyTo', async () => {
+  it('sends to SMTP_TO and respects replyTo', async () => {
     const res = await POST(mkReq(valid));
     const json: any = await (res as any).json();
     expect(json.ok).toBe(true);
@@ -51,13 +51,13 @@ describe('contact POST', () => {
     expect(transport().sendMail).toHaveBeenCalledTimes(1);
 
     const args = sent();
-    expect(args.to).toContain('gfuchs@fuchs-sales.ca');
+    expect(args.to).toBe('fuchsgreg@icloud.com');
     expect(args.replyTo).toBe('jane@example.com');
   });
 
-  it('sends from CONTACT_FROM, authenticated as SMTP_USER', async () => {
+  it('sends from SMTP_FROM, authenticated as SMTP_USER', async () => {
     await POST(mkReq(valid));
-    expect(sent().from).toBe('Fuchs Website <sender@example.com>');
+    expect(sent().from).toBe('Fuchs Sales and Consulting <sender@example.com>');
     const opts = (nodemailer as any).createTransport.mock.calls[0][0];
     expect(opts).toMatchObject({
       host: 'smtp.example.com',
@@ -67,10 +67,27 @@ describe('contact POST', () => {
     });
   });
 
-  it('still reaches the work inbox when CONTACT_TO is not set', async () => {
-    delete process.env.CONTACT_TO;
+  it("defaults to Greg's iCloud inbox when SMTP_TO is not set", async () => {
+    delete process.env.SMTP_TO;
     await POST(mkReq(valid));
-    expect(sent().to).toBe('gfuchs@fuchs-sales.ca');
+    expect(sent().to).toBe('fuchsgreg@icloud.com');
+  });
+
+  it('prefers SMTP_TO / SMTP_FROM over the older CONTACT_* names', async () => {
+    process.env.CONTACT_TO = 'gfuchs@fuchs-sales.ca';
+    process.env.CONTACT_FROM = 'Other <other@example.com>';
+    await POST(mkReq(valid));
+    expect(sent().to).toBe('fuchsgreg@icloud.com');
+    expect(sent().from).toBe('Fuchs Sales and Consulting <sender@example.com>');
+  });
+
+  it('falls back to CONTACT_TO, then the SMTP user as sender, when SMTP_* are unset', async () => {
+    delete process.env.SMTP_TO;
+    delete process.env.SMTP_FROM;
+    process.env.CONTACT_TO = 'someone@example.com';
+    await POST(mkReq(valid));
+    expect(sent().to).toBe('someone@example.com');
+    expect(sent().from).toBe('sender@example.com');
   });
 
   it('includes name, company, email and message in the email', async () => {
@@ -133,6 +150,16 @@ describe('contact POST', () => {
     const json: any = await res.json();
     expect(json.error).toBe('Mail send failed');
     expect(JSON.stringify(json)).not.toContain('secret detail');
+  });
+
+  it('logs the SMTP error code so a rejected password is obvious in Vercel logs', async () => {
+    (nodemailer as any).createTransport.mockReturnValueOnce({
+      sendMail: vi.fn(async () => {
+        throw Object.assign(new Error('Invalid login'), { code: 'EAUTH', responseCode: 535 });
+      }),
+    });
+    await POST(mkReq(valid));
+    expect((console.error as any).mock.calls[0][0]).toBe('CONTACT SEND ERROR: EAUTH 535');
   });
 
   it('accepts same-site requests and refuses ones from another site', async () => {

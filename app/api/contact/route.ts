@@ -2,8 +2,8 @@ import nodemailer from "nodemailer";
 
 export const runtime = "nodejs";
 
-// Where website enquiries go when CONTACT_TO is not configured.
-const DEFAULT_TO = "gfuchs@fuchs-sales.ca";
+// Where website enquiries go when SMTP_TO is not configured: the inbox Greg reads.
+const DEFAULT_TO = "fuchsgreg@icloud.com";
 
 const LIMITS = { name: 200, company: 200, email: 320, message: 5000 };
 const MAX_BODY_BYTES = 20_000;
@@ -98,15 +98,16 @@ export async function POST(req: Request) {
   }
 
   // ---- SERVER ENV VARS ----
-  // CONTACT_TO / CONTACT_FROM are the names used in .env.local; SMTP_TO /
-  // SMTP_FROM are still accepted for older deployments.
+  // SMTP_TO / SMTP_FROM are what Vercel uses; CONTACT_TO / CONTACT_FROM are an
+  // older local naming, read only as a fallback. iCloud only accepts its own
+  // account address as the sender, so SMTP_FROM must use SMTP_USER's address.
   const host = process.env.SMTP_HOST;
   const port = Number(process.env.SMTP_PORT || 587);
   const secure = process.env.SMTP_SECURE === "true" || port === 465;
   const user = process.env.SMTP_USER;
   const pass = process.env.SMTP_PASS;
-  const from = process.env.CONTACT_FROM || process.env.SMTP_FROM || user;
-  const to = process.env.CONTACT_TO || process.env.SMTP_TO || DEFAULT_TO;
+  const from = process.env.SMTP_FROM || process.env.CONTACT_FROM || user;
+  const to = process.env.SMTP_TO || process.env.CONTACT_TO || DEFAULT_TO;
 
   const missing = Object.entries({ SMTP_HOST: host, SMTP_USER: user, SMTP_PASS: pass })
     .filter(([, v]) => !v)
@@ -147,7 +148,13 @@ export async function POST(req: Request) {
     return Response.json({ ok: true });
   } catch (err: unknown) {
     // Details stay in the server log; the visitor gets a plain message.
-    console.error("CONTACT SEND ERROR:", err);
+    // code/responseCode name the cause at a glance, e.g. "EAUTH 535" means the
+    // iCloud app-specific password was rejected (revoked or mistyped).
+    const e = err as { code?: string; responseCode?: number };
+    console.error(
+      `CONTACT SEND ERROR: ${e.code ?? "unknown"} ${e.responseCode ?? ""}`.trim(),
+      err
+    );
     return Response.json({ error: "Mail send failed" }, { status: 500 });
   }
 }
