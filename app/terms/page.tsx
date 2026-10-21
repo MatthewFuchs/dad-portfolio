@@ -1,3 +1,4 @@
+import { jsonLdHtml } from "../../components/JsonLd";
 import type { Metadata } from "next";
 
 export const dynamic = "force-static";
@@ -51,7 +52,7 @@ export default function TermsPage() {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbsJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: jsonLdHtml(breadcrumbsJsonLd) }}
       />
       <div className="bg-ground text-ink gutter pt-24 lg:pt-28 pb-20">
         <h1 className="text-[length:var(--text-head)] mb-10 md:mb-14">Terms of Use</h1>

@@ -1,3 +1,4 @@
+import { jsonLdHtml } from "../../components/JsonLd";
 import type { Metadata } from "next";
 
 export const dynamic = "force-static";
@@ -51,7 +52,7 @@ export default function PrivacyPage() {
     <div className="bg-ground text-ink gutter pt-24 lg:pt-28 pb-20">
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbsJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: jsonLdHtml(breadcrumbsJsonLd) }}
       />
       <h1 className="text-[length:var(--text-head)] mb-10 md:mb-14">Privacy Policy</h1>
       <iframe

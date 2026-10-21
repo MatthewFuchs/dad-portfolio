@@ -70,6 +70,12 @@ export function recordFailure(keys: string[], now = Date.now()) {
   for (const k of keys) {
     failures.set(k, [...(failures.get(k) ?? []).filter((t) => now - t < FAIL_WINDOW_MS), now]);
   }
+  // Tries with endless made-up emails mustn't fill the memory: drop old entries.
+  if (failures.size > 5000) {
+    for (const [k, times] of failures) {
+      if (times.every((t) => now - t >= FAIL_WINDOW_MS)) failures.delete(k);
+    }
+  }
 }
 
 export function clearFailures(keys: string[]) {

@@ -1,3 +1,4 @@
+import { jsonLdHtml } from "../../../components/JsonLd";
 import type { Metadata } from "next";
 import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
@@ -137,11 +138,11 @@ export default async function ProjectDetailPage({
       {/* JSON-LD */}
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbsJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: jsonLdHtml(breadcrumbsJsonLd) }}
       />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(projectJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: jsonLdHtml(projectJsonLd) }}
       />
 
       {/* TITLE */}

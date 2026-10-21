@@ -1,3 +1,4 @@
+import { jsonLdHtml } from "../../components/JsonLd";
 import type { Metadata } from "next";
 import { getPresentations } from "../../lib/content";
 import PresentationsClient from "./PresentationsClient";
@@ -62,7 +63,7 @@ export default async function PresentationsPage() {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbsJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: jsonLdHtml(breadcrumbsJsonLd) }}
       />
       <PresentationsClient presentations={await getPresentations()} />
     </>

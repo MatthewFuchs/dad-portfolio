@@ -1,3 +1,4 @@
+import { jsonLdHtml } from "../../components/JsonLd";
 import type { Metadata } from "next";
 import Image from "next/image";
 import { Mail, Phone } from "lucide-react";
@@ -97,11 +98,11 @@ export default function AboutPage() {
     <div className="bg-ground text-ink">
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbsJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: jsonLdHtml(breadcrumbsJsonLd) }}
       />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(aboutPageJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: jsonLdHtml(aboutPageJsonLd) }}
       />
 
       <section className="gutter pt-24 lg:pt-28 pb-14 md:pb-20 grid gap-12 md:grid-cols-12 md:gap-x-6">

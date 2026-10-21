@@ -1,3 +1,4 @@
+import { jsonLdHtml } from "../../components/JsonLd";
 // app/contact/page.tsx
 import type { Metadata } from "next";
 import EmailForm from "../../components/EmailForm";
@@ -81,11 +82,11 @@ export default function ContactPage() {
     <div className="bg-ground text-ink">
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbsJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: jsonLdHtml(breadcrumbsJsonLd) }}
       />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(contactPageJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: jsonLdHtml(contactPageJsonLd) }}
       />
 
       <section className="gutter pt-24 lg:pt-28 pb-16 md:pb-24 grid gap-14 md:grid-cols-12 md:gap-x-6">

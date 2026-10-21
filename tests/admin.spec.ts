@@ -8,6 +8,7 @@ import { hashPassword, verifyPassword, checkCredentials, lockedOut, recordFailur
 import { slugify, uniqueSlug, saveEntry, deleteEntry, listEntries, ValidationError, toDraft } from '../lib/admin-content';
 import { localStore, githubStore, type Store } from '../lib/admin-store';
 import { uploadToken, readUploadToken, sniff, checkUpload } from '../lib/admin-uploads';
+import { jsonLdHtml } from '../lib/json-ld';
 
 const SECRET = 'x'.repeat(40);
 const JPG = Buffer.from([0xff, 0xd8, 0xff, 0xe0, 1, 2, 3]);
@@ -65,6 +66,14 @@ describe('passwords and lock-out', () => {
     expect(lockedOut(keys, t + 16 * 60_000)).toBe(false);
     clearFailures(keys);
     expect(lockedOut(keys, t)).toBe(false);
+  });
+});
+
+describe('structured data', () => {
+  it("text from the admin can't close the <script> tag", () => {
+    const html = jsonLdHtml({ description: 'Bad </script><script>alert(1)</script>' });
+    expect(html).not.toContain('<');
+    expect(JSON.parse(html).description).toBe('Bad </script><script>alert(1)</script>');
   });
 });
 

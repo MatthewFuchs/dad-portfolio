@@ -1,3 +1,4 @@
+import { jsonLdHtml } from "../../components/JsonLd";
 import type { Metadata } from "next";
 import { getManufacturers, getProjects, getSectors } from "../../lib/content";
 import ProjectsIndexClient from "./ProjectsIndexClient";
@@ -45,7 +46,7 @@ export default async function ProjectsPage() {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbsJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: jsonLdHtml(breadcrumbsJsonLd) }}
       />
       <ProjectsIndexClient
         projects={projects}

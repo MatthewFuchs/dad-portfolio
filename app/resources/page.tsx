@@ -1,3 +1,4 @@
+import { jsonLdHtml } from "../../components/JsonLd";
 import type { Metadata } from "next";
 import { getManufacturers } from "../../lib/content";
 import ResourcesClient from "./ResourcesClient";
@@ -54,7 +55,7 @@ export default async function ResourcesPage() {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbsJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: jsonLdHtml(breadcrumbsJsonLd) }}
       />
       <ResourcesClient manufacturers={await getManufacturers()} />
     </>

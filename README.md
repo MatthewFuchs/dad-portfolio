@@ -123,7 +123,7 @@ tests/
 
 ## Editing content (admin panel)
 
-Projects, manufacturers (with their documents) and presentations are edited at **`/admin`**, a simple editor in the site's own style. [ADMIN-GUIDE.md](ADMIN-GUIDE.md) is the guide for editors.
+Projects, manufacturers (with their documents) and presentations are edited at **`/admin`**, a simple editor in the site's own style.
 
 - **Sign-in:** email and password for each person in `ADMIN_USERS` (scrypt hashes), an 8-hour HttpOnly, SameSite=Strict cookie, 5 wrong tries per email or IP pause sign-in for 15 minutes. `middleware.ts` guards `/admin` and `/api/admin`, and every page and API route checks the session again. Admin pages are `noindex`, `no-store` and disallowed in `robots.txt`.
 - **Locally:** set `ADMIN_USERS` and `ADMIN_SESSION_SECRET` in `.env.local`, run `npm run dev`, open http://localhost:3000/admin. Saves write straight to `content/` and `public/` in your working copy.

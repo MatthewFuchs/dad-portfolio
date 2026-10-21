@@ -1,3 +1,4 @@
+import { jsonLdHtml } from "../../components/JsonLd";
 import type { Metadata } from "next";
 import { getManufacturers } from "../../lib/content";
 import ProductsClient from "./ProductsClient";
@@ -52,7 +53,7 @@ export default async function ProductsPage() {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbsJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: jsonLdHtml(breadcrumbsJsonLd) }}
       />
       <ProductsClient companies={await getManufacturers()} />
     </>
