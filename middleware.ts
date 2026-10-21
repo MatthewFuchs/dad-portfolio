@@ -5,8 +5,9 @@ import { SESSION_COOKIE, sessionSecret, verifySession } from "./lib/session";
 // else to the sign-in page; the API answers 401. Each page and API route
 // checks the session again on the server.
 //
-// When the admin isn't set up (no ADMIN_USERS or ADMIN_SESSION_SECRET), the
-// requests pass through and the pages and routes answer 404.
+// When the admin isn't set up (no ADMIN_USERS or ADMIN_SESSION_SECRET), it
+// answers 404 here: the admin's loading screen would otherwise start the page
+// with a 200 before the page itself could say "not found".
 
 const PUBLIC_PATHS = new Set(["/admin/login", "/api/admin/login"]);
 
@@ -21,7 +22,13 @@ function configured() {
 
 export async function middleware(req: NextRequest) {
   const { pathname, search } = req.nextUrl;
-  if (PUBLIC_PATHS.has(pathname) || !configured()) return NextResponse.next();
+  if (!configured()) {
+    return new NextResponse("Not found", {
+      status: 404,
+      headers: { "X-Robots-Tag": "noindex, nofollow", "Cache-Control": "no-store" },
+    });
+  }
+  if (PUBLIC_PATHS.has(pathname)) return NextResponse.next();
 
   const session = await verifySession(req.cookies.get(SESSION_COOKIE)?.value, sessionSecret()!);
   if (session) return NextResponse.next();

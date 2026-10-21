@@ -5,6 +5,7 @@ import { ImagePlus, LoaderCircle, RefreshCw, Trash2 } from "lucide-react";
 import type { FileRef, UploadKind } from "../../lib/admin-types";
 import { useTrackUpload } from "./EditorFrame";
 import { prepareImage, uploadFile, UploadError } from "./upload";
+import Thumb from "./Thumb";
 
 export type ImageValue = { ref: FileRef; preview: string } | null;
 
@@ -138,9 +139,9 @@ export default function ImagePicker({
               background === "dark" ? "bg-neutral-900" : kind === "logo" ? "bg-white" : "bg-surface"
             }`}
           >
-            <img
+            <Thumb
+              key={shown}
               src={shown}
-              alt=""
               className={`absolute inset-0 size-full ${fit === "contain" || kind === "logo" ? "object-contain p-4" : "object-cover"}`}
             />
             {progress !== null && (

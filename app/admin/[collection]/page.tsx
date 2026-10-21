@@ -6,6 +6,7 @@ import { listEntries } from "../../../lib/admin-content";
 import type { ManufacturerFile, PresentationFile, ProjectFile } from "../../../lib/content";
 import { NOUNS, thumb, type CollectionName } from "../../../lib/admin-types";
 import SetupNotice from "../../../components/admin/SetupNotice";
+import Thumb from "../../../components/admin/Thumb";
 
 type Params = { params: Promise<{ collection: string }>; searchParams: Promise<{ removed?: string }> };
 
@@ -76,12 +77,7 @@ export default async function ListPage({ params, searchParams }: Params) {
             >
               <span className={`relative w-24 sm:w-32 aspect-[4/3] shrink-0 overflow-hidden ${r.dark ? "bg-neutral-900" : r.contain ? "bg-white border border-ink/5" : "bg-surface"}`}>
                 {r.image && (
-                  <img
-                    src={thumb(r.image, 200)}
-                    alt=""
-                    loading="lazy"
-                    className={`absolute inset-0 size-full ${r.contain ? "object-contain p-2" : "object-cover"}`}
-                  />
+                  <Thumb src={thumb(r.image, 200)} className={`absolute inset-0 size-full ${r.contain ? "object-contain p-2" : "object-cover"}`} />
                 )}
               </span>
               <span className="flex-1 min-w-0">

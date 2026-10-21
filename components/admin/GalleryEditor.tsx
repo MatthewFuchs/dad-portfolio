@@ -5,6 +5,7 @@ import { ArrowDown, ArrowUp, Check, GripVertical, ImagePlus, LoaderCircle, Trash
 import type { FileRef } from "../../lib/admin-types";
 import { FieldError, type Errors } from "./fields";
 import { DropZone, errorText, IMAGE_ACCEPT, useUpload } from "./ImagePicker";
+import Thumb from "./Thumb";
 
 export type GalleryItem = {
   key: string;
@@ -94,7 +95,7 @@ export default function GalleryEditor({
                     <GripVertical className="size-5" />
                   </button>
                   <div className="relative w-full sm:w-40 aspect-[4/3] bg-surface overflow-hidden shrink-0">
-                    <img src={it.preview} alt="" className="absolute inset-0 size-full object-cover" />
+                    <Thumb key={it.preview} src={it.preview} className="absolute inset-0 size-full object-cover" />
                     {it.progress != null && (
                       <div className="absolute inset-0 grid place-items-center bg-white/70 text-[15px] font-medium">
                         <span className="inline-flex items-center gap-1">

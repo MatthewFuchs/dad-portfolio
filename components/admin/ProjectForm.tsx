@@ -7,6 +7,7 @@ import EditorFrame from "./EditorFrame";
 import { ChipInput, describe, Field, Section, type Errors } from "./fields";
 import GalleryEditor, { type GalleryItem } from "./GalleryEditor";
 import ImagePicker, { type ImageValue } from "./ImagePicker";
+import Thumb from "./Thumb";
 
 export type ManufacturerOption = { id: string; name: string; logo: string; logoBackground?: "white" | "dark" };
 
@@ -136,8 +137,8 @@ export default function ProjectForm({
                 <span className={`grid place-items-center size-6 border shrink-0 ${on ? "bg-ink border-ink text-white" : "border-ink/40"}`}>
                   {on && <Check aria-hidden className="size-4" />}
                 </span>
-                <span className={`grid place-items-center w-20 h-10 shrink-0 ${m.logoBackground === "dark" ? "bg-neutral-900" : "bg-white"}`}>
-                  <img src={thumb(m.logo, 200)} alt="" className="max-h-8 max-w-[4.5rem] object-contain" />
+                <span className={`relative w-20 h-10 shrink-0 ${m.logoBackground === "dark" ? "bg-neutral-900" : "bg-white"}`}>
+                  <Thumb src={thumb(m.logo, 200)} className="absolute inset-0 size-full object-contain p-1" />
                 </span>
                 <span>{m.name}</span>
               </button>

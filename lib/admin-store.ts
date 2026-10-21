@@ -23,6 +23,8 @@ export interface Store {
   /** Every file path under a folder (recursive). */
   listPaths(prefix: string): Promise<string[]>;
   readBytes(path: string): Promise<Buffer | null>;
+  /** Whether the live website already serves this exact file (GitHub only). */
+  deployed?(path: string): Promise<boolean>;
   /** Keep an uploaded file until a save uses it; returns its id. */
   putUpload(bytes: Buffer): Promise<string>;
   getUpload(id: string): Promise<Buffer | null>;
@@ -125,12 +127,15 @@ type TreeEntry = { path: string; sha: string; type: string; mode: string };
 const blobCache = new Map<string, Buffer>();
 const BLOB_CACHE_BYTES = 64 * 1024 * 1024;
 let blobCacheBytes = 0;
+const deployedTrees = new Map<string, Promise<Map<string, string>>>();
 
 export function githubStore(opts: {
   token: string;
   repo: string;
   branch: string;
   fetch?: typeof fetch;
+  /** The commit the website was built from (defaults to VERCEL_GIT_COMMIT_SHA). */
+  deployedCommit?: string;
 }): Store {
   const doFetch = opts.fetch ?? fetch;
   const base = `https://api.github.com/repos/${opts.repo}`;
@@ -169,6 +174,22 @@ export function githubStore(opts: {
   }
   const current = () => (snapshot ??= load().catch((e) => ((snapshot = null), Promise.reject(e))));
 
+  // Every file of the commit the website was built from (VERCEL_GIT_COMMIT_SHA).
+  // A commit never changes, so this is kept for the life of the server.
+  function deployedFiles(sha: string) {
+    let files = deployedTrees.get(sha);
+    if (!files) {
+      files = (async () => {
+        const commit = await api<{ tree: { sha: string } }>(`/git/commits/${sha}`);
+        const tree = await api<{ tree: TreeEntry[] }>(`/git/trees/${commit.tree.sha}?recursive=1`);
+        return new Map(tree.tree.filter((e) => e.type === "blob").map((e) => [e.path, e.sha]));
+      })();
+      files.catch(() => deployedTrees.delete(sha));
+      deployedTrees.set(sha, files);
+    }
+    return files;
+  }
+
   async function blob(sha: string) {
     const hit = blobCache.get(sha);
     if (hit) return hit;
@@ -185,6 +206,13 @@ export function githubStore(opts: {
 
   return {
     kind: "github",
+    async deployed(p) {
+      const sha = opts.deployedCommit ?? process.env.VERCEL_GIT_COMMIT_SHA;
+      if (!sha) return false;
+      const [live, now] = await Promise.all([deployedFiles(sha), current()]);
+      const before = live.get(p);
+      return !!before && before === now.files.get(p)?.sha;
+    },
     async listPaths(prefix) {
       const dir = prefix.replace(/\/?$/, "/");
       return [...(await current()).files.keys()].filter((p) => p.startsWith(dir));

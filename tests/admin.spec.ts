@@ -347,6 +347,18 @@ describe('saving to GitHub (live mode)', () => {
     expect(files.has('public/presentations/talk/banner.png')).toBe(false);
   });
 
+  it('tells files the live website already has from ones saved since', async () => {
+    const { gh, store: before } = setup();
+    const live = githubStore({ token: 't', repo: 'o/r', branch: 'main', fetch: gh.fetch as unknown as typeof fetch, deployedCommit: gh.head() });
+    const draft = toDraft('presentations', (await listEntries(before, 'presentations'))[0].entry);
+    draft.banner = { upload: uploadToken(await before.putUpload(JPG), 'jpg', SECRET) };
+    await saveEntry({ store: before, secret: SECRET, who: 'Greg' }, 'presentations', 'talk', draft);
+    expect(await live.deployed!('public/logos/acme/logo.png')).toBe(true); // unchanged since the deploy
+    expect(await live.deployed!('public/presentations/talk/banner.jpg')).toBe(false); // new since
+    const noDeploy = githubStore({ token: 't', repo: 'o/r', branch: 'main', fetch: gh.fetch as unknown as typeof fetch });
+    expect(await noDeploy.deployed!('public/logos/acme/logo.png')).toBe(false); // not on Vercel: read the file
+  });
+
   it('starts again if someone else updated the branch at the same moment', async () => {
     const { gh, store } = setup();
     gh.conflictNextUpdate();
