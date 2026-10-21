@@ -22,9 +22,10 @@ npm run dev                  # http://localhost:3000
 npm run dev         # Development server (Turbopack)
 npm run build       # Production build
 npm start           # Serve the production build on port 3000
-npm run test:unit   # Vitest: contact API (tests/contact-api.spec.ts)
+npm run test:unit   # Vitest: contact API, content files, admin sign-in and saving
 npm run test:e2e    # Playwright: builds, starts the server, runs tests/e2e on desktop Chrome + iPhone 12
-npm test            # Both
+npm run test:e2e:admin  # Playwright: signed-in admin flow on port 3100, saving to a temporary copy of the content
+npm test            # All of them
 ```
 
 `test:e2e` starts its own server on port 3000, so stop `npm run dev` first. The e2e suite covers responsive layout (360–1440px), tap-target sizes, SEO metadata, security headers / CSP, accessibility (axe) and the contact form's loading and failure states. Contact tests mock the API, so no email is sent.
@@ -43,6 +44,10 @@ The contact form (`app/api/contact/route.ts`) sends mail through iCloud SMTP wit
 | `SMTP_FROM` | `Fuchs Sales and Consulting <you@icloud.com>` | Must use the `SMTP_USER` address; iCloud rejects other senders. |
 | `SMTP_TO` | `you@icloud.com` | Inbox that receives enquiries (defaults to `fuchsgreg@icloud.com`). |
 | `NEXT_PUBLIC_CONTACT_EMAIL` | `gfuchs@fuchs-sales.ca` | Address shown in mailto links. |
+| `ADMIN_USERS` | `[{"email":…,"name":"Greg","hash":"scrypt:…"}]` | Who can sign in to `/admin`. Make an entry with `node scripts/hash-password.mjs`. |
+| `ADMIN_SESSION_SECRET` | 32+ random characters | Signs the sign-in cookie. Changing it signs everyone out. Without this or `ADMIN_USERS`, `/admin` returns 404. |
+| `GITHUB_TOKEN` | — | Live site only. Fine-grained token for this repo with **Contents: read and write**; admin saves are commits to `main`. |
+| `GITHUB_REPO` / `GITHUB_BRANCH` | `MatthewFuchs/dad-portfolio` / `main` | Where admin saves go. |
 
 Changing a variable in Vercel only takes effect after a redeploy.
 
@@ -67,6 +72,7 @@ app/
   globals.css                # Design tokens and utilities
   error.tsx, global-error.tsx, not-found.tsx
   api/contact/route.ts       # Contact form endpoint (nodemailer)
+  admin/, api/admin/         # Website editor: sign-in, dashboard, lists, edit forms; save/upload/delete APIs
   products/                  # Manufacturers (logo cards + details dialog)
   projects/                  # Project index + [slug] detail (gallery or build sequence)
   presentations/             # Technical presentations (manufacturer filter, request by email)
@@ -76,6 +82,7 @@ app/
   sitemap.ts, robots.ts
 
 components/
+  admin/                     # Website editor forms (photos, documents, save bar)
   Navbar.tsx, Footer.tsx, Breadcrumbs.tsx, PageHeader.tsx
   Card.tsx                   # Shared tappable card (projects, manufacturers)
   HeroVideo.tsx              # Poster-first hero video with fallbacks
@@ -85,9 +92,21 @@ components/
   EmailForm.tsx              # Contact form with sending / sent / error states
   SmoothScroll.tsx, JsonLd.tsx
 
+content/                     # Site content edited in the admin panel (JSON)
+  projects/, manufacturers/, presentations/
+
+lib/
+  content.ts                 # Reads content/ at build time (types + loaders)
+  auth.ts, session.ts        # Admin passwords (scrypt), lock-out, signed session cookie
+  admin-content.ts           # Admin: checks fields, names files, builds each save
+  admin-store.ts             # Admin: saves to GitHub (live) or disk (local)
+  admin-uploads.ts           # Admin: upload tokens and file-type checks
+  legacy-redirects.json      # Old asset URLs -> new files
+
+middleware.ts                # Sends signed-out visitors from /admin to sign-in
+scripts/hash-password.mjs    # Makes an ADMIN_USERS entry
+
 data/
-  projects.ts                # PROJECTS (gallery photos with a `stage` render as a build sequence)
-  manufacturers.ts           # MANUFACTURERS (logos, resources)
   team.ts                    # Kept for future team members (not used yet)
 
 public/
@@ -97,15 +116,26 @@ public/
   fuchs.png, fuchs-grey.png, og.jpg
 
 tests/
-  contact-api.spec.ts        # Unit tests (Vitest)
-  e2e/                       # Playwright: smoke, a11y, responsive, seo, states, security
+  contact-api.spec.ts, content.spec.ts, admin.spec.ts  # Unit tests (Vitest)
+  e2e/                       # Playwright: smoke, a11y, responsive, seo, states, security, admin off
+  e2e-admin/                 # Playwright: signed-in admin flow (playwright.admin.config.ts)
 ```
 
-## Adding content
+## Editing content (admin panel)
 
-- **Project:** add an entry to `PROJECTS` in `data/projects.ts` and its photos under `public/projects/<slug>/`. Give every gallery photo a `stage` to show it as a step-through build sequence.
-- **Manufacturer resource:** add to the manufacturer's `resources` in `data/manufacturers.ts`, with the PDF under `public/resources/<manufacturer>/`.
-- **Presentation:** add to `PRESENTATIONS` in `app/presentations/PresentationsClient.tsx`, with a banner under `public/presentations/`.
+Projects, manufacturers (with their documents) and presentations are edited at **`/admin`**, a simple editor in the site's own style. [ADMIN-GUIDE.md](ADMIN-GUIDE.md) is the guide for editors.
+
+- **Sign-in:** email and password for each person in `ADMIN_USERS` (scrypt hashes), an 8-hour HttpOnly, SameSite=Strict cookie, 5 wrong tries per email or IP pause sign-in for 15 minutes. `middleware.ts` guards `/admin` and `/api/admin`, and every page and API route checks the session again. Admin pages are `noindex`, `no-store` and disallowed in `robots.txt`.
+- **Locally:** set `ADMIN_USERS` and `ADMIN_SESSION_SECRET` in `.env.local`, run `npm run dev`, open http://localhost:3000/admin. Saves write straight to `content/` and `public/` in your working copy.
+- **Live:** with `GITHUB_TOKEN` and `GITHUB_REPO` set, each save is one commit to `main` (via the Git Data API) and Vercel redeploys in about 2 minutes. The editor reads from GitHub, so it shows a save straight away. Without a token the live editor signs in but says saving isn't set up.
+- **Uploads:** photos are resized in the browser to 2400 px JPEG, sent in 3 MB parts (Vercel's request limit is 4.5 MB) and checked by their contents. Limits: photos 15 MB, logos 5 MB, PDFs 25 MB.
+- **Files:** content lives in `content/{projects,manufacturers,presentations}/*.json`; files go to `public/<collection>/<id>/` with fixed names (`hero.jpg`, `gallery/0/image.jpg`, `resources/0/file.pdf`, `logo.png`, `banner.png`). The editor renumbers them when photos are reordered and deletes ones no longer used. The web address (id) comes from the name and never changes afterwards.
+- `lib/content.ts` reads the content at build time. Entries with a missing file or unknown manufacturer are skipped with a build warning instead of failing the deploy; `tests/content.spec.ts` checks every reference and file.
+- Old document and photo URLs redirect to the new files (`lib/legacy-redirects.json`).
+
+## Adding content by hand
+
+Prefer the admin panel. By hand: add a JSON file to `content/<collection>/` following an existing one, with its files under `public/<collection>/<id>/` using the fixed names above, then run `npm run test:unit`.
 
 ## Deployment
 

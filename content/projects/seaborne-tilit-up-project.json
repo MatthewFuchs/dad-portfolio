@@ -1,0 +1,38 @@
+{
+  "name": "Seaborne Tilt Up Project",
+  "focus": "Advanced Tilt Up Construction",
+  "location": "Coquitlam, BC",
+  "year": "2025",
+  "sectors": [
+    "Tilt-Up"
+  ],
+  "manufacturers": [
+    "leviat",
+    "meadowburke",
+    "thermomass",
+    "airfoam",
+    "saf-t-rail"
+  ],
+  "hero": "/projects/seaborne-tilit-up-project/hero.jpg",
+  "summary": "This Tilt Up Project in Coquitlam, BC uses the most advanced and proven sandwich panels connectors in the Thermomass STAR Connector.  The contractor and design team also selected the most environmentally friendly rigid insulation by using AirFoam Korolite insulation.  AirFoam is able to pre-punch the insulation for increased productivity for the installing contractor.  Not only that, but the panels were also installed with Saf-T-Rail inserts for the most innovative fall arrest and guardrail protection offered to the Tilt-Up and PreCast sandwich panel industry.",
+  "gallery": [
+    {
+      "image": "/projects/seaborne-tilit-up-project/gallery/0/image.jpg",
+      "caption": "Work in progress",
+      "stage": ""
+    },
+    {
+      "image": "/projects/seaborne-tilit-up-project/gallery/1/image.jpg",
+      "caption": "Work in progress",
+      "stage": ""
+    }
+  ],
+  "tags": [
+    "LEVIAT",
+    "Meadow-Burke",
+    "Thermomass",
+    "Airfoam",
+    "Tilt-Up"
+  ],
+  "resources": []
+}

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { getManufacturers } from "../../lib/content";
 import ResourcesClient from "./ResourcesClient";
 
 // The live site redirects the bare domain to www, so www is canonical.
@@ -34,7 +35,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default function ResourcesPage() {
+export default async function ResourcesPage() {
   const breadcrumbsJsonLd = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -55,7 +56,7 @@ export default function ResourcesPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbsJsonLd) }}
       />
-      <ResourcesClient />
+      <ResourcesClient manufacturers={await getManufacturers()} />
     </>
   );
 }

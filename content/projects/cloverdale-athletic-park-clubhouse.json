@@ -1,0 +1,58 @@
+{
+  "name": "Cloverdale Athletic Park Soccer Clubhouse",
+  "focus": "Tree Pits",
+  "location": "Surrey, BC",
+  "year": "2021",
+  "sectors": [
+    "Drainage",
+    "Landscape Architecture"
+  ],
+  "manufacturers": [
+    "abtdrains"
+  ],
+  "hero": "/projects/cloverdale-athletic-park-clubhouse/hero.jpg",
+  "summary": "ABT Permavoid is used under trees to store and provide passive irrigation.  Water is collected from catch basins and roof leaders on the adjacent paved surfaces and building and directed to Permavoid for storage and to irrigate the trees.  Once the Permavoid storage tank is full, water is directed through a control structure and slowly released to the city storm system.",
+  "gallery": [
+    {
+      "image": "/projects/cloverdale-athletic-park-clubhouse/gallery/0/image.jpg",
+      "caption": "Control structure set in the excavation",
+      "stage": "Control structure"
+    },
+    {
+      "image": "/projects/cloverdale-athletic-park-clubhouse/gallery/1/image.jpg",
+      "caption": "Excavated tree pit beside the clubhouse",
+      "stage": "Excavation"
+    },
+    {
+      "image": "/projects/cloverdale-athletic-park-clubhouse/gallery/2/image.jpg",
+      "caption": "Liner laid in the tree pit",
+      "stage": "Liner"
+    },
+    {
+      "image": "/projects/cloverdale-athletic-park-clubhouse/gallery/3/image.jpg",
+      "caption": "Permavoid units placed inside the liner",
+      "stage": "Permavoid units"
+    },
+    {
+      "image": "/projects/cloverdale-athletic-park-clubhouse/gallery/4/image.jpg",
+      "caption": "Backfilling around the clubhouse",
+      "stage": "Backfill"
+    },
+    {
+      "image": "/projects/cloverdale-athletic-park-clubhouse/gallery/5/image.jpg",
+      "caption": "Geotextile and soil over the units",
+      "stage": "Covered"
+    },
+    {
+      "image": "/projects/cloverdale-athletic-park-clubhouse/gallery/6/image.jpg",
+      "caption": "Finished tree pits in front of the red clubhouse",
+      "stage": "Finished"
+    }
+  ],
+  "tags": [
+    "Sustainable Development",
+    "Storm Water Management",
+    "Tree Pits"
+  ],
+  "resources": []
+}

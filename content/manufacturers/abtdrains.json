@@ -1,0 +1,39 @@
+{
+  "name": "ABT Drains",
+  "website": "https://www.abtdrains.com",
+  "logo": "/logos/abtdrains/logo.png",
+  "logoBackground": "white",
+  "shortInfo": "High-performance trench drains, grates and surface water management.",
+  "innovation": "Durable modular drainage systems engineered for fast install and long-term performance.",
+  "categories": [
+    "Drainage",
+    "Siteworks"
+  ],
+  "order": 70,
+  "resources": [
+    {
+      "title": "Permavoid Introduction",
+      "file": "/resources/abtdrains/resources/0/file.pdf",
+      "type": "Brochure",
+      "updated": "Sep 2025"
+    },
+    {
+      "title": "Permavoid BlueGreen Rooftops",
+      "file": "/resources/abtdrains/resources/1/file.pdf",
+      "type": "Brochure",
+      "updated": "June 2018"
+    },
+    {
+      "title": "Permavoid Urban Tree Solutions",
+      "file": "/resources/abtdrains/resources/2/file.pdf",
+      "type": "Brochure",
+      "updated": "June 2018"
+    },
+    {
+      "title": "ABT Drains Corporate Brochure",
+      "file": "/resources/abtdrains/resources/3/file.pdf",
+      "type": "Brochure",
+      "updated": "June 2018"
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "name": "Evergreen Solutions",
+  "website": "https://www.evergreensolutions.com",
+  "logo": "/logos/evergreen/logo.png",
+  "logoBackground": "white",
+  "shortInfo": "Environmentally-focused construction and maintenance solutions.",
+  "innovation": "Emphasis on sustainability and lifecycle value in product design.",
+  "categories": [
+    "Sustainability"
+  ],
+  "order": 100,
+  "resources": [
+    {
+      "title": "FI-5N Datasheet",
+      "file": "/resources/evergreen/resources/0/file.pdf",
+      "type": "Data Sheet",
+      "updated": "May 2024"
+    },
+    {
+      "title": "FI-STATION Datasheet",
+      "file": "/resources/evergreen/resources/1/file.pdf",
+      "type": "Data Sheet",
+      "updated": "May 2024"
+    },
+    {
+      "title": "KnockOut & KnockOutHW Concrete Dissolver",
+      "file": "/resources/evergreen/resources/2/file.pdf",
+      "type": "Brochure",
+      "updated": "April 2024"
+    }
+  ]
+}

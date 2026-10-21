@@ -19,134 +19,6 @@ type Company = {
   logoImgClass?: string;
 };
 
-const COMPANIES: Company[] = [
-  {
-    id: "thermomass",
-    name: "Thermomass",
-    website: "https://www.thermomass.com",
-    shortInfo:
-      "Insulation systems for precast, tilt-up and cast-in-place concrete walls.",
-    innovation:
-      "Pioneering concrete sandwich panel insulation that reduces thermal bridging while preserving structural performance.",
-    categories: ["Insulation", "Envelope"],
-    logoSrc: "/logos/thermomass.png",
-  },
-  {
-    id: "leviat",
-    name: "Leviat",
-    website: "https://www.leviat.com/en-us",
-    shortInfo:
-      "Global provider of lifting, connecting, anchoring and façade support systems.",
-    innovation:
-      "Engineered connection systems for tilt-up and precast with strong safety and R&D focus (brands include Meadow Burke & HALFEN).",
-    categories: ["Connections", "Lifting"],
-    logoSrc: "/logos/leviat.png",
-  },
-  {
-    id: "meadow-burke",
-    name: "Meadow Burke",
-    website: "https://meadowburke.com",
-    shortInfo:
-      "Leviat brand specializing in tilt-up hardware, accessories and safety solutions.",
-    innovation:
-      "Field-proven lifting hardware and accessories trusted across North America.",
-    categories: ["Connections", "Lifting"],
-    logoSrc: "/logos/meadowburke.png",
-  },
-  {
-    id: "halfen",
-    name: "HALFEN",
-    website: "https://www.leviat.com/en-us/halfen",
-    shortInfo:
-      "Anchoring channels, reinforcement and framing technology for precast and concrete.",
-    innovation:
-      "Adjustable façade brackets and high-reliability anchoring channel systems for efficient install and tolerance.",
-    categories: ["Connections", "Façade"],
-    logoSrc: "/logos/halfen.png",
-  },
-  {
-    id: "airfoam",
-    name: "AirFoam",
-    website: "https://www.airfoam.com",
-    shortInfo:
-      "Expanded polystyrene (EPS) solutions for insulation and geofoam.",
-    innovation:
-      "Lightweight EPS that increases thermal performance and reduces material/installation costs.",
-    categories: ["Insulation", "Envelope"],
-    logoSrc: "/logos/airfoam.png",
-  },
-  {
-    id: "truefoam",
-    name: "TrueFoam",
-    website: "https://www.truefoam.com",
-    shortInfo:
-      "EPS insulation for foundations, under-slab, floors, walls and roofs, made in Atlantic Canada since 1968.",
-    innovation:
-      "Foundation Plus insulates and sheathes in one CCMC-evaluated board, and InsulWorks panels hold hydronic tubing for in-floor heating without wire mesh, under slabs designed for heavy loads.",
-    categories: ["Insulation", "Envelope", "Siteworks"],
-    logoSrc: "/logos/truefoam.png",
-  },
-  {
-    id: "abt-drains",
-    name: "ABT Drains",
-    website: "https://www.abtdrains.com",
-    shortInfo:
-      "High-performance trench drains, grates and surface water management.",
-    innovation:
-      "Durable modular drainage systems engineered for fast install and long-term performance.",
-    categories: ["Drainage", "Siteworks"],
-    logoSrc: "/logos/abtdrains.png",
-  },
-  {
-    id: "jk-thermal",
-    name: "JK Thermal",
-    website: "https://www.jkthermal.com",
-    shortInfo:
-      "Thermal break products and insulation systems for precast and tilt-up envelopes.",
-    innovation:
-      "Thermal break components designed to cut heat loss while maintaining structural capacity.",
-    categories: ["Insulation", "Envelope"],
-    logoSrc: "/logos/jkthermal.png",
-    logoBgClass: "bg-neutral-900",
-  },
-  {
-    id: "saf-t-rail",
-    name: "Saf-T-Rail",
-    website: "https://www.saf-t-rail.com",
-    shortInfo: "Guardrails, fall protection and safety railing systems.",
-    innovation:
-      "Compliance-driven, rugged safety solutions optimized for quick install and jobsite durability.",
-    categories: ["Safety"],
-    logoSrc: "/logos/saf-t-rail.png",
-  },
-  {
-    id: "evergreen-solutions",
-    name: "Evergreen Solutions",
-    website: "https://www.evergreensolutions.com",
-    shortInfo:
-      "Environmentally-focused construction and maintenance solutions.",
-    innovation:
-      "Emphasis on sustainability and lifecycle value in product design.",
-    categories: ["Sustainability"],
-    logoSrc: "/logos/evergreen.png",
-  },
-  {
-    id: "fabrikem",
-    name: "Fabrikem",
-    website: "https://fabrikem.com",
-    shortInfo:
-      "Concrete & masonry chemicals: cleaners, coatings/sealers, and colour systems for manufactured stone, pavers and masonry.",
-    innovation:
-      "Fabriglaze® sealers, Fabrishield® repellents/anti-graffiti, and Fabritone® stains — effective cleaning & protection without harsh muriatic acid issues.",
-    categories: ["Cleaners", "Coatings", "Sealants", "Masonry"],
-    logoSrc: "/logos/fabrikem.png",
-  },
-];
-
-const ALL_CATEGORIES = Array.from(
-  new Set(COMPANIES.flatMap((c) => c.categories))
-).sort();
-
 const cx = (...cls: Array<string | false | null | undefined>) =>
   cls.filter(Boolean).join(" ");
 
@@ -237,22 +109,26 @@ function CompanyModal({
   );
 }
 
-export default function ProductsClient() {
+export default function ProductsClient({ companies }: { companies: Company[] }) {
+  const ALL_CATEGORIES = useMemo(
+    () => Array.from(new Set(companies.flatMap((c) => c.categories))).sort(),
+    [companies]
+  );
   const [activeCats, setActiveCats] = useState<string[]>([]);
   const [selected, setSelected] = useState<Company | null>(null);
 
   const filtered = useMemo(() => {
-    if (activeCats.length === 0) return COMPANIES;
-    return COMPANIES.filter((c) =>
+    if (activeCats.length === 0) return companies;
+    return companies.filter((c) =>
       c.categories.some((cat) => activeCats.includes(cat))
     );
-  }, [activeCats]);
+  }, [activeCats, companies]);
 
   return (
     <div className="bg-ground text-ink">
       <PageHeader
         title="Manufacturers"
-        lead={`The ${COMPANIES.length} manufacturers we represent across Canada: concrete, envelope, safety and site-works products. Filter by what you are building.`}
+        lead={`The ${companies.length} manufacturers we represent across Canada: concrete, envelope, safety and site-works products. Filter by what you are building.`}
       />
 
       <section className="gutter">

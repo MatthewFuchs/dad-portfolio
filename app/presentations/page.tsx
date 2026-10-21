@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { getPresentations } from "../../lib/content";
 import PresentationsClient from "./PresentationsClient";
 
 // The live site redirects the bare domain to www, so www is canonical.
@@ -42,7 +43,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default function PresentationsPage() {
+export default async function PresentationsPage() {
   const breadcrumbsJsonLd = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -63,7 +64,7 @@ export default function PresentationsPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbsJsonLd) }}
       />
-      <PresentationsClient />
+      <PresentationsClient presentations={await getPresentations()} />
     </>
   );
 }

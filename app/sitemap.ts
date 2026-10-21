@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import fs from "fs";
 import path from "path";
-import { PROJECTS } from "../data/projects";
+import { getProjects } from "../lib/content";
 
 export const runtime = "nodejs";
 export const revalidate = 86400;
@@ -36,7 +36,8 @@ function fileMtimeOrNow(relativeFile?: string): Date {
   }
 }
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const PROJECTS = await getProjects();
   const staticEntries: MetadataRoute.Sitemap = PAGES.map(
     ({ url, file, priority, changeFrequency }) => ({
       url: `${BASE_URL}${url}`,

@@ -58,7 +58,7 @@ test('contact form: a request that never answers times out', async ({ page }) =>
 });
 
 test('gallery lightbox shows a failure message when a photo cannot load', async ({ page }) => {
-  await page.route(/\/_next\/image\?url=%2Fprojects%2Fseaborne-tilt-up%2Fseaborne-1\.jpg/, (route) =>
+  await page.route(/\/_next\/image\?url=%2Fprojects%2Fseaborne-tilit-up-project%2Fgallery%2F0%2Fimage\.jpg/, (route) =>
     route.fulfill({ status: 404, body: '' })
   );
   await page.goto('/projects/seaborne-tilit-up-project', { waitUntil: 'domcontentloaded' });

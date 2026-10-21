@@ -1,5 +1,7 @@
 import { test, expect, type Page } from '@playwright/test';
-import { MANUFACTURERS } from '../../data/manufacturers';
+import fs from 'node:fs';
+
+const MANUFACTURER_COUNT = fs.readdirSync('content/manufacturers').filter((f) => f.endsWith('.json')).length;
 
 const WIDTHS = [360, 390, 768, 1024, 1440];
 const PAGES = [
@@ -134,7 +136,7 @@ test('home shows three tappable project cards and the partner logos', async ({ p
   }
   const logos = page.locator('section', { has: page.getByRole('heading', { name: 'Who we represent' }) })
     .getByRole('link', { name: /see manufacturers/ });
-  await expect(logos).toHaveCount(MANUFACTURERS.length);
+  await expect(logos).toHaveCount(MANUFACTURER_COUNT);
   await expect(logos.first()).toHaveAttribute('href', '/products');
 });
 

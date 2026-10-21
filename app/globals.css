@@ -39,6 +39,9 @@ body {
   line-height: 1.5;
   letter-spacing: -0.01em;
   -webkit-font-smoothing: antialiased;
+  /* Text from the admin (a pasted web address, say) can hold a word longer
+     than its column: break it rather than push the layout off the page. */
+  overflow-wrap: anywhere;
 }
 
 h1,
@@ -89,6 +92,11 @@ h3 {
   &:active {
     transform: translateY(1px) scale(0.985);
   }
+  &:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+    transform: none;
+  }
 }
 
 /* Kept as an alias: ink is now the default button. */
@@ -122,6 +130,27 @@ h3 {
     color 200ms ease;
   &:hover {
     text-decoration-color: transparent;
+  }
+}
+
+/* Text boxes in the admin (/admin): large, plain, 17px so phones don't zoom. */
+@utility admin-input {
+  display: block;
+  width: 100%;
+  min-height: 3rem;
+  padding: 0.625rem 0.875rem;
+  background: #fff;
+  color: var(--color-ink);
+  border: 1px solid color-mix(in srgb, var(--color-ink) 28%, transparent);
+  font-size: 1.0625rem;
+  line-height: 1.45;
+  &:focus {
+    outline: 2px solid var(--color-olive-ink);
+    outline-offset: 0;
+    border-color: var(--color-olive-ink);
+  }
+  &[aria-invalid="true"] {
+    border-color: #b91c1c;
   }
 }
 

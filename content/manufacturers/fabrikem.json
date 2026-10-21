@@ -1,0 +1,29 @@
+{
+  "name": "Fabrikem",
+  "website": "https://fabrikem.com",
+  "logo": "/logos/fabrikem/logo.png",
+  "logoBackground": "white",
+  "shortInfo": "Concrete & masonry chemicals: cleaners, coatings/sealers, and colour systems for manufactured stone, pavers and masonry.",
+  "innovation": "Fabriglaze® sealers, Fabrishield® repellents/anti-graffiti, and Fabritone® stains — effective cleaning & protection without harsh muriatic acid issues.",
+  "categories": [
+    "Cleaners",
+    "Coatings",
+    "Sealants",
+    "Masonry"
+  ],
+  "order": 110,
+  "resources": [
+    {
+      "title": "Product Index Sheet",
+      "file": "/resources/fabrikem/resources/0/file.pdf",
+      "type": "PDF",
+      "updated": "August 2015"
+    },
+    {
+      "title": "Fabrikem Paint Repellent",
+      "file": "/resources/fabrikem/resources/1/file.pdf",
+      "type": "PDF",
+      "updated": "December 2024"
+    }
+  ]
+}

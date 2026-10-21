@@ -1,0 +1,36 @@
+{
+  "name": "The Linx",
+  "focus": "City of Vancouver Storm Water Management",
+  "location": "Vancouver, BC",
+  "year": "2025",
+  "sectors": [
+    "Drainage",
+    "Landscape Architecture",
+    "Storm Water Management"
+  ],
+  "manufacturers": [
+    "abtdrains"
+  ],
+  "hero": "/projects/the-linx-vancouver/hero.jpg",
+  "summary": "ABT Permavoid is used in various site locations of this residential mid rise project in the City of Vancouver. By utilizing Permavoid, the Design team was able to meet strict water management by-laws to store and use storm water to irrigate landscape features through the site. Peramovid provided a low cost, reliable, long term solution to manage storm water through the unique capillary irrigation system that Permavoid can provide. By prioritizing storm water as a resource, the design team can incorporate Permaovid to deliver a high quality project that contributes to resilient cities.",
+  "gallery": [
+    {
+      "image": "/projects/the-linx-vancouver/gallery/0/image.jpg",
+      "caption": "In Progress",
+      "stage": ""
+    },
+    {
+      "image": "/projects/the-linx-vancouver/gallery/1/image.jpg",
+      "caption": "In Progress",
+      "stage": ""
+    }
+  ],
+  "tags": [
+    "Drainage",
+    "Sustainable Development",
+    "Storm Water Management",
+    "ABT Drains",
+    "Resilient Cities"
+  ],
+  "resources": []
+}

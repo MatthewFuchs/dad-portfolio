@@ -1,0 +1,31 @@
+{
+  "name": "TrueFoam",
+  "website": "https://www.truefoam.com",
+  "logo": "/logos/truefoam/logo.png",
+  "logoBackground": "white",
+  "shortInfo": "EPS insulation for foundations, under-slab, floors, walls and roofs, made in Atlantic Canada since 1968.",
+  "innovation": "Foundation Plus insulates and sheathes in one CCMC-evaluated board, and InsulWorks panels hold hydronic tubing for in-floor heating without wire mesh, under slabs designed for heavy loads.",
+  "categories": [
+    "Insulation",
+    "Envelope",
+    "Siteworks"
+  ],
+  "order": 60,
+  "resources": [
+    {
+      "title": "Foundation Plus/Sheathing Data Sheet",
+      "file": "/resources/truefoam/resources/0/file.pdf",
+      "type": "Data Sheet"
+    },
+    {
+      "title": "InsulWorks Hydronic Floor Insulation Data Sheet",
+      "file": "/resources/truefoam/resources/1/file.pdf",
+      "type": "Data Sheet"
+    },
+    {
+      "title": "TrueFit Insulation Panels Data Sheet",
+      "file": "/resources/truefoam/resources/2/file.pdf",
+      "type": "Data Sheet"
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "name": "East Village",
+  "focus": "Qualicum Beach",
+  "location": "Qualicum Beach, BC",
+  "year": "2022",
+  "sectors": [
+    "Drainage",
+    "Landscape Architecture"
+  ],
+  "manufacturers": [
+    "abtdrains"
+  ],
+  "hero": "/projects/east-village-qualicum-beach/hero.jpg",
+  "summary": "ABT Permavoid is used on the North side of the street to collect surface storm water.  Water is stored in Permavoid and uses patented capillary action to provide water to the trees during drought periods.  Once the water reservoir is full, storm water is released to the municipal collection system through control structures.  Permavoid can support traffic loads while providing a truly sustainable method to manage storm water, excelerating bio mass and reducing storm water management.  Contract Fuchs Sales & Consulting to learn the many ways Permavoid can be used to reduce storm water run-off and prioritize storm water as a resource.",
+  "gallery": [
+    {
+      "image": "/projects/east-village-qualicum-beach/gallery/0/image.jpg",
+      "caption": "Finished Project",
+      "stage": ""
+    },
+    {
+      "image": "/projects/east-village-qualicum-beach/gallery/1/image.jpg",
+      "caption": "Finished Project",
+      "stage": ""
+    },
+    {
+      "image": "/projects/east-village-qualicum-beach/gallery/2/image.jpg",
+      "caption": "Finished Project",
+      "stage": ""
+    },
+    {
+      "image": "/projects/east-village-qualicum-beach/gallery/3/image.jpg",
+      "caption": "Finished Project",
+      "stage": ""
+    },
+    {
+      "image": "/projects/east-village-qualicum-beach/gallery/4/image.jpg",
+      "caption": "Finished Project",
+      "stage": ""
+    }
+  ],
+  "tags": [
+    "Drainage",
+    "Sustainable Development",
+    "Tree Pits"
+  ],
+  "resources": []
+}

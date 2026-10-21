@@ -6,7 +6,7 @@ import JsonLd from "../components/JsonLd";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/next";
 import Breadcrumbs from "../components/Breadcrumbs";
-import SmoothScroll from "../components/SmoothScroll";
+import SiteChrome from "../components/SiteChrome";
 import localFont from "next/font/local";
 
 const switzer = localFont({
@@ -56,26 +56,30 @@ export default function RootLayout({
   return (
     <html lang="en-CA" className={switzer.variable}>
       <body className="min-h-svh flex flex-col">
-        <Navbar />
-        <Breadcrumbs
-          hideOn={["/"]}
-          offsetPx={82}
-          className="z-12"
-          labelMap={{
-            products: "Manufacturers",
-            resources: "Learning Resources",
-            projects: "Projects",
-            contact: "Contact",
-            privacy: "Privacy Policy",
-            terms: "Terms of Use",
-            team: "Team",
-          }}
-        />
-        <main id="main" className="flex-1">
+        <SiteChrome
+          header={
+            <>
+              <Navbar />
+              <Breadcrumbs
+                hideOn={["/"]}
+                offsetPx={82}
+                className="z-12"
+                labelMap={{
+                  products: "Manufacturers",
+                  resources: "Learning Resources",
+                  projects: "Projects",
+                  contact: "Contact",
+                  privacy: "Privacy Policy",
+                  terms: "Terms of Use",
+                  team: "Team",
+                }}
+              />
+            </>
+          }
+          footer={<Footer />}
+        >
           {children}
-        </main>
-        <SmoothScroll />
-        <Footer />
+        </SiteChrome>
 
         <JsonLd
           data={{

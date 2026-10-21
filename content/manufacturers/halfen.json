@@ -1,0 +1,33 @@
+{
+  "name": "HALFEN",
+  "website": "https://www.leviat.com/en-us/halfen",
+  "logo": "/logos/halfen/logo.png",
+  "logoBackground": "white",
+  "shortInfo": "Anchoring channels, reinforcement and framing technology for precast and concrete.",
+  "innovation": "Adjustable façade brackets and high-reliability anchoring channel systems for efficient install and tolerance.",
+  "categories": [
+    "Connections",
+    "Façade"
+  ],
+  "order": 40,
+  "resources": [
+    {
+      "title": "Halfen HIT Insulated Balcony Connector for Post-Tensioning Applications",
+      "file": "/resources/halfen/resources/0/file.pdf",
+      "type": "Tech Sheet",
+      "updated": "May 2023"
+    },
+    {
+      "title": "Halfen HIT Insulated Connection High & Superior Performance",
+      "file": "/resources/halfen/resources/1/file.pdf",
+      "type": "Tech Sheet",
+      "updated": "January 2025"
+    },
+    {
+      "title": "HIT Insulated Connection",
+      "file": "/resources/halfen/resources/2/file.pdf",
+      "type": "Tech Sheet",
+      "updated": "June 2025"
+    }
+  ]
+}

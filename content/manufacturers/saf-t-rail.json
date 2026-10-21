@@ -1,0 +1,20 @@
+{
+  "name": "Saf-T-Rail",
+  "website": "https://www.safe-t-rail.com",
+  "logo": "/logos/saf-t-rail/logo.png",
+  "logoBackground": "white",
+  "shortInfo": "Guardrails, fall protection and safety railing systems.",
+  "innovation": "Compliance-driven, rugged safety solutions optimized for quick install and jobsite durability.",
+  "categories": [
+    "Safety"
+  ],
+  "order": 90,
+  "resources": [
+    {
+      "title": "STR Rack Card",
+      "file": "/resources/saf-t-rail/resources/0/file.pdf",
+      "type": "Brochure",
+      "updated": "February 2025"
+    }
+  ]
+}

@@ -1,6 +1,7 @@
 import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({
+  testDir: 'tests/e2e',
   webServer: {
     command: 'npm run start',
     port: 3000,

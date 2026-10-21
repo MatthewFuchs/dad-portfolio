@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { getManufacturers } from "../../lib/content";
 import ProductsClient from "./ProductsClient";
 
 const SITE_URL = "https://www.fuchs-sales.ca";
@@ -32,7 +33,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default function ProductsPage() {
+export default async function ProductsPage() {
   const breadcrumbsJsonLd = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -53,7 +54,7 @@ export default function ProductsPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbsJsonLd) }}
       />
-      <ProductsClient />
+      <ProductsClient companies={await getManufacturers()} />
     </>
   );
 }

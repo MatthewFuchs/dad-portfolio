@@ -3,8 +3,7 @@
 import { useMemo, useState } from "react";
 import Image from "next/image";
 import { ChevronDown, FileText, Download, ArrowUpRight } from "lucide-react";
-import type { Manufacturer } from "../../data/manufacturers";
-import { MANUFACTURERS } from "../../data/manufacturers";
+import type { Manufacturer } from "../../lib/content";
 import PageHeader from "../../components/PageHeader";
 
 const PUBLIC_INBOX =
@@ -12,6 +11,13 @@ const PUBLIC_INBOX =
 
 const cx = (...c: Array<string | false | null | undefined>) =>
   c.filter(Boolean).join(" ");
+
+// Uploaded files can have generic names (e.g. ".../0/file.pdf"); save them
+// under the document's title instead.
+function downloadName(title: string, href: string) {
+  const ext = href.match(/\.[a-z0-9]+$/i)?.[0] ?? ".pdf";
+  return title.replace(/[\\/:*?"<>|]+/g, "").trim() + ext;
+}
 
 function ResourceRow({
   title,
@@ -51,7 +57,7 @@ function ResourceRow({
         </a>
         <a
           href={href}
-          download
+          download={downloadName(title, href)}
           className="link inline-flex min-h-11 items-center gap-1.5 font-medium"
         >
           <Download className="h-3.5 w-3.5" aria-hidden />
@@ -239,9 +245,13 @@ function TinyPresentationCTA({
 }
 
 /* ---------- Page ---------- */
-export default function ResourcesClient() {
+export default function ResourcesClient({
+  manufacturers,
+}: {
+  manufacturers: Manufacturer[];
+}) {
   const [openId, setOpenId] = useState<string | null>(null);
-  const items = useMemo(() => MANUFACTURERS, []);
+  const items = manufacturers;
   const onToggle = (id: string) => setOpenId((cur) => (cur === id ? null : id));
 
   return (

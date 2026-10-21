@@ -1,0 +1,33 @@
+{
+  "name": "Thermomass",
+  "website": "https://www.thermomass.com",
+  "logo": "/logos/thermomass/logo.png",
+  "logoBackground": "white",
+  "shortInfo": "Insulation systems for precast, tilt-up and cast-in-place concrete walls.",
+  "innovation": "Pioneering concrete sandwich panel insulation that reduces thermal bridging while preserving structural performance.",
+  "categories": [
+    "Insulation",
+    "Envelope"
+  ],
+  "order": 10,
+  "resources": [
+    {
+      "title": "CC Series Data Sheet",
+      "file": "/resources/thermomass/resources/0/file.pdf",
+      "type": "Data Sheet",
+      "updated": "December 2021"
+    },
+    {
+      "title": "Star Series Connectors Data Sheet",
+      "file": "/resources/thermomass/resources/1/file.pdf",
+      "type": "Data Sheet",
+      "updated": "September 2018"
+    },
+    {
+      "title": "Star Series Data Sheet",
+      "file": "/resources/thermomass/resources/2/file.pdf",
+      "type": "Data Sheet",
+      "updated": "March 2022"
+    }
+  ]
+}

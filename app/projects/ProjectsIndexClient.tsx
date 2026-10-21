@@ -4,27 +4,33 @@ import { useMemo, useState } from "react";
 import Card from "@/components/Card";
 import FilterBar, { SelectOption } from "@/components/FilterBar";
 import PageHeader from "@/components/PageHeader";
-import { PROJECTS, ALL_SECTORS } from "../../data/projects";
-import { MANUFACTURERS } from "../../data/manufacturers";
+import type { Project } from "@/lib/content";
 
-const manufacturerOptions: SelectOption[] = MANUFACTURERS.map((m) => ({
-  label: m.name,
-  value: m.id,
-}));
-
-export default function ProjectsIndexClient() {
+export default function ProjectsIndexClient({
+  projects,
+  allSectors,
+  manufacturers,
+}: {
+  projects: Project[];
+  allSectors: string[];
+  manufacturers: { id: string; name: string }[];
+}) {
+  const manufacturerOptions: SelectOption[] = manufacturers.map((m) => ({
+    label: m.name,
+    value: m.id,
+  }));
   const [sectors, setSectors] = useState<string[]>([]);
   const [mfg, setMfg] = useState<string | null>(null);
 
   const sector = sectors[0] ?? null;
 
   const filtered = useMemo(() => {
-    return PROJECTS.filter((p) => {
+    return projects.filter((p) => {
       const bySector = sector ? p.sectors.includes(sector) : true;
       const byMfg = mfg ? p.manufacturers.includes(mfg) : true;
       return bySector && byMfg;
     });
-  }, [sector, mfg]);
+  }, [projects, sector, mfg]);
 
   return (
     <div className="bg-ground text-ink">
@@ -37,7 +43,7 @@ export default function ProjectsIndexClient() {
         <FilterBar
           title="Filter"
           allLabel="All sectors"
-          options={ALL_SECTORS}
+          options={allSectors}
           active={sectors}
           onChange={setSectors}
           multi={true}

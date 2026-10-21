@@ -1,0 +1,39 @@
+{
+  "name": "AirFoam",
+  "website": "https://www.airfoam.com",
+  "logo": "/logos/airfoam/logo.png",
+  "logoBackground": "white",
+  "shortInfo": "Expanded polystyrene (EPS) solutions for insulation and geofoam.",
+  "innovation": "Lightweight EPS that increases thermal performance and reduces material/installation costs.",
+  "categories": [
+    "Insulation",
+    "Envelope"
+  ],
+  "order": 50,
+  "resources": [
+    {
+      "title": "Geofoam Technical Summary",
+      "file": "/resources/airfoam/resources/0/file.pdf",
+      "type": "Summary",
+      "updated": "March 2022"
+    },
+    {
+      "title": "Korolite 250 EPS for Tilt-Up",
+      "file": "/resources/airfoam/resources/1/file.pdf",
+      "type": "Data Sheet",
+      "updated": "December 2022"
+    },
+    {
+      "title": "Korolite EPS Types",
+      "file": "/resources/airfoam/resources/2/file.pdf",
+      "type": "Summary",
+      "updated": "December 2022"
+    },
+    {
+      "title": "Korolite GPS Types",
+      "file": "/resources/airfoam/resources/3/file.pdf",
+      "type": "Summary",
+      "updated": "July 2021"
+    }
+  ]
+}

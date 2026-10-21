@@ -1,4 +1,10 @@
 import type { NextConfig } from "next";
+import legacyRedirects from "./lib/legacy-redirects.json";
+
+// Redirect sources are path patterns: percent-encode spaces and escape the
+// characters the pattern syntax reserves (some old filenames contain them).
+const redirectSource = (p: string) =>
+  encodeURI(p).replace(/[()[\]{}*+?:!]/g, (c) => `\\${c}`);
 
 const isDev = process.env.NODE_ENV === "development";
 
@@ -23,6 +29,13 @@ const csp = [
   // and WebKit would also upgrade http://localhost, breaking local testing.
 ].join("; ");
 
+// The admin panel (/admin): never indexed, never cached, never framed. It uses
+// the site's own CSP (it loads nothing from other origins).
+const adminHeaders = [
+  { key: "X-Robots-Tag", value: "noindex, nofollow" },
+  { key: "Cache-Control", value: "no-store" },
+];
+
 const securityHeaders = [
   { key: "Content-Security-Policy", value: csp },
   { key: "X-Frame-Options", value: "SAMEORIGIN" },
@@ -40,9 +53,22 @@ const nextConfig: NextConfig = {
     // Optimized photos are reused for a month instead of the 60s default.
     minimumCacheTTL: 60 * 60 * 24 * 31,
   },
+  // Old document and photo URLs (before the admin panel gave every file a
+  // fixed name under its entry's folder) keep working: bookmarks, Google and
+  // social previews. The list is in lib/legacy-redirects.json.
+  async redirects() {
+    return Object.entries(legacyRedirects).map(([from, to]) => ({
+      source: redirectSource(from),
+      destination: encodeURI(to),
+      permanent: true,
+    }));
+  },
   async headers() {
     return [
       { source: "/:path*", headers: securityHeaders },
+      { source: "/admin", headers: adminHeaders },
+      { source: "/admin/:path*", headers: adminHeaders },
+      { source: "/api/admin/:path*", headers: adminHeaders },
       {
         // Hero footage and its poster: cache for 30 days, refresh in the background.
         source: "/video/:file*",

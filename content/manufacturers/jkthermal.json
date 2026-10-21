@@ -1,0 +1,27 @@
+{
+  "name": "JK Thermal",
+  "website": "https://www.jkthermal.com",
+  "logo": "/logos/jkthermal/logo.png",
+  "logoBackground": "dark",
+  "shortInfo": "Thermal break products and insulation systems for precast and tilt-up envelopes.",
+  "innovation": "Thermal break components designed to cut heat loss while maintaining structural capacity.",
+  "categories": [
+    "Insulation",
+    "Envelope"
+  ],
+  "order": 80,
+  "resources": [
+    {
+      "title": "JK Rack Card",
+      "file": "/resources/jkthermal/resources/0/file.pdf",
+      "type": "Brochure",
+      "updated": "November 2017"
+    },
+    {
+      "title": "Testimonial - Concept Aluminum - Tigerloc",
+      "file": "/resources/jkthermal/resources/1/file.pdf",
+      "type": "Testimonial",
+      "updated": "January 2018"
+    }
+  ]
+}

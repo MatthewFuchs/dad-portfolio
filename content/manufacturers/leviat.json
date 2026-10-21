@@ -1,0 +1,68 @@
+{
+  "name": "Leviat",
+  "website": "https://www.leviat.com/en-us",
+  "logo": "/logos/leviat/logo.png",
+  "logoBackground": "white",
+  "shortInfo": "Global provider of lifting, connecting, anchoring and façade support systems.",
+  "innovation": "Engineered connection systems for tilt-up and precast with strong safety and R&D focus (brands include Meadow Burke & HALFEN).",
+  "categories": [
+    "Connections",
+    "Lifting"
+  ],
+  "order": 20,
+  "resources": [
+    {
+      "title": "Anchor Channel Commercial Presentation Flyer",
+      "file": "/resources/leviat/resources/0/file.pdf",
+      "type": "Flyer",
+      "updated": "January 2023"
+    },
+    {
+      "title": "Anchor Channel Precast Presentation",
+      "file": "/resources/leviat/resources/1/file.pdf",
+      "type": "Flyer",
+      "updated": "January 2023"
+    },
+    {
+      "title": "Concrete Panel Connections",
+      "file": "/resources/leviat/resources/2/file.pdf",
+      "type": "Flyer",
+      "updated": "January 2023"
+    },
+    {
+      "title": "Dowels Presentation",
+      "file": "/resources/leviat/resources/3/file.pdf",
+      "type": "Flyer",
+      "updated": "January 2023"
+    },
+    {
+      "title": "RLU Presentation",
+      "file": "/resources/leviat/resources/4/file.pdf",
+      "type": "Flyer",
+      "updated": "January 2023"
+    },
+    {
+      "title": "Structural Thermal Break",
+      "file": "/resources/leviat/resources/5/file.pdf",
+      "type": "Flyer",
+      "updated": "January 2023"
+    },
+    {
+      "title": "Thermomass AIA Presentation",
+      "file": "/resources/leviat/resources/6/file.pdf",
+      "type": "Flyer"
+    },
+    {
+      "title": "Thermomass Engineering",
+      "file": "/resources/leviat/resources/7/file.pdf",
+      "type": "Flyer",
+      "updated": "February 2023"
+    },
+    {
+      "title": "Reimagining Tilt",
+      "file": "/resources/leviat/resources/8/file.pdf",
+      "type": "Flyer",
+      "updated": "June 2023"
+    }
+  ]
+}

@@ -2,8 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import type { Metadata } from "next";
 import { ArrowRight } from "lucide-react";
-import { PROJECTS } from "../data/projects";
-import { MANUFACTURERS } from "../data/manufacturers";
+import { getManufacturers, getProjects } from "../lib/content";
 import HeroVideo from "../components/HeroVideo";
 import Card from "../components/Card";
 
@@ -95,9 +94,9 @@ const SERVICES = [
   },
 ];
 
-const FIGURES = [
+const figures = (manufacturerCount: number) => [
   { figure: "2010", text: "Founded, with Fabrikem as the first partner" },
-  { figure: String(MANUFACTURERS.length), text: "Manufacturers represented" },
+  { figure: String(manufacturerCount), text: "Manufacturers represented" },
   { figure: "8", text: "Technical presentations to book" },
   { figure: "0", text: "Retainers: commission only" },
 ];
@@ -106,7 +105,8 @@ const FIGURES = [
 const onPhotoGhost =
   "btn [--btn-bg:transparent] [--btn-fg:#fff] [--btn-line:#fff] [--btn-hover:#fff] [--btn-hover-fg:var(--color-ink)]";
 
-export default function HomePage() {
+export default async function HomePage() {
+  const [PROJECTS, MANUFACTURERS] = await Promise.all([getProjects(), getManufacturers()]);
   const featured = [...PROJECTS]
     .sort((a, b) => (b.year ?? 0) - (a.year ?? 0))
     .slice(0, 3);
@@ -234,7 +234,7 @@ export default function HomePage() {
       {/* FIGURES */}
       <section className="bg-olive py-14 md:py-20">
         <ul className="gutter grid grid-cols-2 gap-x-6 gap-y-8 md:grid-cols-4">
-          {FIGURES.map((f) => (
+          {figures(MANUFACTURERS.length).map((f) => (
             <li key={f.figure}>
               <span className="block text-[length:var(--text-head)] leading-none tabular-nums tracking-[-0.03em]">
                 {f.figure}

@@ -1,0 +1,27 @@
+{
+  "name": "Meadow Burke",
+  "website": "https://meadowburke.com",
+  "logo": "/logos/meadowburke/logo.png",
+  "logoBackground": "white",
+  "shortInfo": "Leviat brand specializing in tilt-up hardware, accessories and safety solutions.",
+  "innovation": "Field-proven lifting hardware and accessories trusted across North America.",
+  "categories": [
+    "Connections",
+    "Lifting"
+  ],
+  "order": 30,
+  "resources": [
+    {
+      "title": "Fabricator Solutions",
+      "file": "/resources/meadowburke/resources/0/file.pdf",
+      "type": "Brochure",
+      "updated": "May 2025"
+    },
+    {
+      "title": "Product Catalog",
+      "file": "/resources/meadowburke/resources/1/file.pdf",
+      "type": "Catalog",
+      "updated": "August 2024"
+    }
+  ]
+}

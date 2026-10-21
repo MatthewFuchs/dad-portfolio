@@ -2,8 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
 import { notFound } from "next/navigation";
-import { PROJECTS } from "../../../data/projects";
-import { MANUFACTURERS } from "../../../data/manufacturers";
+import { getManufacturers, getProject, getProjects } from "../../../lib/content";
 import Gallery from "../../../components/Gallery";
 import BuildSequence from "../../../components/BuildSequence";
 
@@ -23,7 +22,7 @@ function snippet(text: string, max = 155) {
 const projectName = (title: string) => title.split("|")[0].trim();
 
 export async function generateStaticParams() {
-  return PROJECTS.map((p) => ({ slug: p.slug }));
+  return (await getProjects()).map((p) => ({ slug: p.slug }));
 }
 
 export async function generateMetadata({
@@ -32,7 +31,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const project = PROJECTS.find((p) => p.slug === slug);
+  const project = await getProject(slug);
 
   if (!project) {
     return {
@@ -77,10 +76,10 @@ export default async function ProjectDetailPage({
 }) {
   const { slug } = await params;
 
-  const project = PROJECTS.find((p) => p.slug === slug);
+  const project = await getProject(slug);
   if (!project) return notFound();
 
-  const mfgMap = new Map(MANUFACTURERS.map((m) => [m.id, m]));
+  const mfgMap = new Map((await getManufacturers()).map((m) => [m.id, m]));
   const gallery = project.gallery ?? [];
   // Photos labelled with build stages read better as a step-through sequence.
   const staged = gallery.length >= 4 && gallery.every((g) => g.stage);

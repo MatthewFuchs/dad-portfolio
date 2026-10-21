@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { getManufacturers, getProjects, getSectors } from "../../lib/content";
 import ProjectsIndexClient from "./ProjectsIndexClient";
 
 // The live site redirects the bare domain to www, so www is canonical.
@@ -24,7 +25,8 @@ export const metadata: Metadata = {
   },
 };
 
-export default function ProjectsPage() {
+export default async function ProjectsPage() {
+  const [projects, allSectors, manufacturers] = await Promise.all([getProjects(), getSectors(), getManufacturers()]);
   const breadcrumbsJsonLd = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -45,7 +47,11 @@ export default function ProjectsPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbsJsonLd) }}
       />
-      <ProjectsIndexClient />
+      <ProjectsIndexClient
+        projects={projects}
+        allSectors={allSectors}
+        manufacturers={manufacturers.map((m) => ({ id: m.id, name: m.name }))}
+      />
     </>
   );
 }
