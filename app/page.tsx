@@ -97,7 +97,7 @@ const SERVICES = [
 
 const FIGURES = [
   { figure: "2010", text: "Founded, with Fabrikem as the first partner" },
-  { figure: "10", text: "Manufacturers represented" },
+  { figure: String(MANUFACTURERS.length), text: "Manufacturers represented" },
   { figure: "8", text: "Technical presentations to book" },
   { figure: "0", text: "Retainers: commission only" },
 ];

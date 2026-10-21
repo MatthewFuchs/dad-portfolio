@@ -76,6 +76,17 @@ const COMPANIES: Company[] = [
     logoSrc: "/logos/airfoam.png",
   },
   {
+    id: "truefoam",
+    name: "TrueFoam",
+    website: "https://www.truefoam.com",
+    shortInfo:
+      "EPS insulation for foundations, under-slab, floors, walls and roofs, made in Atlantic Canada since 1968.",
+    innovation:
+      "Foundation Plus insulates and sheathes in one CCMC-evaluated board, and InsulWorks panels hold hydronic tubing for in-floor heating without wire mesh, under slabs designed for heavy loads.",
+    categories: ["Insulation", "Envelope", "Siteworks"],
+    logoSrc: "/logos/truefoam.png",
+  },
+  {
     id: "abt-drains",
     name: "ABT Drains",
     website: "https://www.abtdrains.com",
@@ -241,7 +252,7 @@ export default function ProductsClient() {
     <div className="bg-ground text-ink">
       <PageHeader
         title="Manufacturers"
-        lead="The ten manufacturers we represent across Canada: concrete, envelope, safety and site-works products. Filter by what you are building."
+        lead={`The ${COMPANIES.length} manufacturers we represent across Canada: concrete, envelope, safety and site-works products. Filter by what you are building.`}
       />
 
       <section className="gutter">

@@ -248,6 +248,38 @@ export const MANUFACTURERS: Manufacturer[] = [
     ],
   },
   {
+    id: "truefoam",
+    name: "TrueFoam",
+    website: "https://www.truefoam.com",
+    logoSrc: "/logos/truefoam.png",
+    resources: [
+    {
+        id: "truefoam-foundation-plus-sheathing",
+        title: "Foundation Plus/Sheathing Data Sheet",
+        href: "/resources/truefoam/truefoam-foundation-plus-sheathing.pdf",
+        type: "Data Sheet",
+        size: "185 KB",
+        tags: [],
+    },
+    {
+        id: "truefoam-insulworks",
+        title: "InsulWorks Hydronic Floor Insulation Data Sheet",
+        href: "/resources/truefoam/truefoam-insulworks.pdf",
+        type: "Data Sheet",
+        size: "130 KB",
+        tags: [],
+    },
+    {
+        id: "truefoam-truefit",
+        title: "TrueFit Insulation Panels Data Sheet",
+        href: "/resources/truefoam/truefoam-truefit.pdf",
+        type: "Data Sheet",
+        size: "158 KB",
+        tags: [],
+    },
+    ],
+  },
+  {
     id: "abtdrains",
     name: "ABT Drains",
     website: "https://www.abtdrains.com",
