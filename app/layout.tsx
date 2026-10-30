@@ -53,7 +53,6 @@ export const metadata: Metadata = {
       "Technical sales & manufacturer representation for tilt-up and precast.",
     images: ["/og.jpg"],
   },
-  icons: { icon: "icon.png" },
   // Proves ownership to Google Search Console and Bing Webmaster Tools. Set the
   // codes they give you in Vercel; nothing is added while these are empty.
   verification: {

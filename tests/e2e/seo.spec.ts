@@ -3,6 +3,13 @@ import { test, expect } from '@playwright/test';
 const SITE = 'https://www.fuchs-sales.ca';
 const PAGES = ['/', '/products', '/products/leviat', '/projects', '/presentations', '/resources', '/about', '/contact', '/projects/seaborne-tilit-up-project'];
 
+test('the tab icon loads on deeper pages too', async ({ page, request }) => {
+  await page.goto('/products/leviat', { waitUntil: 'domcontentloaded' });
+  const href = await page.locator('link[rel="icon"]').first().getAttribute('href');
+  expect(href).toMatch(/^\//);
+  expect((await request.get(href!)).status()).toBe(200);
+});
+
 test('every page has one brand in its title, a www canonical and a short description', async ({ page }) => {
   for (const path of PAGES) {
     await page.goto(path, { waitUntil: 'domcontentloaded' });
