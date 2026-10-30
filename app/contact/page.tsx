@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     url: `${SITE_URL}/contact`,
-    title: "Contact | Fuchs Sales and Consulting",
+    title: "Contact | Fuchs Sales & Consulting",
     description:
       "Get in touch about manufacturer representation, tilt-up and precast consulting.",
     images: [
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Contact | Fuchs Sales and Consulting",
+    title: "Contact | Fuchs Sales & Consulting",
     description:
       "Get in touch about manufacturer representation, tilt-up and precast consulting.",
     images: [`${SITE_URL}/og.jpg`],
@@ -58,14 +58,14 @@ export default function ContactPage() {
   const contactPageJsonLd = {
     "@context": "https://schema.org",
     "@type": "ContactPage",
-    name: "Contact | Fuchs Sales and Consulting",
+    name: "Contact | Fuchs Sales & Consulting",
     url: `${SITE_URL}/contact`,
     about:
       "Get in touch about manufacturer representation, tilt-up and precast consulting.",
     primaryImageOfPage: { "@type": "ImageObject", url: `${SITE_URL}/og.jpg` },
     publisher: {
       "@type": "Organization",
-      name: "Fuchs Sales and Consulting Limited",
+      name: "Fuchs Sales & Consulting",
       url: SITE_URL,
       logo: `${SITE_URL}/fuchs.png`,
       contactPoint: [
@@ -99,7 +99,7 @@ export default function ContactPage() {
           </h1>
           <p className="mt-5 text-[length:var(--text-lead)] leading-snug max-w-[34ch]">
             Representation, a product question or a project in tilt-up or
-            precast. We reply promptly.
+            precast. Send us the details and we&rsquo;ll get back to you.
           </p>
           <ul className="mt-10 space-y-2 text-[length:var(--text-lead)] tracking-[-0.02em]">
             <li>

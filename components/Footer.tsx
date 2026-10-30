@@ -102,12 +102,9 @@ export default function Footer() {
                   </Link>
                 </li>
                 <li>
-                  <a
-                    href="mailto:gfuchs@fuchs-sales.ca?subject=Presentation%20request"
-                    className={linkCls}
-                  >
+                  <Link href="/presentations" className={linkCls}>
                     Request a presentation
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </div>
@@ -116,8 +113,7 @@ export default function Footer() {
 
         <div className="mt-14 md:mt-16 flex flex-wrap items-baseline justify-between gap-4 text-[length:var(--text-small)] text-white/60">
           <p>
-            &copy; {year} Fuchs Sales and Consulting Limited. All rights
-            reserved.
+            &copy; {year} Fuchs Sales &amp; Consulting. All rights reserved.
           </p>
           <a href="#main" className={`${linkCls} hover:text-white`}>
             Back to top

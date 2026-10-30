@@ -107,6 +107,14 @@ test('an unknown manufacturer is not found', async ({ request }) => {
   expect((await request.get('/products/not-a-company')).status()).toBe(404);
 });
 
+test('the contact form marks required fields and links to the privacy policy', async ({ page }) => {
+  await gotoOk(page, '/contact');
+  const form = page.locator('form');
+  await expect(form.getByText('(required)')).toHaveCount(3);
+  await expect(form.getByRole('link', { name: 'Privacy Policy' })).toHaveAttribute('href', '/privacy');
+  await expect(page.locator('footer').getByRole('link', { name: 'Request a presentation' })).toHaveAttribute('href', '/presentations');
+});
+
 test('the contact form starts from a presentation request', async ({ page }) => {
   await gotoOk(page, '/contact?about=Presentation%20request%3A%20Thermal%20Breaks');
   await expect(page.getByLabel('How can we help?')).toHaveValue(/Presentation request: Thermal Breaks/);

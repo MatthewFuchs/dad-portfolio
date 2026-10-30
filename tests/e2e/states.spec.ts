@@ -23,7 +23,7 @@ test('contact form: sending state, then success', async ({ page }) => {
   await expect(page.getByRole('button', { name: 'Sending…' })).toBeDisabled();
   await expect(page.getByLabel('Name')).toBeDisabled();
   release();
-  await expect(page.getByRole('status')).toContainText('your message is on its way');
+  await expect(page.getByRole('status')).toContainText('your message has been sent');
 });
 
 test('contact form: server failure keeps the message and offers a way out', async ({ page }) => {

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 
 const INBOX = "gfuchs@fuchs-sales.ca";
 const TIMEOUT_MS = 15000;
@@ -94,7 +95,7 @@ export default function EmailForm() {
     return (
       <div role="status" className="py-4">
         <p className="text-[length:var(--text-lead)] leading-snug">
-          Thanks, your message is on its way. We&rsquo;ll reply to the email
+          Thanks, your message has been sent. We&rsquo;ll reply to the email
           address you gave.
         </p>
         <button
@@ -129,7 +130,9 @@ export default function EmailForm() {
       />
       <fieldset disabled={sending} className="space-y-5">
         <label className="block">
-          <span className="text-[length:var(--text-small)]">Name</span>
+          <span className="text-[length:var(--text-small)]">
+            Name <span className="text-soft">(required)</span>
+          </span>
           <input name="name" autoComplete="name" className={field} required />
         </label>
         <label className="block">
@@ -139,7 +142,9 @@ export default function EmailForm() {
           <input name="company" autoComplete="organization" className={field} />
         </label>
         <label className="block">
-          <span className="text-[length:var(--text-small)]">Email</span>
+          <span className="text-[length:var(--text-small)]">
+            Email <span className="text-soft">(required)</span>
+          </span>
           <input
             name="email"
             type="email"
@@ -160,7 +165,9 @@ export default function EmailForm() {
           </select>
         </label>
         <label className="block">
-          <span className="text-[length:var(--text-small)]">How can we help?</span>
+          <span className="text-[length:var(--text-small)]">
+            How can we help? <span className="text-soft">(required)</span>
+          </span>
           <textarea name="message" rows={6} className={field} required />
         </label>
       </fieldset>
@@ -186,21 +193,30 @@ export default function EmailForm() {
         </div>
       )}
 
-      {status !== "error" && (
-        <button
-          type="submit"
-          disabled={sending || !ready}
-          className="btn btn-dark w-full sm:w-auto disabled:cursor-wait disabled:opacity-70"
-        >
-          {sending && (
-            <span
-              aria-hidden
-              className="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white motion-reduce:animate-none"
-            />
-          )}
-          {sending ? "Sending…" : "Send message"}
-        </button>
-      )}
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-5">
+        {status !== "error" && (
+          <button
+            type="submit"
+            disabled={sending || !ready}
+            className="btn btn-dark w-full shrink-0 sm:w-auto disabled:cursor-wait disabled:opacity-70"
+          >
+            {sending && (
+              <span
+                aria-hidden
+                className="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white motion-reduce:animate-none"
+              />
+            )}
+            {sending ? "Sending…" : "Send message"}
+          </button>
+        )}
+        <p className="text-[length:var(--text-small)] text-soft">
+          We use these details only to reply to your enquiry. See our{" "}
+          <Link href="/privacy" className="link text-ink">
+            Privacy Policy
+          </Link>
+          .
+        </p>
+      </div>
     </form>
   );
 }

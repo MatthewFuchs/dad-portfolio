@@ -33,7 +33,7 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.fuchs-sales.ca"),
   title: {
-    default: "Fuchs Sales and Consulting",
+    default: "Fuchs Sales & Consulting",
     template: "%s | Fuchs Sales & Consulting",
   },
   description:
@@ -41,14 +41,14 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     url: "https://www.fuchs-sales.ca",
-    title: "Fuchs Sales and Consulting Limited",
+    title: "Fuchs Sales & Consulting",
     description:
       "Technical sales & manufacturer representation for tilt-up and precast.",
     images: [{ url: "/og.jpg", width: 1200, height: 630, alt: "Fuchs Sales" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Fuchs Sales and Consulting Limited",
+    title: "Fuchs Sales & Consulting",
     description:
       "Technical sales & manufacturer representation for tilt-up and precast.",
     images: ["/og.jpg"],
@@ -117,8 +117,7 @@ export default function RootLayout({
               {
                 "@type": "ProfessionalService",
                 "@id": "https://www.fuchs-sales.ca/#org",
-                name: "Fuchs Sales and Consulting Limited",
-                alternateName: "Fuchs Sales & Consulting",
+                name: "Fuchs Sales & Consulting",
                 description:
                   "Technical sales and manufacturer representation for commercial and industrial construction in Canada: tilt-up, precast, building envelope and stormwater products.",
                 url: "https://www.fuchs-sales.ca",

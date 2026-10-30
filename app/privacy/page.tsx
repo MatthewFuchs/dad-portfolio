@@ -11,14 +11,14 @@ const SITE_URL = "https://www.fuchs-sales.ca";
 // What search engines and link previews show for this page.
 export const metadata: Metadata = {
   title: "Privacy Policy",
-  description: "Privacy Policy for Fuchs Sales and Consulting.",
+  description: "Privacy Policy for Fuchs Sales & Consulting.",
   alternates: { canonical: `${SITE_URL}/privacy` },
   robots: { index: true, follow: true },
   openGraph: {
     type: "website",
     url: `${SITE_URL}/privacy`,
-    title: "Privacy Policy | Fuchs Sales and Consulting",
-    description: "Privacy Policy for Fuchs Sales and Consulting.",
+    title: "Privacy Policy | Fuchs Sales & Consulting",
+    description: "Privacy Policy for Fuchs Sales & Consulting.",
     images: [
       {
         url: `${SITE_URL}/og.jpg`,
@@ -30,8 +30,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Privacy Policy | Fuchs Sales and Consulting",
-    description: "Privacy Policy for Fuchs Sales and Consulting.",
+    title: "Privacy Policy | Fuchs Sales & Consulting",
+    description: "Privacy Policy for Fuchs Sales & Consulting.",
     images: [`${SITE_URL}/og.jpg`],
   },
 };

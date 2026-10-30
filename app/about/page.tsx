@@ -65,7 +65,7 @@ export default function AboutPage() {
     primaryImageOfPage: { "@type": "ImageObject", url: `${SITE_URL}/og.jpg` },
     about: {
       "@type": "Organization",
-      name: "Fuchs Sales and Consulting Limited",
+      name: "Fuchs Sales & Consulting",
       url: SITE_URL,
       logo: `${SITE_URL}/fuchs.png`,
       contactPoint: [
@@ -88,7 +88,7 @@ export default function AboutPage() {
       image: `${SITE_URL}/team/greg.jpg`,
       worksFor: {
         "@type": "Organization",
-        name: "Fuchs Sales and Consulting Limited",
+        name: "Fuchs Sales & Consulting",
         url: SITE_URL,
       },
       sameAs: [
