@@ -1,3 +1,5 @@
+// The About page. None of this comes from the admin: to change the wording or
+// the photo, edit this file.
 import { jsonLdHtml } from "../../components/JsonLd";
 import type { Metadata } from "next";
 import Image from "next/image";
@@ -7,6 +9,7 @@ const SITE_URL = "https://www.fuchs-sales.ca";
 const EMAIL = "gfuchs@fuchs-sales.ca";
 const PHONE_TEL = "+17782416316";
 
+// What search engines and link previews show for this page.
 export const metadata: Metadata = {
   title: "About Greg Fuchs",
   description:

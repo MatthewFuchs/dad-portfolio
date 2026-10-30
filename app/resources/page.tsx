@@ -1,3 +1,5 @@
+// The Resources page, server side: search-engine details, plus loading each
+// manufacturer's documents from the admin content. ResourcesClient.tsx draws the page.
 import { jsonLdHtml } from "../../components/JsonLd";
 import type { Metadata } from "next";
 import { getManufacturers } from "../../lib/content";
@@ -6,6 +8,7 @@ import ResourcesClient from "./ResourcesClient";
 // The live site redirects the bare domain to www, so www is canonical.
 const SITE_URL = "https://www.fuchs-sales.ca";
 
+// What search engines and link previews show for this page.
 export const metadata: Metadata = {
   title: "Technical Data Sheets & Brochures",
   description:
@@ -37,6 +40,7 @@ export const metadata: Metadata = {
 };
 
 export default async function ResourcesPage() {
+  // Tells search engines where this page sits in the site. Visitors never see it.
   const breadcrumbsJsonLd = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",

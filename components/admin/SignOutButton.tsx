@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { LoaderCircle } from "lucide-react";
 
+// The "Sign out" link in the admin header. app/api/admin/logout/route.ts does the signing out.
 export default function SignOutButton() {
   const [busy, setBusy] = useState(false);
   return (

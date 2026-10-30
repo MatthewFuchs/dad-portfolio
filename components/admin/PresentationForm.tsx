@@ -6,6 +6,8 @@ import EditorFrame from "./EditorFrame";
 import { ChipInput, Choice, describe, Field, Section, type Errors } from "./fields";
 import ImagePicker, { type ImageValue } from "./ImagePicker";
 
+// The add/change form for a presentation. It only holds what's typed: EditorFrame
+// does the saving, and lib/admin-content.ts checks everything on the server.
 export default function PresentationForm({
   id,
   initial,
@@ -22,7 +24,9 @@ export default function PresentationForm({
     initial.banner && "path" in initial.banner ? { ref: initial.banner, preview: thumb(initial.banner.path) } : null
   );
   const [errors, setErrors] = useState<Errors>({});
+  // Changes one field and leaves the others alone.
   const set = <K extends keyof PresentationDraft>(k: K, v: PresentationDraft[K]) => setF((s) => ({ ...s, [k]: v }));
+  // What gets sent to the server on Save.
   const draft: PresentationDraft = { ...f, banner: banner?.ref ?? null };
 
   return (

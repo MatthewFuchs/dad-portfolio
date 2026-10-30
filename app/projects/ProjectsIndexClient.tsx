@@ -6,6 +6,8 @@ import FilterBar, { SelectOption } from "@/components/FilterBar";
 import PageHeader from "@/components/PageHeader";
 import type { Project } from "@/lib/content";
 
+// The project cards and filters. This runs in the visitor's browser because
+// the filters respond to clicks.
 export default function ProjectsIndexClient({
   projects,
   allSectors,

@@ -1,3 +1,5 @@
+// The Presentations page, server side: search-engine details, plus loading the
+// presentations from the admin content. PresentationsClient.tsx draws the page.
 import { jsonLdHtml } from "../../components/JsonLd";
 import type { Metadata } from "next";
 import { getPresentations } from "../../lib/content";
@@ -8,6 +10,7 @@ const SITE_URL = "https://www.fuchs-sales.ca";
 
 export const dynamic = "force-static";
 
+// What search engines and link previews show for this page.
 export const metadata: Metadata = {
   title: "Technical Presentations",
   description:
@@ -45,6 +48,7 @@ export const metadata: Metadata = {
 };
 
 export default async function PresentationsPage() {
+  // Tells search engines where this page sits in the site. Visitors never see it.
   const breadcrumbsJsonLd = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",

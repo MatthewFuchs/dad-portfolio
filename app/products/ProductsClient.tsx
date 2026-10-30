@@ -22,6 +22,8 @@ type Company = {
 const cx = (...cls: Array<string | false | null | undefined>) =>
   cls.filter(Boolean).join(" ");
 
+// The pop-up with a manufacturer's full details, opened from its card. It closes
+// with the Close button, the Escape key or a tap outside it.
 function CompanyModal({
   company,
   onClose,
@@ -62,7 +64,7 @@ function CompanyModal({
           <div
             className={cx(
               "relative h-40 sm:h-52",
-              company.logoBgClass ?? "bg-white"
+              company.logoBgClass ?? "bg-white",
             )}
           >
             {company.logoSrc && (
@@ -71,7 +73,7 @@ function CompanyModal({
                 alt={`${company.name} logo`}
                 className={cx(
                   "absolute inset-0 h-full w-full object-contain p-8",
-                  company.logoImgClass
+                  company.logoImgClass,
                 )}
               />
             )}
@@ -105,22 +107,28 @@ function CompanyModal({
         </div>
       </div>
     </>,
-    document.body
+    document.body,
   );
 }
 
-export default function ProductsClient({ companies }: { companies: Company[] }) {
+export default function ProductsClient({
+  companies,
+}: {
+  companies: Company[];
+}) {
+  // The filter buttons: every category used by at least one manufacturer.
   const ALL_CATEGORIES = useMemo(
     () => Array.from(new Set(companies.flatMap((c) => c.categories))).sort(),
-    [companies]
+    [companies],
   );
   const [activeCats, setActiveCats] = useState<string[]>([]);
   const [selected, setSelected] = useState<Company | null>(null);
 
+  // With no filter on, show everyone; otherwise anyone in a chosen category.
   const filtered = useMemo(() => {
     if (activeCats.length === 0) return companies;
     return companies.filter((c) =>
-      c.categories.some((cat) => activeCats.includes(cat))
+      c.categories.some((cat) => activeCats.includes(cat)),
     );
   }, [activeCats, companies]);
 
@@ -128,7 +136,7 @@ export default function ProductsClient({ companies }: { companies: Company[] }) 
     <div className="bg-ground text-ink">
       <PageHeader
         title="Manufacturers"
-        lead={`The ${companies.length} manufacturers we represent across Canada: concrete, envelope, safety and site-works products. Filter by what you are building.`}
+        lead={`The ${companies.length} manufacturers we represent across Canada: concrete, envelope, safety and site-works products.`}
       />
 
       <section className="gutter">

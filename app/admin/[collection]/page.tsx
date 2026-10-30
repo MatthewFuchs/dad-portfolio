@@ -1,3 +1,5 @@
+// The list of everything in one section, at /admin/projects, /admin/manufacturers
+// or /admin/presentations. [collection] in the folder name is that last word.
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowLeft, Check, Pencil, Plus } from "lucide-react";
@@ -15,8 +17,10 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   return { title: NOUNS[c].many[0].toUpperCase() + NOUNS[c].many.slice(1) };
 }
 
+// One line of the list.
 type Row = { id: string; name: string; detail: string; image?: string; dark?: boolean; contain?: boolean };
 
+// Turns saved entries into list lines, in the same order the website shows them.
 function rows(collection: CollectionName, entries: { id: string; entry: unknown }[]): Row[] {
   switch (collection) {
     case "projects":
@@ -43,6 +47,7 @@ function rows(collection: CollectionName, entries: { id: string; entry: unknown 
 
 export default async function ListPage({ params, searchParams }: Params) {
   const collection = collectionParam((await params).collection);
+  // After a delete, the address carries ?removed=<name> for the confirmation message.
   const { removed } = await searchParams;
   const { store } = await adminPage();
   if (!store) return <SetupNotice />;

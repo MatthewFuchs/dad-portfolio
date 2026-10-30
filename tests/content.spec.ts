@@ -57,6 +57,25 @@ describe('content loader', () => {
     expect(sectors).toContain('Tilt-Up');
   });
 
+  it('leaves the manufacturer out of the topics shown on a card', async () => {
+    const { getPresentations } = await import('../lib/content');
+    const pres = await getPresentations();
+    expect(pres.length).toBeGreaterThan(0);
+    for (const p of pres) {
+      expect(p.topics.map((t) => t.toLowerCase())).not.toContain(p.brand?.toLowerCase());
+    }
+  });
+
+  it('versions image addresses but not document links', async () => {
+    const { getManufacturers, getProjects, getPresentations } = await import('../lib/content');
+    const [m, p, pres] = await Promise.all([getManufacturers(), getProjects(), getPresentations()]);
+    const version = /\?v=[0-9a-f]{8}$/;
+    expect(m.every((x) => version.test(x.logoSrc))).toBe(true);
+    expect(p.every((x) => version.test(x.hero) && x.gallery!.every((g) => version.test(g.src)))).toBe(true);
+    expect(pres.every((x) => version.test(x.banner))).toBe(true);
+    expect(m.flatMap((x) => x.resources).every((r) => !r.href.includes('?'))).toBe(true);
+  });
+
   describe('with a broken entry', () => {
     let tmp: string;
     beforeAll(() => {
@@ -88,6 +107,14 @@ describe('content loader', () => {
       const [project] = await getProjects();
       expect(project.manufacturers).toEqual(['good']);
       expect(console.warn).toHaveBeenCalledWith(expect.stringContaining('manufacturer "broken"'));
+    });
+
+    it('gives a photo a new address when its contents change', async () => {
+      const { getProjects } = await import('../lib/content');
+      const before = (await getProjects())[0].hero;
+      fs.writeFileSync(path.join(tmp, 'public/projects/p/h.jpg'), 'a different photo');
+      const after = (await getProjects())[0].hero;
+      expect(after).not.toBe(before);
     });
   });
 });

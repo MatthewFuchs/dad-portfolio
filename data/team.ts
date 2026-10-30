@@ -1,3 +1,5 @@
+// Team details. Nothing on the site reads this file at the moment: the About page
+// (app/about/page.tsx) has its own text, so changes here won't appear.
 export type TeamMember = {
   slug: string;
   name: string;

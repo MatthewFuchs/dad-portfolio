@@ -19,6 +19,7 @@ function downloadName(title: string, href: string) {
   return title.replace(/[\\/:*?"<>|]+/g, "").trim() + ext;
 }
 
+// One document: its name and details, with View and Download links.
 function ResourceRow({
   title,
   href,
@@ -68,6 +69,7 @@ function ResourceRow({
   );
 }
 
+// One manufacturer: a row that opens to show its documents.
 function BrandRow({
   m,
   open,
@@ -158,6 +160,7 @@ function BrandRow({
   );
 }
 
+// The "Book a session" band: builds a ready-to-send email from the two dropdowns.
 function TinyPresentationCTA({
   manufacturers,
 }: {

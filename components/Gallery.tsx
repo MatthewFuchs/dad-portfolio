@@ -7,9 +7,13 @@ import { X, ChevronLeft, ChevronRight } from "lucide-react";
 type Item = { src: string; alt?: string };
 
 
+// A grid of project photos. Tapping one opens it full screen (the "lightbox"),
+// with arrows, keyboard and swipe to move between photos.
 export default function Gallery({ items }: { items: Item[] }) {
   const [open, setOpen] = useState(false);
   const [idx, setIdx] = useState(0);
+  // open: the lightbox is showing. idx: which photo. animKey: changes on every move
+  // so the fade-in plays again.
   const [animKey, setAnimKey] = useState(0);
   // Load state per full-size image, so revisiting one does not flash again.
   const [loaded, setLoaded] = useState<Record<string, "ready" | "failed">>({});
@@ -25,6 +29,7 @@ export default function Gallery({ items }: { items: Item[] }) {
 
   const close = useCallback(() => setOpen(false), []);
 
+  // Previous and next wrap around, so the last photo leads back to the first.
   const prev = useCallback(() => {
     if (!items.length) return;
     setIdx((i) => (i - 1 + items.length) % items.length);
@@ -39,6 +44,8 @@ export default function Gallery({ items }: { items: Item[] }) {
 
   useEffect(() => {
     if (!open) return;
+    // While the lightbox is open: Escape closes it, arrow keys change photo, and the
+    // page behind stops scrolling.
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") close();
       if (e.key === "ArrowRight") next();
@@ -54,6 +61,8 @@ export default function Gallery({ items }: { items: Item[] }) {
     };
   }, [open, close, next, prev]);
 
+  // Swipe on phones: compare where the finger started and ended. A move of more
+  // than 40 pixels counts as a swipe.
   const startX = useRef<number | null>(null);
   const onTouchStart = (e: React.TouchEvent) => {
     startX.current = e.touches[0].clientX;

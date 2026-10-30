@@ -6,26 +6,33 @@ import { usePathname } from "next/navigation";
 import { createPortal } from "react-dom";
 import { Menu, X } from "lucide-react";
 
+// The bar at the top of every page, plus the slide-in menu on phones. On the
+// home page it starts see-through over the video and turns olive on scroll.
 export default function Navbar() {
   const pathname = usePathname();
   const onHome = pathname === "/";
 
+  // mounted: the page is running in the browser, so the phone menu can be attached.
+  // isOpen: the phone menu is showing. isSolid: the bar has its olive background.
   const [mounted, setMounted] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [isSolid, setIsSolid] = useState(!onHome);
   const navRef = useRef<HTMLElement>(null);
 
   useEffect(() => setMounted(true), []);
+  // Close the phone menu whenever the visitor moves to another page.
   useEffect(() => setIsOpen(false), [pathname]);
 
   useEffect(() => {
     if (!isOpen) return;
+    // The Escape key closes the phone menu.
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && setIsOpen(false);
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [isOpen]);
 
   useEffect(() => {
+    // Stop the page behind the phone menu from scrolling.
     document.body.style.overflow = isOpen ? "hidden" : "";
     return () => {
       document.body.style.overflow = "";
@@ -52,6 +59,7 @@ export default function Navbar() {
   }, []);
 
   useEffect(() => {
+    // Home page only: turn the bar olive once the visitor scrolls down a little.
     if (!onHome) return;
     const onScroll = () => setIsSolid(window.scrollY > 24);
     onScroll();
@@ -59,6 +67,8 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, [onHome]);
 
+  // The menu items, used by both the desktop bar and the phone menu. Contact is
+  // added separately because it's styled as a button.
   const navLinks = [
     { href: "/products", label: "Products" },
     { href: "/projects", label: "Projects" },
@@ -71,12 +81,14 @@ export default function Navbar() {
     "fixed top-0 left-0 w-full z-50 transition-colors duration-300";
 
   const solid = !onHome || isSolid;
+  // The bar's colours: dark with the menu open, olive when solid, otherwise see-through.
   const surface = isOpen
     ? "bg-ink text-white"
     : solid
     ? "bg-olive text-ink"
     : "bg-transparent text-white";
 
+  // Is this the current page or a page under it? Underlines the matching menu item.
   const isActive = (href: string) =>
     pathname === href || pathname.startsWith(`${href}/`);
 

@@ -4,7 +4,11 @@ import path from "path";
 import { getProjects } from "../lib/content";
 
 export const runtime = "nodejs";
-export const revalidate = 86400;
+
+// The list of pages search engines read. It is built once per deploy, and every
+// admin save triggers a deploy, so it always matches the content. Don't make it
+// refresh on a timer: the live server doesn't have the content files, so a
+// refresh there would drop every project from the list.
 
 // The live site redirects the bare domain to www, so www is canonical.
 const BASE_URL = "https://www.fuchs-sales.ca";

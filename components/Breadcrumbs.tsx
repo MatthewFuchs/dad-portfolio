@@ -4,6 +4,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ChevronRight } from "lucide-react";
 
+// The "Home > Projects > The Linx" trail under the nav. It is worked out from the
+// web address, so new pages get one automatically.
 type Props = {
   hideOn?: string[];
   offsetPx?: number;
@@ -11,6 +13,7 @@ type Props = {
   labelMap?: Record<string, string>;
 };
 
+// "the-linx-vancouver" -> "The Linx Vancouver". Used when labelMap has no better name.
 function humanize(seg: string) {
   return seg.replace(/[-_]+/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
 }
@@ -36,6 +39,7 @@ export default function Breadcrumbs({
   const parts = pathname.split("/").filter(Boolean);
   if (parts.length === 0) return null;
 
+  // /projects/the-linx becomes two steps: /projects, then /projects/the-linx.
   const crumbs = parts.map((seg, i) => ({
     href: "/" + parts.slice(0, i + 1).join("/"),
     label: labelMap[seg] ?? humanize(seg),

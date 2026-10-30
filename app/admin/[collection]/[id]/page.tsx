@@ -1,3 +1,5 @@
+// The "Change" page for one entry, e.g. /admin/projects/the-linx-vancouver. The id
+// is the entry's file name in content/; components/admin/Editor.tsx does the work.
 import type { Metadata } from "next";
 import { collectionParam } from "../../../../lib/admin-page";
 import { NOUNS } from "../../../../lib/admin-types";

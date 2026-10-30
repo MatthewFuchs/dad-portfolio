@@ -1,3 +1,5 @@
+// The admin's start page (/admin): one tile each for projects, manufacturers and
+// presentations, with how many are on the website.
 import Link from "next/link";
 import { ArrowRight, Building2, FolderOpen, Plus, Presentation } from "lucide-react";
 import { adminPage } from "../../lib/admin-page";
@@ -5,6 +7,7 @@ import { listEntries } from "../../lib/admin-content";
 import { COLLECTIONS, NOUNS, type CollectionName } from "../../lib/admin-types";
 import SetupNotice from "../../components/admin/SetupNotice";
 
+// The icon and explanation on each tile.
 const TILES: Record<CollectionName, { icon: typeof FolderOpen; text: string }> = {
   projects: { icon: FolderOpen, text: "Jobs on the Projects page, with photos and the products used." },
   manufacturers: { icon: Building2, text: "The companies you represent, their logos and their documents (PDFs)." },
@@ -12,6 +15,7 @@ const TILES: Record<CollectionName, { icon: typeof FolderOpen; text: string }> =
 };
 
 export default async function Dashboard() {
+  // Sends anyone not signed in to the sign-in page.
   const { session, store } = await adminPage();
   if (!store) return <SetupNotice />;
   const counts = await Promise.all(COLLECTIONS.map((c) => listEntries(store, c).then((l) => l.length)));

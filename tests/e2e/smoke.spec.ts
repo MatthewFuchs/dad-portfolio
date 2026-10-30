@@ -35,6 +35,16 @@ test('home loads and nav works', async ({ page }) => {
   await expect(page.getByRole('heading', { name: /projects/i })).toBeVisible();
 });
 
+test('presentation counts match the cards', async ({ page }) => {
+  await gotoOk(page, '/presentations');
+  const count = await page.getByRole('link', { name: /request this session/i }).count();
+  expect(count, 'expected at least one presentation').toBeGreaterThan(0);
+  await expect(page.getByText(`${count} technical session`, { exact: false })).toBeVisible();
+
+  await gotoOk(page, '/');
+  await expect(page.getByRole('link', { name: `See the ${count} presentation`, exact: false })).toBeVisible();
+});
+
 test('projects filters and reset', async ({ page }) => {
   await gotoOk(page, '/projects');
 

@@ -14,6 +14,7 @@ type Presentation = {
   blurb: string;
   banner: string;
   tags: string[];
+  topics: string[];
   brand?: string;
   bannerFit?: "cover" | "contain";
   bannerAspect?: string;
@@ -25,6 +26,8 @@ const EMAIL = process.env.NEXT_PUBLIC_CONTACT_EMAIL || "gfuchs@fuchs-sales.ca";
 const cx = (...c: Array<string | false | null | undefined>) =>
   c.filter(Boolean).join(" ");
 
+// The cards and the manufacturer filter. This runs in the visitor's browser
+// because the filter and "Read more" respond to clicks.
 export default function PresentationsPage({
   presentations,
 }: {
@@ -33,6 +36,7 @@ export default function PresentationsPage({
   const [active, setActive] = useState<string[]>([]);
   const [open, setOpen] = useState<Set<string>>(new Set());
 
+  // The filter buttons: every manufacturer with at least one presentation.
   const brands = useMemo(
     () =>
       Array.from(
@@ -46,6 +50,7 @@ export default function PresentationsPage({
     return presentations.filter((p) => p.brand && active.includes(p.brand));
   }, [active, presentations]);
 
+  // Opens or closes a card's full description ("Read more").
   const toggle = (id: string) =>
     setOpen((cur) => {
       const next = new Set(cur);
@@ -54,11 +59,18 @@ export default function PresentationsPage({
       return next;
     });
 
+  // Counted from the presentations in the admin, so the header can't go stale.
+  const count = presentations.length;
+  const sessions =
+    count === 0
+      ? "Technical sessions"
+      : `${count} technical session${count === 1 ? "" : "s"}`;
+
   return (
     <div className="bg-ground text-ink">
       <PageHeader
         title="Presentations"
-        lead="Eight technical sessions for architects, engineers and contractors. Pick one and request a time for your team."
+        lead={`${sessions} for architects, engineers and contractors. Pick one and request a time for your team.`}
       />
 
       <section className="gutter">
@@ -76,6 +88,7 @@ export default function PresentationsPage({
         <ul className="grid gap-4 md:grid-cols-2">
           {filtered.map((p, i) => {
             const [title, subtitle] = p.title.split("|").map((t) => t.trim());
+            // "Request this session" opens the visitor's email app with this message filled in.
             const subject = `Presentation request: ${p.title}`;
             const body = [
               "Hi Greg,",
@@ -130,6 +143,12 @@ export default function PresentationsPage({
                   >
                     {expanded ? "Show less" : "Read more"}
                   </button>
+                  {/* The "Topics" field from the admin form. */}
+                  {p.topics.length > 0 && (
+                    <p className="mt-3 text-[length:var(--text-small)] text-soft">
+                      {p.topics.join(" · ")}
+                    </p>
+                  )}
                   <div className="mt-auto pt-4">
                     <a
                       href={`mailto:${EMAIL}?subject=${encodeURIComponent(

@@ -1,3 +1,4 @@
+import { createHash } from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 
@@ -54,6 +55,8 @@ export type Presentation = {
   blurb: string;
   banner: string;
   tags: string[];
+  /** Labels shown on the card, without the manufacturer's own name. */
+  topics: string[];
   brand?: string;
   bannerFit?: "cover" | "contain";
 };
@@ -134,6 +137,28 @@ function fileSize(url: string) {
     : `${Math.max(1, Math.round(bytes / 1024))} KB`;
 }
 
+// Turns "/projects/x/hero.jpg" into "/projects/x/hero.jpg?v=1a2b3c4d".
+//
+// The admin saves a replacement photo under the same file name, and browsers
+// keep optimized images for a month, so without this visitors could keep seeing
+// the old photo. The "v" value comes from the file's contents: when the picture
+// changes the address changes, and browsers fetch the new one.
+//
+// Only for images. Document links stay plain because the Resources page reads
+// the file extension from the end of the address.
+const versions = new Map<string, string>();
+function versioned(url: string) {
+  const abs = path.join(PUBLIC, url);
+  // Remembered per file, so one photo used on several pages is read only once.
+  let v = process.env.NODE_ENV === "production" ? versions.get(abs) : undefined;
+  if (!v) {
+    v = createHash("sha256").update(fs.readFileSync(abs)).digest("hex").slice(0, 8);
+    versions.set(abs, v);
+  }
+  return `${url}?v=${v}`;
+}
+
+// The admin keeps "Name" and "Focus" separately; the pages expect "Name | Focus".
 const joinTitle = (a: string, b?: string | null) => (b ? `${a} | ${b}` : a);
 
 let manufacturersCache: Manufacturer[] | undefined;
@@ -152,7 +177,7 @@ export async function getManufacturers(): Promise<Manufacturer[]> {
       id: slug,
       name: entry.name,
       website: entry.website,
-      logoSrc: entry.logo!,
+      logoSrc: versioned(entry.logo!),
       logoBgClass: entry.logoBackground === "dark" ? "bg-neutral-900" : undefined,
       shortInfo: entry.shortInfo,
       innovation: entry.innovation ?? "",
@@ -192,11 +217,11 @@ export async function getProjects(): Promise<Project[]> {
       year: entry.year ? Number(entry.year) : undefined,
       sectors: (entry.sectors ?? []).filter(Boolean),
       manufacturers: (entry.manufacturers ?? []).filter((id) => !!id && known.has(id)),
-      hero: entry.hero!,
+      hero: versioned(entry.hero!),
       summary: entry.summary,
       gallery: (entry.gallery ?? [])
         .filter((g) => exists(g.image))
-        .map((g) => ({ src: g.image!, alt: g.caption || undefined, stage: g.stage || undefined })),
+        .map((g) => ({ src: versioned(g.image!), alt: g.caption || undefined, stage: g.stage || undefined })),
       resources: (entry.resources ?? [])
         .filter((r) => exists(r.file))
         .map((r) => ({ title: r.title, href: r.file! })),
@@ -228,8 +253,10 @@ export async function getPresentations(): Promise<Presentation[]> {
         id: slug,
         title: joinTitle(entry.title, entry.subtitle),
         blurb: entry.blurb,
-        banner: entry.banner!,
+        banner: versioned(entry.banner!),
         tags: brand ? [brand, ...topics] : topics,
+        // The card already names the manufacturer, so don't repeat it as a label.
+        topics: topics.filter((t) => t.toLowerCase() !== brand?.toLowerCase()),
         brand,
         bannerFit: entry.bannerFit ?? "cover",
       };

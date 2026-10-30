@@ -1,3 +1,5 @@
+// The Contact page. None of this comes from the admin: contact details are
+// edited here. The form itself is components/EmailForm.tsx.
 import { jsonLdHtml } from "../../components/JsonLd";
 // app/contact/page.tsx
 import type { Metadata } from "next";
@@ -5,6 +7,7 @@ import EmailForm from "../../components/EmailForm";
 
 const SITE_URL = "https://www.fuchs-sales.ca";
 
+// What search engines and link previews show for this page.
 export const metadata: Metadata = {
   title: "Contact",
   description:

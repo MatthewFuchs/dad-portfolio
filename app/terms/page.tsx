@@ -1,11 +1,15 @@
+// The Terms of Use page. The legal text itself is public/legal/terms.html, shown
+// inside a frame, so edit that file to change the wording.
 import { jsonLdHtml } from "../../components/JsonLd";
 import type { Metadata } from "next";
 
+// Build this page once; nothing on it changes between visits.
 export const dynamic = "force-static";
 
 // The live site redirects the bare domain to www, so www is canonical.
 const SITE_URL = "https://www.fuchs-sales.ca";
 
+// What search engines and link previews show for this page.
 export const metadata: Metadata = {
   title: "Terms of Use",
   description: "Terms of Use for Fuchs Sales & Consulting.",
@@ -34,6 +38,7 @@ export const metadata: Metadata = {
 };
 
 export default function TermsPage() {
+  // Tells search engines where this page sits in the site. Visitors never see it.
   const breadcrumbsJsonLd = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",

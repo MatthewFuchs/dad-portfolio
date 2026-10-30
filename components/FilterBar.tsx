@@ -3,6 +3,8 @@
 import { ChevronDown, X as XIcon } from "lucide-react";
 import React from "react";
 
+// The row of filter buttons on the Presentations, Products and Projects pages,
+// with an optional dropdown. It only shows the choices; each page does the filtering.
 export type SelectOption = { label: string; value: string };
 
 type SecondarySelect = {

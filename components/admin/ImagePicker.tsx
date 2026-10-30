@@ -7,6 +7,7 @@ import { useTrackUpload } from "./EditorFrame";
 import { prepareImage, uploadFile, UploadError } from "./upload";
 import Thumb from "./Thumb";
 
+// The chosen picture: ref is what gets saved, preview is what's shown here.
 export type ImageValue = { ref: FileRef; preview: string } | null;
 
 /** Prepares and uploads one file, reporting progress; resolves to its token. */
@@ -14,14 +15,17 @@ export function useUpload() {
   const track = useTrackUpload();
   return (file: File, kind: UploadKind, onProgress: (f: number) => void) => {
     const job = (async () => {
+      // Photos are resized in the browser first; PDFs go up unchanged.
       const blob = kind === "pdf" ? file : await prepareImage(file, kind);
       return uploadFile(blob, kind, onProgress);
     })();
+    // EditorFrame holds back Save until every upload has finished.
     track(job);
     return job;
   };
 }
 
+// The message to show when an upload fails.
 export const errorText = (e: unknown) =>
   e instanceof UploadError ? e.message : "The file didn't upload. Please try again.";
 
@@ -85,8 +89,11 @@ export function DropZone({
   );
 }
 
+// The file types the chooser offers. HEIC/HEIF is what iPhones take.
 export const IMAGE_ACCEPT = "image/jpeg,image/png,image/webp,image/heic,image/heif";
 
+// Picks a single picture (a project's main photo, a logo, a banner), with a preview
+// and buttons to swap or remove it.
 export default function ImagePicker({
   id,
   value,
@@ -113,6 +120,7 @@ export default function ImagePicker({
   const [uploadError, setUploadError] = useState("");
   const [localPreview, setLocalPreview] = useState<string | null>(null);
 
+  // Show the new picture immediately; it's only kept once the upload succeeds.
   async function pick([file]: File[]) {
     setUploadError("");
     const preview = URL.createObjectURL(file);
@@ -128,6 +136,7 @@ export default function ImagePicker({
     setProgress(null);
   }
 
+  // The picture being uploaded if there is one, otherwise the saved one.
   const shown = localPreview ?? value?.preview;
   const what = kind === "logo" ? "logo" : "photo";
   return (

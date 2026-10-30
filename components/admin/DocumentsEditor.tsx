@@ -21,6 +21,7 @@ export type DocItem = {
 // "Product-Data_Sheet 2024.pdf" -> "Product Data Sheet 2024"
 const titleFromFile = (name: string) => name.replace(/\.pdf$/i, "").replace(/[-_]+/g, " ").replace(/\s+/g, " ").trim();
 
+// Returns a copy of the list with one item moved.
 function move<T>(list: T[], from: number, to: number) {
   const next = [...list];
   const [item] = next.splice(from, 1);
@@ -42,6 +43,7 @@ export default function DocumentsEditor({
   const update = (key: string, patch: Partial<DocItem>) =>
     setItems((list) => list.map((it) => (it.key === key ? { ...it, ...patch } : it)));
 
+  // Uploads a PDF for one row, showing progress as it goes.
   function attach(key: string, file: File) {
     update(key, { progress: 0, error: undefined, fileName: file.name });
     upload(file, "pdf", (progress) => update(key, { progress }))
@@ -49,6 +51,7 @@ export default function DocumentsEditor({
       .catch((e) => update(key, { error: errorText(e), progress: null, file: null }));
   }
 
+  // Adds a row per PDF, with the name filled in from the file name.
   function addFiles(files: File[]) {
     for (const file of files) {
       const key = newKey();
@@ -62,6 +65,7 @@ export default function DocumentsEditor({
       {items.length > 0 && (
         <ol className="space-y-3">
           {items.map((it, i) => {
+            // An upload failure, or a problem the server found on Save.
             const fileError = it.error ?? errors[`documents.${i}.file`];
             return (
               <li

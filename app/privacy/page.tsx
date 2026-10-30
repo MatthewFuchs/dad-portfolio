@@ -1,10 +1,14 @@
+// The Privacy Policy page. The legal text itself is public/legal/privacy.html,
+// shown inside a frame, so edit that file to change the wording.
 import { jsonLdHtml } from "../../components/JsonLd";
 import type { Metadata } from "next";
 
+// Build this page once; nothing on it changes between visits.
 export const dynamic = "force-static";
 
 const SITE_URL = "https://www.fuchs-sales.ca";
 
+// What search engines and link previews show for this page.
 export const metadata: Metadata = {
   title: "Privacy Policy",
   description: "Privacy Policy for Fuchs Sales and Consulting.",

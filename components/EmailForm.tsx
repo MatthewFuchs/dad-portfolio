@@ -33,6 +33,7 @@ export default function EmailForm() {
 
     setStatus("sending");
     setReason("");
+    // Give up after TIMEOUT_MS so a stalled connection can't leave the form stuck.
     const ctrl = new AbortController();
     const timer = setTimeout(() => ctrl.abort(), TIMEOUT_MS);
 
@@ -99,6 +100,8 @@ export default function EmailForm() {
     );
   }
 
+  // The hidden "website" field below is a trap for spam bots. People never see it,
+  // so if it arrives filled in, app/api/contact/route.ts quietly ignores the message.
   const sending = status === "sending";
 
   return (

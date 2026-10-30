@@ -9,8 +9,11 @@ import GalleryEditor, { type GalleryItem } from "./GalleryEditor";
 import ImagePicker, { type ImageValue } from "./ImagePicker";
 import Thumb from "./Thumb";
 
+// One choice in the "Products used" section.
 export type ManufacturerOption = { id: string; name: string; logo: string; logoBackground?: "white" | "dark" };
 
+// The add/change form for a project. It only holds what's typed: EditorFrame does
+// the saving, and lib/admin-content.ts checks everything on the server.
 export default function ProjectForm({
   id,
   initial,
@@ -24,6 +27,7 @@ export default function ProjectForm({
   sectorSuggestions: string[];
   webAddress?: string;
 }) {
+  // f holds the typed fields. Photos are kept apart because they also carry upload progress.
   const [f, setF] = useState(() => ({ ...initial, gallery: undefined }));
   const [hero, setHero] = useState<ImageValue>(
     initial.hero && "path" in initial.hero ? { ref: initial.hero, preview: thumb(initial.hero.path) } : null
@@ -38,8 +42,10 @@ export default function ProjectForm({
     }))
   );
   const [errors, setErrors] = useState<Errors>({});
+  // Changes one field and leaves the others alone.
   const set = <K extends keyof ProjectDraft>(k: K, v: ProjectDraft[K]) => setF((s) => ({ ...s, [k]: v }));
 
+  // What gets sent to the server on Save.
   const draft: ProjectDraft = {
     name: f.name,
     focus: f.focus,

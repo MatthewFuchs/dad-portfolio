@@ -7,6 +7,8 @@ import DocumentsEditor, { type DocItem } from "./DocumentsEditor";
 import { CheckChips, ChipInput, Choice, describe, Field, Section, type Errors } from "./fields";
 import ImagePicker, { type ImageValue } from "./ImagePicker";
 
+// The add/change form for a manufacturer. It only holds what's typed: EditorFrame
+// does the saving, and lib/admin-content.ts checks everything on the server.
 export default function ManufacturerForm({
   id,
   initial,
@@ -26,8 +28,10 @@ export default function ManufacturerForm({
     initial.documents.map((d, i) => ({ key: `saved-${i}`, title: d.title, type: d.type, updated: d.updated, file: d.file, fileName: "" }))
   );
   const [errors, setErrors] = useState<Errors>({});
+  // Changes one field and leaves the others alone.
   const set = <K extends keyof ManufacturerDraft>(k: K, v: ManufacturerDraft[K]) => setF((s) => ({ ...s, [k]: v }));
 
+  // What gets sent to the server on Save.
   const draft: ManufacturerDraft = {
     name: f.name,
     website: f.website,
@@ -38,6 +42,7 @@ export default function ManufacturerForm({
     categories: f.categories,
     documents: docs.map((d) => ({ title: d.title, type: d.type, updated: d.updated, file: d.file })),
   };
+  // Categories typed by hand. The ones already in use appear as tick boxes instead.
   const extraCategories = f.categories.filter((c) => !categoryOptions.includes(c));
 
   return (

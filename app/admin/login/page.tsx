@@ -1,3 +1,4 @@
+// The sign-in page. The form itself is components/admin/LoginForm.tsx.
 import type { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
 import { adminConfigured, currentAdmin } from "../../../lib/auth";
@@ -17,6 +18,7 @@ export default async function LoginPage({
 }) {
   if (!adminConfigured()) notFound();
   const { next, signedout } = await searchParams;
+  // Already signed in: skip this page.
   if (await currentAdmin()) redirect(safeNext(next));
 
   return (

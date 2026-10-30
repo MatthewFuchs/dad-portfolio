@@ -52,6 +52,9 @@ const nextConfig: NextConfig = {
   images: {
     // Optimized photos are reused for a month instead of the 60s default.
     minimumCacheTTL: 60 * 60 * 24 * 31,
+    // Allows the "?v=..." on image addresses (see versioned() in lib/content.ts),
+    // which is what makes a replaced photo show up despite that long cache.
+    localPatterns: [{ pathname: "/**" }],
   },
   // Old document and photo URLs (before the admin panel gave every file a
   // fixed name under its entry's folder) keep working: bookmarks, Google and

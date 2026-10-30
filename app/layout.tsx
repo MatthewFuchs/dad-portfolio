@@ -1,3 +1,6 @@
+// The frame around every page of the public site: fonts, default search-engine
+// details, the navigation bar, breadcrumbs and footer. Each page's own content
+// is dropped in where {children} appears.
 import "./globals.css";
 import type { Metadata, Viewport } from "next";
 import Navbar from "../components/Navbar";
@@ -9,6 +12,7 @@ import Breadcrumbs from "../components/Breadcrumbs";
 import SiteChrome from "../components/SiteChrome";
 import localFont from "next/font/local";
 
+// The site's typeface, served from app/fonts rather than from Google.
 const switzer = localFont({
   src: [
     { path: "./fonts/Switzer-Regular.woff2", weight: "400", style: "normal" },
@@ -18,10 +22,13 @@ const switzer = localFont({
   display: "swap",
 });
 
+// Colours the browser's address bar on phones to match the site.
 export const viewport: Viewport = {
   themeColor: "#9caf88",
 };
 
+// Defaults for search results and link previews. A page can replace any of
+// these, and its title fills the %s in the template below.
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.fuchs-sales.ca"),
   title: {
@@ -56,6 +63,7 @@ export default function RootLayout({
   return (
     <html lang="en-CA" className={switzer.variable}>
       <body className="min-h-svh flex flex-col">
+        {/* The nav and footer are passed in so SiteChrome can hide them on /admin. */}
         <SiteChrome
           header={
             <>
@@ -81,6 +89,8 @@ export default function RootLayout({
           {children}
         </SiteChrome>
 
+        {/* Structured data: an invisible description of the business that helps search */}
+        {/* engines show it correctly. Visitors never see it. */}
         <JsonLd
           data={{
             "@context": "https://schema.org",
@@ -137,6 +147,7 @@ export default function RootLayout({
           }}
         />
 
+        {/* Vercel's visitor and page-speed statistics. */}
         <SpeedInsights />
         <Analytics />
       </body>

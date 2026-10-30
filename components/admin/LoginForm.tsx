@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Eye, EyeOff, LoaderCircle } from "lucide-react";
 
+// The email and password form. "next" is the admin page to open after signing in.
 export default function LoginForm({ next }: { next: string }) {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
@@ -14,6 +15,7 @@ export default function LoginForm({ next }: { next: string }) {
     setBusy(true);
     setError("");
     try {
+      // Sent to app/api/admin/login/route.ts, which checks the password.
       const res = await fetch("/api/admin/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },

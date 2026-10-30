@@ -1,3 +1,6 @@
+// One project's page. The [slug] folder name means this one file serves every
+// project: "slug" is the end of the web address, which is also the name of the
+// project's file in content/projects/.
 import { jsonLdHtml } from "../../../components/JsonLd";
 import type { Metadata } from "next";
 import Image from "next/image";
@@ -22,10 +25,12 @@ function snippet(text: string, max = 155) {
 
 const projectName = (title: string) => title.split("|")[0].trim();
 
+// Builds a page for every project when the site is built.
 export async function generateStaticParams() {
   return (await getProjects()).map((p) => ({ slug: p.slug }));
 }
 
+// What search engines and link previews show for this project.
 export async function generateMetadata({
   params,
 }: {
@@ -108,6 +113,7 @@ export default async function ProjectDetailPage({
     provider: { "@id": `${SITE_URL}/#org` },
   };
 
+  // Tells search engines where this page sits in the site. Visitors never see it.
   const breadcrumbsJsonLd = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",

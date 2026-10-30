@@ -1,5 +1,7 @@
 import Link from "next/link";
 
+// The footer's link lists. Add or remove a line here to change a list; the main
+// menu has its own list in Navbar.tsx.
 const SITE_LINKS = [
   { href: "/", label: "Home" },
   { href: "/products", label: "Products" },
@@ -19,6 +21,7 @@ const linkCls =
   "link inline-flex min-h-11 items-center decoration-transparent hover:decoration-current md:min-h-0";
 
 export default function Footer() {
+  // Keeps the copyright year current.
   const year = new Date().getFullYear();
 
   return (

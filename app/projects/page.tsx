@@ -1,3 +1,5 @@
+// The Projects list, server side: search-engine details, plus loading projects
+// and filter options from the admin content. ProjectsIndexClient.tsx draws the page.
 import { jsonLdHtml } from "../../components/JsonLd";
 import type { Metadata } from "next";
 import { getManufacturers, getProjects, getSectors } from "../../lib/content";
@@ -6,6 +8,7 @@ import ProjectsIndexClient from "./ProjectsIndexClient";
 // The live site redirects the bare domain to www, so www is canonical.
 const SITE_URL = "https://www.fuchs-sales.ca";
 
+// What search engines and link previews show for this page.
 export const metadata: Metadata = {
   title: "Projects in British Columbia",
   description:
@@ -28,6 +31,7 @@ export const metadata: Metadata = {
 
 export default async function ProjectsPage() {
   const [projects, allSectors, manufacturers] = await Promise.all([getProjects(), getSectors(), getManufacturers()]);
+  // Tells search engines where this page sits in the site. Visitors never see it.
   const breadcrumbsJsonLd = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",

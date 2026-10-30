@@ -17,8 +17,10 @@ export type GalleryItem = {
   error?: string;
 };
 
+// A random label that follows a photo as it moves around the list.
 export const newKey = () => Math.random().toString(36).slice(2);
 
+// Returns a copy of the list with one item moved.
 function move<T>(list: T[], from: number, to: number) {
   const next = [...list];
   const [item] = next.splice(from, 1);
@@ -39,10 +41,13 @@ export default function GalleryEditor({
 }) {
   const upload = useUpload();
   const [dragKey, setDragKey] = useState<string | null>(null);
+  // dragKey: the photo being dragged. handleKey: the photo whose grip is held. A row
+  // can only be dragged by its grip, so selecting caption text doesn't start a drag.
   const [handleKey, setHandleKey] = useState<string | null>(null);
   const update = (key: string, patch: Partial<GalleryItem>) =>
     setItems((list) => list.map((it) => (it.key === key ? { ...it, ...patch } : it)));
 
+  // Each photo appears straight away with a local preview, then uploads in the background.
   function add(files: File[]) {
     for (const file of files) {
       const key = newKey();
@@ -54,6 +59,8 @@ export default function GalleryEditor({
     }
   }
 
+  // The project page uses the step-by-step view when there are at least 4 photos
+  // and all have a step name. This must match app/projects/[slug]/page.tsx.
   const staged = items.filter((it) => it.stage.trim()).length;
   const isSequence = items.length >= 4 && staged === items.length;
 

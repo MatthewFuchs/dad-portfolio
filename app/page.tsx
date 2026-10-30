@@ -1,11 +1,14 @@
+// The home page. Projects, manufacturers and the presentation count come from
+// the admin (through lib/content.ts); all the wording here is written in this file.
 import Link from "next/link";
 import Image from "next/image";
 import type { Metadata } from "next";
 import { ArrowRight } from "lucide-react";
-import { getManufacturers, getProjects } from "../lib/content";
+import { getManufacturers, getPresentations, getProjects } from "../lib/content";
 import HeroVideo from "../components/HeroVideo";
 import Card from "../components/Card";
 
+// What search engines and link previews show for this page.
 export const metadata: Metadata = {
   title: { absolute: "Fuchs Sales & Consulting | Technical Sales in Canada" },
   description:
@@ -60,6 +63,7 @@ export const metadata: Metadata = {
   },
 };
 
+// The three columns under "What we do".
 const SERVICES = [
   {
     name: "Specification",
@@ -94,10 +98,12 @@ const SERVICES = [
   },
 ];
 
-const figures = (manufacturerCount: number) => [
+// The numbers in the olive strip. The two counts come from the admin content;
+// the other two are fixed facts about the business.
+const figures = (manufacturerCount: number, presentationCount: number) => [
   { figure: "2010", text: "Founded, with Fabrikem as the first partner" },
   { figure: String(manufacturerCount), text: "Manufacturers represented" },
-  { figure: "8", text: "Technical presentations to book" },
+  { figure: String(presentationCount), text: "Technical presentations to book" },
   { figure: "0", text: "Retainers: commission only" },
 ];
 
@@ -106,7 +112,13 @@ const onPhotoGhost =
   "btn [--btn-bg:transparent] [--btn-fg:#fff] [--btn-line:#fff] [--btn-hover:#fff] [--btn-hover-fg:var(--color-ink)]";
 
 export default async function HomePage() {
-  const [PROJECTS, MANUFACTURERS] = await Promise.all([getProjects(), getManufacturers()]);
+  const [PROJECTS, MANUFACTURERS, PRESENTATIONS] = await Promise.all([
+    getProjects(),
+    getManufacturers(),
+    getPresentations(),
+  ]);
+  const presentationCount = PRESENTATIONS.length;
+  // The three newest projects, for the "Recent projects" section.
   const featured = [...PROJECTS]
     .sort((a, b) => (b.year ?? 0) - (a.year ?? 0))
     .slice(0, 3);
@@ -151,9 +163,10 @@ export default async function HomePage() {
             </p>
           </div>
         </div>
+        {/* Lives in public/home so editing or deleting a project can't affect it. */}
         <div className="relative mt-8 aspect-[4/3] sm:aspect-[16/9] lg:aspect-[21/9] w-full overflow-hidden bg-surface">
           <Image
-            src="/projects/seaborne-tilt-up/seaborne-1.jpg"
+            src="/home/intro.jpg"
             alt="Tilt-up panels formed on the slab at the Seaborne project in Coquitlam"
             fill
             sizes="100vw"
@@ -198,7 +211,9 @@ export default async function HomePage() {
           ))}
         </div>
         <Link href="/presentations" className="btn btn-ghost mt-6 w-full sm:w-auto">
-          See the 8 presentations
+          {presentationCount === 0
+            ? "See presentations"
+            : `See the ${presentationCount} presentation${presentationCount === 1 ? "" : "s"}`}
           <ArrowRight className="h-4 w-4" aria-hidden />
         </Link>
       </section>
@@ -234,8 +249,8 @@ export default async function HomePage() {
       {/* FIGURES */}
       <section className="bg-olive py-14 md:py-20">
         <ul className="gutter grid grid-cols-2 gap-x-6 gap-y-8 md:grid-cols-4">
-          {figures(MANUFACTURERS.length).map((f) => (
-            <li key={f.figure}>
+          {figures(MANUFACTURERS.length, presentationCount).map((f) => (
+            <li key={f.text}>
               <span className="block text-[length:var(--text-head)] leading-none tabular-nums tracking-[-0.03em]">
                 {f.figure}
               </span>
@@ -281,7 +296,7 @@ export default async function HomePage() {
       <section className="relative bg-ink text-white md:h-[78svh] md:min-h-[560px]">
         <div className="relative h-[55svh] md:absolute md:inset-0 md:h-full overflow-hidden">
           <Image
-            src="/projects/east-village-qb/IMG_2107.jpg"
+            src="/home/closing.jpg"
             alt="Finished street at East Village, Qualicum Beach, with Permavoid under the new trees"
             fill
             sizes="100vw"

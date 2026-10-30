@@ -1,6 +1,8 @@
+// The page visitors see when a web address doesn't exist (a 404).
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
+// Suggested pages, so a wrong link isn't a dead end.
 const PLACES = [
   { href: "/", label: "Homepage", note: "Start again from the top." },
   { href: "/products", label: "Manufacturers", note: "Companies we represent." },

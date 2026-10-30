@@ -10,6 +10,7 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
+// Build admin pages fresh on every visit, so they always show the latest content.
 export const dynamic = "force-dynamic";
 
 // The admin's own frame: the company logo, who's signed in and a way back to

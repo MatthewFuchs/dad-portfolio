@@ -12,6 +12,7 @@ export async function adminPage() {
   return { session, store: getStore() };
 }
 
+// Checks the section in the web address is a real one, otherwise shows "not found".
 export function collectionParam(value: string): CollectionName {
   if (!COLLECTIONS.includes(value as CollectionName)) notFound();
   return value as CollectionName;

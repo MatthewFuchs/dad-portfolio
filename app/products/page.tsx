@@ -1,3 +1,5 @@
+// The Manufacturers page, server side: search-engine details, plus loading the
+// manufacturers from the admin content. ProductsClient.tsx draws the page.
 import { jsonLdHtml } from "../../components/JsonLd";
 import type { Metadata } from "next";
 import { getManufacturers } from "../../lib/content";
@@ -5,6 +7,7 @@ import ProductsClient from "./ProductsClient";
 
 const SITE_URL = "https://www.fuchs-sales.ca";
 
+// What search engines and link previews show for this page.
 export const metadata: Metadata = {
   title: "Construction Product Manufacturers",
   description:
@@ -35,6 +38,7 @@ export const metadata: Metadata = {
 };
 
 export default async function ProductsPage() {
+  // Tells search engines where this page sits in the site. Visitors never see it.
   const breadcrumbsJsonLd = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",

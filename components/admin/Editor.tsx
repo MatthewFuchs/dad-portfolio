@@ -9,6 +9,7 @@ import PresentationForm from "./PresentationForm";
 import ProjectForm from "./ProjectForm";
 import SetupNotice from "./SetupNotice";
 
+// Removes blanks and repeats and sorts, for the suggestion lists.
 const unique = (words: string[]) => Array.from(new Set(words.filter(Boolean))).sort((a, b) => a.localeCompare(b));
 
 // The add/edit page for any collection (server side): loads the entry and
@@ -30,6 +31,7 @@ export default async function Editor({
   if (id && !entry) notFound();
   const manufacturers = (await listEntries(store, "manufacturers")).sort((a, b) => a.entry.name.localeCompare(b.entry.name));
 
+  // Pick the form for this section and give it what it needs.
   let form: React.ReactNode;
   let title: string;
   if (collection === "projects") {
@@ -48,6 +50,7 @@ export default async function Editor({
   } else if (collection === "manufacturers") {
     const draft = toDraft("manufacturers", entry as never);
     title = draft.name;
+    // Used to warn, before deleting, how many projects mention this manufacturer.
     const projects = id ? (await listEntries(store, "projects")).filter((p) => p.entry.manufacturers?.includes(id)) : [];
     form = (
       <ManufacturerForm

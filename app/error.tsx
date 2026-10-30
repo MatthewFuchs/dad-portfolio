@@ -11,6 +11,7 @@ export default function Error({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
+  // Records the failure in the browser console, for debugging.
   useEffect(() => {
     console.error(error);
   }, [error]);
@@ -42,6 +43,7 @@ export default function Error({
             +1 (778) 241-6316
           </a>
           .
+          {/* A code that matches this failure in the server logs, if a visitor reports it. */}
           {error.digest && (
             <span className="block mt-2 text-[length:var(--text-small)]">
               Reference: {error.digest}
