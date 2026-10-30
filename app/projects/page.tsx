@@ -12,20 +12,20 @@ const SITE_URL = "https://www.fuchs-sales.ca";
 export const metadata: Metadata = {
   title: "Projects in British Columbia",
   description:
-    "Browse selected work by sector or manufacturer. Tilt-up & precast projects represented by Fuchs Sales & Consulting across Canada.",
+    "Browse selected work by sector or manufacturer. Tilt-up & precast projects represented by Fuchs Sales & Consulting in British Columbia.",
   alternates: { canonical: "/projects" },
   openGraph: {
     type: "website",
     url: `${SITE_URL}/projects`,
     title: "Projects | Fuchs Sales & Consulting",
     description:
-      "Browse selected work by sector or manufacturer. Industrial and commercial construction projects represented by Fuchs Sales & Consulting across Canada.",
+      "Browse selected work by sector or manufacturer. Industrial and commercial construction projects represented by Fuchs Sales & Consulting in British Columbia.",
   },
   twitter: {
     card: "summary_large_image",
     title: "Projects | Fuchs Sales & Consulting",
     description:
-      "Browse selected work by sector or manufacturer. Tilt-up & precast projects represented by Fuchs Sales & Consulting across Canada.",
+      "Browse selected work by sector or manufacturer. Tilt-up & precast projects represented by Fuchs Sales & Consulting in British Columbia.",
   },
 };
 

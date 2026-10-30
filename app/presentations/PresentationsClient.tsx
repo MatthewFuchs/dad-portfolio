@@ -1,7 +1,8 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { Mail } from "lucide-react";
 import FilterBar from "@/components/FilterBar";
 import PageHeader from "@/components/PageHeader";
@@ -15,6 +16,9 @@ type Presentation = {
   banner: string;
   tags: string[];
   topics: string[];
+  duration?: string;
+  format?: string;
+  credits?: string;
   brand?: string;
   bannerFit?: "cover" | "contain";
   bannerAspect?: string;
@@ -35,6 +39,12 @@ export default function PresentationsPage({
 }) {
   const [active, setActive] = useState<string[]>([]);
   const [open, setOpen] = useState<Set<string>>(new Set());
+
+  // A link like /presentations?manufacturer=Leviat starts with that filter on.
+  useEffect(() => {
+    const brand = new URLSearchParams(window.location.search).get("manufacturer");
+    if (brand && presentations.some((p) => p.brand === brand)) setActive([brand]);
+  }, [presentations]);
 
   // The filter buttons: every manufacturer with at least one presentation.
   const brands = useMemo(
@@ -91,7 +101,7 @@ export default function PresentationsPage({
             // "Request this session" opens the visitor's email app with this message filled in.
             const subject = `Presentation request: ${p.title}`;
             const body = [
-              "Hi Greg,",
+              "Hello,",
               "",
               `I'd like to register for “${p.title}”.`,
               "Company / team:",
@@ -101,6 +111,8 @@ export default function PresentationsPage({
               "",
             ].join("\n");
             const fit = p.bannerFit ?? "cover";
+            // Length, format and credits, whichever are filled in.
+            const details = [p.duration, p.format, p.credits].filter(Boolean);
             const expanded = open.has(p.id);
 
             return (
@@ -128,6 +140,11 @@ export default function PresentationsPage({
                     {title}
                   </h2>
                   {subtitle && <p className="mt-1 text-soft">{subtitle}</p>}
+                  {details.length > 0 && (
+                    <p className="mt-2 text-[length:var(--text-small)] font-medium">
+                      {details.join(" · ")}
+                    </p>
+                  )}
                   <p
                     id={`${p.id}-blurb`}
                     className={cx("mt-3", !expanded && "line-clamp-2")}
@@ -159,6 +176,13 @@ export default function PresentationsPage({
                       <Mail className="h-4 w-4" aria-hidden />
                       Request this session
                     </a>
+                    {/* For visitors with no email app set up. */}
+                    <Link
+                      href={`/contact?about=${encodeURIComponent(subject)}`}
+                      className="link mt-2 inline-flex min-h-11 w-full items-center justify-center sm:ml-5 sm:mt-0 sm:w-auto text-[length:var(--text-small)]"
+                    >
+                      Or use the contact form
+                    </Link>
                   </div>
                 </div>
               </li>

@@ -57,6 +57,12 @@ export type Presentation = {
   tags: string[];
   /** Labels shown on the card, without the manufacturer's own name. */
   topics: string[];
+  /** How long it runs, e.g. "1 hour". */
+  duration?: string;
+  /** How it's delivered, e.g. "In person or online". */
+  format?: string;
+  /** Continuing-education credit, if any. */
+  credits?: string;
   brand?: string;
   bannerFit?: "cover" | "contain";
 };
@@ -92,6 +98,9 @@ export type PresentationFile = {
   manufacturer?: string | null;
   blurb: string;
   topics: string[];
+  duration?: string;
+  format?: string;
+  credits?: string;
   banner: string;
   bannerFit?: "cover" | "contain";
   order?: number;
@@ -239,6 +248,7 @@ export async function getSectors(): Promise<string[]> {
 
 export async function getPresentations(): Promise<Presentation[]> {
   const byId = new Map((await getManufacturers()).map((m) => [m.id, m]));
+  const companyNames = new Set([...byId.values()].map((m) => m.name.toLowerCase()));
   const all = readCollection("presentations");
   return all
     .filter(({ slug, entry }) => {
@@ -255,8 +265,11 @@ export async function getPresentations(): Promise<Presentation[]> {
         blurb: entry.blurb,
         banner: versioned(entry.banner!),
         tags: brand ? [brand, ...topics] : topics,
-        // The card already names the manufacturer, so don't repeat it as a label.
-        topics: topics.filter((t) => t.toLowerCase() !== brand?.toLowerCase()),
+        // The card already names the manufacturer, so company names aren't labels.
+        topics: topics.filter((t) => !companyNames.has(t.toLowerCase())),
+        duration: entry.duration || undefined,
+        format: entry.format || undefined,
+        credits: entry.credits || undefined,
         brand,
         bannerFit: entry.bannerFit ?? "cover",
       };

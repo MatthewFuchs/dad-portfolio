@@ -11,6 +11,7 @@ import { Analytics } from "@vercel/analytics/next";
 import Breadcrumbs from "../components/Breadcrumbs";
 import SiteChrome from "../components/SiteChrome";
 import localFont from "next/font/local";
+import { readCollection } from "../lib/content";
 
 // The site's typeface, served from app/fonts rather than from Google.
 const switzer = localFont({
@@ -60,6 +61,12 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  // Project addresses mapped to real names, so the breadcrumb shows "The Linx"
+  // rather than the wording of the web address.
+  const projectNames = Object.fromEntries(
+    readCollection("projects").map(({ slug, entry }) => [slug, entry.name])
+  );
+
   return (
     <html lang="en-CA" className={switzer.variable}>
       <body className="min-h-svh flex flex-col">
@@ -74,12 +81,13 @@ export default function RootLayout({
                 className="z-12"
                 labelMap={{
                   products: "Manufacturers",
-                  resources: "Learning Resources",
+                  resources: "Resources",
                   projects: "Projects",
                   contact: "Contact",
                   privacy: "Privacy Policy",
                   terms: "Terms of Use",
                   team: "Team",
+                  ...projectNames,
                 }}
               />
             </>

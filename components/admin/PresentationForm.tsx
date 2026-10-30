@@ -51,8 +51,20 @@ export default function PresentationForm({
         <Field id="blurb" label="Description" help="A few sentences on what the presentation covers." error={errors.blurb}>
           <textarea id="blurb" rows={5} value={f.blurb} onChange={(e) => set("blurb", e.target.value)} className="admin-input" {...describe("blurb", true, errors.blurb)} />
         </Field>
-        <Field id="topics" label="Topics" help="Short labels shown on the card. Pick from the list, or type a new one." error={errors.topics}>
+        <Field id="topics" label="Topics" help="Short labels shown on the card. Pick from the list, or type a new one. Company names are left off, since the card already shows the manufacturer." error={errors.topics}>
           <ChipInput id="topics" value={f.topics} onChange={(v) => set("topics", v)} suggestions={topicSuggestions} placeholder="e.g. Thermal Bridging" />
+        </Field>
+      </Section>
+
+      <Section title="Session details" help="Optional. Whatever you fill in appears on the card.">
+        <Field id="duration" label="Length" optional help="e.g. 1 hour" error={errors.duration}>
+          <input id="duration" value={f.duration} onChange={(e) => set("duration", e.target.value)} className="admin-input" {...describe("duration", true, errors.duration)} />
+        </Field>
+        <Field id="format" label="Format" optional help="e.g. In person or online" error={errors.format}>
+          <input id="format" value={f.format} onChange={(e) => set("format", e.target.value)} className="admin-input" {...describe("format", true, errors.format)} />
+        </Field>
+        <Field id="credits" label="Continuing-education credit" optional help="Only if the session qualifies, e.g. 1 AIBC core learning unit." error={errors.credits}>
+          <input id="credits" value={f.credits} onChange={(e) => set("credits", e.target.value)} className="admin-input" {...describe("credits", true, errors.credits)} />
         </Field>
       </Section>
 

@@ -104,7 +104,7 @@ const figures = (manufacturerCount: number, presentationCount: number) => [
   { figure: "2010", text: "Founded, with Fabrikem as the first partner" },
   { figure: String(manufacturerCount), text: "Manufacturers represented" },
   { figure: String(presentationCount), text: "Technical presentations to book" },
-  { figure: "0", text: "Retainers: commission only" },
+  { figure: "100%", text: "Commission based" },
 ];
 
 // Secondary button on photographs: white outline, fills white on hover.
@@ -142,7 +142,7 @@ export default async function HomePage() {
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <Link href="/contact" className="btn btn-light">
-              Talk to Greg
+              Get in touch
             </Link>
             <Link href="/projects" className={onPhotoGhost}>
               See projects
@@ -176,8 +176,7 @@ export default async function HomePage() {
         </div>
         <div className="gutter mt-10 md:mt-14 grid gap-6 md:grid-cols-2 md:gap-12">
           <p className="text-[length:var(--text-lead)] leading-snug">
-            Manufacturers turn their sales and marketing budget into a cost
-            that only arrives when product sells.
+            Manufacturers only pay when product sells.
           </p>
           <p>
             Our relationships with designers, distributors and contractors
@@ -199,7 +198,8 @@ export default async function HomePage() {
                 {s.name}
               </h3>
               <p className="mt-3">{s.text}</p>
-              <ul className="mt-4 space-y-1.5 text-[length:var(--text-small)]">
+              {/* The detail lists show from tablet size up, to keep the phone page shorter. */}
+              <ul className="mt-4 hidden md:block space-y-1.5 text-[length:var(--text-small)]">
                 {s.items.map((it) => (
                   <li key={it} className="flex items-baseline gap-2.5">
                     <span aria-hidden className="h-0.5 w-3 shrink-0 translate-y-[-0.2em] bg-olive-ink" />
@@ -269,8 +269,8 @@ export default async function HomePage() {
           {MANUFACTURERS.map((m) => (
             <li key={m.id}>
               <Link
-                href={`/products`}
-                aria-label={`${m.name}: see manufacturers`}
+                href={`/products?m=${m.id}`}
+                aria-label={`${m.name}: see details`}
                 className={`group relative block aspect-[3/2] overflow-hidden transition-transform active:scale-[0.98] ${
                   m.logoBgClass ?? "bg-white"
                 }`}
@@ -314,7 +314,7 @@ export default async function HomePage() {
               in Canada needs to hear about it, and take it to them.
             </p>
             <Link href="/contact" className="btn btn-light mt-7 w-full sm:w-auto">
-              Talk to Greg
+              Get in touch
             </Link>
           </div>
         </div>

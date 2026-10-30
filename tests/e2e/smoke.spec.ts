@@ -45,32 +45,18 @@ test('presentation counts match the cards', async ({ page }) => {
   await expect(page.getByRole('link', { name: `See the ${count} presentation`, exact: false })).toBeVisible();
 });
 
-test('projects filters and reset', async ({ page }) => {
+// With under 6 projects the filters stay hidden, unless a link turned one on.
+test('a link can filter projects by manufacturer', async ({ page }) => {
   await gotoOk(page, '/projects');
-
   const cards = page.locator('a[href^="/projects/"]');
   const initial = await cards.count();
   expect(initial, 'expected at least one project card').toBeGreaterThan(0);
+  await expect(page.getByRole('button', { name: /all sectors/i })).toHaveCount(0);
 
-  const nonAllChip = page.getByRole('button').filter({ hasNotText: /all sectors/i }).first();
-  await tryCloseOverlays(page);
-  await forceClick(nonAllChip);
-
+  await gotoOk(page, '/projects?manufacturer=leviat');
+  await expect(page.getByRole('button', { name: /all sectors/i })).toBeVisible();
   await expect(cards).not.toHaveCount(0);
-
-  const reset = page.getByRole('button', { name: /^reset$/i });
-  if (await reset.count()) {
-    await tryCloseOverlays(page);
-    await forceClick(reset);
-  } else {
-    const allSectors = page.getByRole('button', { name: /all sectors/i });
-    if (await allSectors.count()) {
-      await tryCloseOverlays(page);
-      await forceClick(allSectors);
-    }
-  }
-
-  await expect(cards).toHaveCount(initial);
+  await expect(cards).not.toHaveCount(initial);
 });
 
 test('products category chips filter grid', async ({ page }) => {
@@ -103,10 +89,27 @@ test('products category chips filter grid', async ({ page }) => {
   await expect(cards).toHaveCount(initial);
 });
 
-test('resources CTA builds correct mailto link', async ({ page }) => {
-  await gotoOk(page, '/resources');
-  await page.getByLabel('Brand').selectOption({ index: 0 });
-  await page.getByLabel('Meeting type').selectOption('Training');
-  const link = page.getByRole('link', { name: /email to schedule/i });
-  await expect(link).toHaveAttribute('href', /mailto:.*\?subject=Training%20request/i);
+test('a manufacturer links to its documents', async ({ page }) => {
+  await gotoOk(page, '/products?m=leviat');
+  const dialog = page.getByRole('dialog', { name: 'Leviat' });
+  await expect(dialog).toBeVisible();
+
+  await dialog.getByRole('link', { name: /document/ }).click();
+  await expect(page).toHaveURL(/\/resources#leviat$/);
+  await expect(page.locator('#leviat button[aria-expanded]')).toHaveAttribute('aria-expanded', 'true');
+});
+
+test('a manufacturer links to its presentations', async ({ page }) => {
+  await gotoOk(page, '/products?m=leviat');
+  await page.getByRole('dialog', { name: 'Leviat' }).getByRole('link', { name: /presentation/ }).click();
+  await expect(page).toHaveURL(/\/presentations\?manufacturer=Leviat$/);
+  await expect(page.getByRole('heading', { level: 2 }).first()).toBeVisible();
+  const shown = await page.getByRole('link', { name: /request this session/i }).count();
+  expect(shown).toBeGreaterThan(0);
+  expect(shown).toBeLessThan(8);
+});
+
+test('the contact form starts from a presentation request', async ({ page }) => {
+  await gotoOk(page, '/contact?about=Presentation%20request%3A%20Thermal%20Breaks');
+  await expect(page.getByLabel('How can we help?')).toHaveValue(/Presentation request: Thermal Breaks/);
 });

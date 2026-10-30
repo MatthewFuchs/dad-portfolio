@@ -57,12 +57,13 @@ describe('content loader', () => {
     expect(sectors).toContain('Tilt-Up');
   });
 
-  it('leaves the manufacturer out of the topics shown on a card', async () => {
-    const { getPresentations } = await import('../lib/content');
-    const pres = await getPresentations();
+  it('leaves company names out of the topics shown on a card', async () => {
+    const { getManufacturers, getPresentations } = await import('../lib/content');
+    const [m, pres] = await Promise.all([getManufacturers(), getPresentations()]);
+    const names = m.map((x) => x.name.toLowerCase());
     expect(pres.length).toBeGreaterThan(0);
     for (const p of pres) {
-      expect(p.topics.map((t) => t.toLowerCase())).not.toContain(p.brand?.toLowerCase());
+      expect(p.topics.filter((t) => names.includes(t.toLowerCase()))).toEqual([]);
     }
   });
 

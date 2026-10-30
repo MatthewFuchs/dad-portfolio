@@ -33,6 +33,9 @@ export type PresentationDraft = {
   manufacturer: string;
   blurb: string;
   topics: string[];
+  duration: string;
+  format: string;
+  credits: string;
   banner: FileRef | null;
   bannerFit: "cover" | "contain";
 };

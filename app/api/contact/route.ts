@@ -79,6 +79,7 @@ export async function POST(req: Request) {
 
   const name = oneLine(str(body.name));
   const company = oneLine(str(body.company));
+  const role = oneLine(str(body.role)).slice(0, 40);
   const email = str(body.email);
   const message = str(body.message);
 
@@ -125,6 +126,7 @@ export async function POST(req: Request) {
   const header = [
     `Name: ${name}`,
     ...(company ? [`Company: ${company}`] : []),
+    ...(role ? [`Role: ${role}`] : []),
     `Email: ${email}`,
   ].join("\n");
   const text = `${header}\n\n${message}`;
@@ -132,6 +134,7 @@ export async function POST(req: Request) {
     <div style="font-family:system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;line-height:1.5">
       <p><strong>Name:</strong> ${escapeHtml(name)}</p>
       ${company ? `<p><strong>Company:</strong> ${escapeHtml(company)}</p>` : ""}
+      ${role ? `<p><strong>Role:</strong> ${escapeHtml(role)}</p>` : ""}
       <p><strong>Email:</strong> <a href="mailto:${escapeHtml(email)}">${escapeHtml(email)}</a></p>
       <p style="white-space:pre-wrap">${escapeHtml(message)}</p>
     </div>

@@ -4,7 +4,7 @@ import Link from "next/link";
 // menu has its own list in Navbar.tsx.
 const SITE_LINKS = [
   { href: "/", label: "Home" },
-  { href: "/products", label: "Products" },
+  { href: "/products", label: "Manufacturers" },
   { href: "/projects", label: "Projects" },
   { href: "/presentations", label: "Presentations" },
   { href: "/resources", label: "Resources" },
@@ -31,7 +31,7 @@ export default function Footer() {
         <Link
           href="/"
           aria-label="Fuchs Sales & Consulting, home"
-          className="block whitespace-nowrap text-[8.6vw] leading-[0.95] tracking-[-0.04em] transition-colors hover:text-olive"
+          className="block whitespace-nowrap text-[8.6vw] md:text-[6vw] leading-[0.95] tracking-[-0.04em] transition-colors hover:text-olive"
         >
           Fuchs Sales &amp; Consulting
         </Link>

@@ -4,6 +4,8 @@ import { useEffect, useRef, useState } from "react";
 
 const INBOX = "gfuchs@fuchs-sales.ca";
 const TIMEOUT_MS = 15000;
+// Tells the reader who is writing; included at the top of the email.
+const ROLES = ["Architect or engineer", "Contractor", "Distributor", "Manufacturer", "Other"];
 
 type Status = "idle" | "sending" | "sent" | "error";
 
@@ -18,7 +20,13 @@ export default function EmailForm() {
   // Until React is running, a click would do a native GET submit and put the
   // message in the URL; the button stays disabled until then.
   const [ready, setReady] = useState(false);
-  useEffect(() => setReady(true), []);
+  useEffect(() => {
+    setReady(true);
+    // A link like /contact?about=... (from a presentation card) starts the message.
+    const about = new URLSearchParams(window.location.search).get("about");
+    const box = formRef.current?.elements.namedItem("message") as HTMLTextAreaElement | null;
+    if (about && box && !box.value) box.value = `${about.slice(0, 300)}\n\n`;
+  }, []);
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -86,7 +94,7 @@ export default function EmailForm() {
     return (
       <div role="status" className="py-4">
         <p className="text-[length:var(--text-lead)] leading-snug">
-          Thanks, your message is on its way. Greg will reply to the email
+          Thanks, your message is on its way. We&rsquo;ll reply to the email
           address you gave.
         </p>
         <button
@@ -139,6 +147,17 @@ export default function EmailForm() {
             className={field}
             required
           />
+        </label>
+        <label className="block">
+          <span className="text-[length:var(--text-small)]">
+            I am a <span className="text-soft">(optional)</span>
+          </span>
+          <select name="role" defaultValue="" className={field}>
+            <option value="">Choose one</option>
+            {ROLES.map((r) => (
+              <option key={r}>{r}</option>
+            ))}
+          </select>
         </label>
         <label className="block">
           <span className="text-[length:var(--text-small)]">How can we help?</span>

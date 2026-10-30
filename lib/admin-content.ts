@@ -279,6 +279,9 @@ function composePresentation(d: PresentationDraft, before: PresentationFile | un
   const subtitle = check.text(d.subtitle, "subtitle", "the second line", { max: 160 });
   const blurb = check.text(d.blurb, "blurb", "a description", { required: true, max: 1500 });
   const topics = check.list(d.topics, "topics");
+  const duration = check.text(d.duration, "duration", "the length", { max: 60 });
+  const format = check.text(d.format, "format", "the format", { max: 60 });
+  const credits = check.text(d.credits, "credits", "the credits", { max: 120 });
   const manufacturer = typeof d.manufacturer === "string" && manufacturerIds.has(d.manufacturer) ? d.manufacturer : null;
   const banner = placer.place(d.banner, `/presentations/${id}/banner`, "photo", "banner", "a picture");
 
@@ -288,6 +291,9 @@ function composePresentation(d: PresentationDraft, before: PresentationFile | un
     manufacturer,
     blurb,
     topics,
+    ...(duration && { duration }),
+    ...(format && { format }),
+    ...(credits && { credits }),
     banner,
     bannerFit: d.bannerFit === "contain" ? "contain" : "cover",
     order: before?.order ?? nextOrder(orders),
@@ -366,6 +372,9 @@ export function toDraft(collection: CollectionName, entry?: Files[CollectionName
     manufacturer: e?.manufacturer ?? "",
     blurb: e?.blurb ?? "",
     topics: e?.topics ?? [],
+    duration: e?.duration ?? "",
+    format: e?.format ?? "",
+    credits: e?.credits ?? "",
     banner: ref(e?.banner),
     bannerFit: e?.bannerFit === "contain" ? "contain" : "cover",
   } satisfies PresentationDraft;

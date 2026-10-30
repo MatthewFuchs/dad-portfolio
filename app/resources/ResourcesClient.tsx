@@ -1,13 +1,11 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { ChevronDown, FileText, Download, ArrowUpRight } from "lucide-react";
 import type { Manufacturer } from "../../lib/content";
 import PageHeader from "../../components/PageHeader";
-
-const PUBLIC_INBOX =
-  process.env.NEXT_PUBLIC_CONTACT_EMAIL || "gfuchs@fuchs-sales.ca";
 
 const cx = (...c: Array<string | false | null | undefined>) =>
   c.filter(Boolean).join(" ");
@@ -83,7 +81,7 @@ function BrandRow({
   const hasResources = count > 0;
 
   return (
-    <article id={m.id} className="bg-white">
+    <article id={m.id} className="scroll-mt-28 bg-white">
       <button
         type="button"
         onClick={() => hasResources && onToggle(m.id)}
@@ -160,93 +158,6 @@ function BrandRow({
   );
 }
 
-// The "Book a session" band: builds a ready-to-send email from the two dropdowns.
-function TinyPresentationCTA({
-  manufacturers,
-}: {
-  manufacturers: Manufacturer[];
-}) {
-  const [brandId, setBrandId] = useState(manufacturers[0]?.id ?? "");
-  const [meeting, setMeeting] = useState("Presentation");
-
-  const brandName = useMemo(
-    () => manufacturers.find((m) => m.id === brandId)?.name || "",
-    [brandId, manufacturers]
-  );
-
-  const emailHref = useMemo(() => {
-    const subject = `${meeting} request: ${brandName}`;
-    const body = [
-      `Hi Greg,`,
-      ``,
-      `I'd like to schedule a ${meeting.toLowerCase()} on ${brandName}.`,
-      `Preferred dates/times:`,
-      `-`,
-      ``,
-    ].join("\n");
-    return `mailto:${PUBLIC_INBOX}?subject=${encodeURIComponent(
-      subject
-    )}&body=${encodeURIComponent(body)}`;
-  }, [brandName, meeting]);
-
-  const field =
-    "relative flex items-center bg-ground focus-within:outline-2 focus-within:outline-olive-ink";
-  const select =
-    "w-full appearance-none bg-transparent min-h-13 pl-4 pr-10 text-ink focus:outline-none";
-
-  return (
-    <section id="request" className="bg-olive">
-      <div className="gutter py-14 md:py-20 grid gap-10 md:grid-cols-12 md:gap-x-6 md:items-end">
-        <div className="md:col-span-5">
-          <h2 className="text-[length:var(--text-head)]">
-            Book a session
-          </h2>
-          <p className="mt-5 max-w-[40ch]">
-            Pick a brand and a meeting type. We will follow up to find a time
-            that suits your team.
-          </p>
-        </div>
-        <div
-          className="md:col-start-7 md:col-span-6 grid gap-1.5 sm:grid-cols-2"
-        >
-          <label className={field}>
-            <select
-              aria-label="Brand"
-              value={brandId}
-              onChange={(e) => setBrandId(e.target.value)}
-              className={select}
-            >
-              {manufacturers.map((m) => (
-                <option key={m.id} value={m.id}>
-                  {m.name}
-                </option>
-              ))}
-            </select>
-            <ChevronDown className="pointer-events-none absolute right-3 h-4 w-4" />
-          </label>
-          <label className={field}>
-            <select
-              aria-label="Meeting type"
-              value={meeting}
-              onChange={(e) => setMeeting(e.target.value)}
-              className={select}
-            >
-              <option>Presentation</option>
-              <option>Lunch & Learn</option>
-              <option>Spec Review</option>
-              <option>Training</option>
-            </select>
-            <ChevronDown className="pointer-events-none absolute right-3 h-4 w-4" />
-          </label>
-          <a href={emailHref} className="btn btn-dark sm:col-span-2 mt-1.5">
-            Email to schedule
-          </a>
-        </div>
-      </div>
-    </section>
-  );
-}
-
 /* ---------- Page ---------- */
 export default function ResourcesClient({
   manufacturers,
@@ -256,6 +167,12 @@ export default function ResourcesClient({
   const [openId, setOpenId] = useState<string | null>(null);
   const items = manufacturers;
   const onToggle = (id: string) => setOpenId((cur) => (cur === id ? null : id));
+
+  // A link like /resources#leviat opens that company's documents.
+  useEffect(() => {
+    const id = window.location.hash.slice(1);
+    if (items.some((m) => m.id === id)) setOpenId(id);
+  }, [items]);
 
   return (
     <div className="bg-ground text-ink">
@@ -277,7 +194,21 @@ export default function ResourcesClient({
         </div>
       </section>
 
-      <TinyPresentationCTA manufacturers={items} />
+      <section className="bg-olive">
+        <div className="gutter py-14 md:py-20 grid gap-8 md:grid-cols-12 md:gap-x-6 md:items-end">
+          <div className="md:col-span-7">
+            <h2 className="text-[length:var(--text-head)]">Prefer a walkthrough?</h2>
+            <p className="mt-5 max-w-[48ch]">
+              We run technical sessions for design teams and contractors.
+            </p>
+          </div>
+          <div className="md:col-start-9 md:col-span-4 md:justify-self-end">
+            <Link href="/presentations" className="btn btn-dark w-full sm:w-auto">
+              See presentations
+            </Link>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }

@@ -7,7 +7,7 @@ const PLACES = [
   { href: "/", label: "Homepage", note: "Start again from the top." },
   { href: "/products", label: "Manufacturers", note: "Companies we represent." },
   { href: "/projects", label: "Projects", note: "Selected work across BC." },
-  { href: "/resources", label: "Learning resources", note: "Specs, brochures and install guides." },
+  { href: "/resources", label: "Resources", note: "Specs, brochures and install guides." },
   { href: "/contact", label: "Contact", note: "Representation or a project." },
 ];
 

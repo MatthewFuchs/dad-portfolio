@@ -122,7 +122,7 @@ export default function AboutPage() {
           >
             <a href={`mailto:${EMAIL}`} className="btn">
               <Mail className="h-4 w-4" aria-hidden />
-              Email Greg
+              Email us
             </a>
             <a href={`tel:${PHONE_TEL}`} className="link inline-flex min-h-11 items-center gap-2 font-medium">
               <Phone className="h-4 w-4" aria-hidden />
@@ -170,17 +170,13 @@ export default function AboutPage() {
             <p>
               Fuchs Sales &amp; Consulting represents manufacturers across
               Canada. Designers, owners and contractors rely on our product
-              knowledge to make the right recommendation. Over the last 15
-              years we have partnered with manufacturers that make some of the
-              most reliable materials in the construction industry.
+              knowledge to make the right recommendation.
             </p>
             <p>
-              We have partnered with some of the most responsible and
-              innovative companies in our chosen markets. These partnerships,
-              along with our proven responsiveness and professionalism, have
-              built a reliable network and sales pipeline, and a diverse
-              product offering that brings several solutions to our design,
-              owner and contractor partners.
+              Since 2010 we have worked with responsible, innovative companies
+              in our chosen markets. Those partnerships, and our responsiveness
+              and professionalism, have built a diverse product offering that
+              gives design, owner and contractor partners several solutions.
             </p>
           </div>
         </div>

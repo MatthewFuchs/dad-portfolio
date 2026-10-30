@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     url: `${SITE_URL}/resources`,
-    title: "Learning Resources | Fuchs Sales & Consulting",
+    title: "Resources | Fuchs Sales & Consulting",
     description:
       "Download brochures, specifications, installation guides, and technical documents from the manufacturers we represent.",
     images: [
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Learning Resources | Fuchs Sales & Consulting",
+    title: "Resources | Fuchs Sales & Consulting",
     description:
       "Download brochures, specifications, installation guides, and technical documents from the manufacturers we represent.",
     images: [`${SITE_URL}/og.jpg`],

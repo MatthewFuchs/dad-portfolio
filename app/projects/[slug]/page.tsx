@@ -302,7 +302,7 @@ export default async function ProjectDetailPage({
               href="mailto:gfuchs@fuchs-sales.ca?subject=Project%20consultation%20request"
               className="btn w-full sm:w-auto"
             >
-              Email Greg
+              Email us
             </a>
           </div>
         </div>

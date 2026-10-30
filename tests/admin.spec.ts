@@ -222,6 +222,15 @@ describe('saving to disk (local mode)', () => {
     ]);
   });
 
+  it('presentation: session details save when filled in and are left out when blank', async () => {
+    const draft = toDraft('presentations', json('content/presentations/talk.json'));
+    await saveEntry(ctx(), 'presentations', 'talk', { ...draft, duration: '1 hour', format: '', credits: '' });
+    const saved = json('content/presentations/talk.json');
+    expect(saved.duration).toBe('1 hour');
+    expect(saved).not.toHaveProperty('format');
+    expect(toDraft('presentations', saved).duration).toBe('1 hour');
+  });
+
   it('removing a manufacturer deletes its files and takes it off projects and presentations', async () => {
     await deleteEntry(ctx(), 'manufacturers', 'acme');
     expect(exists('content/manufacturers/acme.json')).toBe(false);

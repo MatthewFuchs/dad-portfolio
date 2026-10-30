@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import Link from "next/link";
 import { createPortal } from "react-dom";
 import { X, ArrowUpRight } from "lucide-react";
 import FilterBar from "@/components/FilterBar";
@@ -14,10 +15,15 @@ type Company = {
   shortInfo: string;
   innovation: string;
   categories: string[];
+  resources: unknown[];
   logoSrc?: string;
   logoBgClass?: string;
   logoImgClass?: string;
 };
+
+type Counts = Record<string, { projects: number; presentations: number }>;
+
+const plural = (n: number, word: string) => `${n} ${word}${n === 1 ? "" : "s"}`;
 
 const cx = (...cls: Array<string | false | null | undefined>) =>
   cls.filter(Boolean).join(" ");
@@ -26,9 +32,11 @@ const cx = (...cls: Array<string | false | null | undefined>) =>
 // with the Close button, the Escape key or a tap outside it.
 function CompanyModal({
   company,
+  counts,
   onClose,
 }: {
   company: Company | null;
+  counts: Counts;
   onClose: () => void;
 }) {
   const [mounted, setMounted] = useState(false);
@@ -45,6 +53,23 @@ function CompanyModal({
     return () => window.removeEventListener("keydown", handler);
   }, [company, onClose]);
   if (!company || !mounted) return null;
+
+  // Links to everything else about this company; a section with nothing is left out.
+  const { projects = 0, presentations = 0 } = counts[company.id] ?? {};
+  const links = [
+    company.resources.length > 0 && {
+      href: `/resources#${company.id}`,
+      label: plural(company.resources.length, "document"),
+    },
+    projects > 0 && {
+      href: `/projects?manufacturer=${company.id}`,
+      label: plural(projects, "project"),
+    },
+    presentations > 0 && {
+      href: `/presentations?manufacturer=${encodeURIComponent(company.name)}`,
+      label: plural(presentations, "presentation"),
+    },
+  ].filter((l) => l !== false);
 
   return createPortal(
     <>
@@ -95,6 +120,17 @@ function CompanyModal({
               Innovation
             </h3>
             <p className="mt-2 max-w-[60ch]">{company.innovation}</p>
+            {links.length > 0 && (
+              <ul className="mt-6">
+                {links.map((l) => (
+                  <li key={l.href}>
+                    <Link href={l.href} className="link inline-flex min-h-11 items-center font-medium">
+                      {l.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            )}
             <a
               href={company.website}
               target="_blank"
@@ -113,8 +149,10 @@ function CompanyModal({
 
 export default function ProductsClient({
   companies,
+  counts,
 }: {
   companies: Company[];
+  counts: Counts;
 }) {
   // The filter buttons: every category used by at least one manufacturer.
   const ALL_CATEGORIES = useMemo(
@@ -123,6 +161,12 @@ export default function ProductsClient({
   );
   const [activeCats, setActiveCats] = useState<string[]>([]);
   const [selected, setSelected] = useState<Company | null>(null);
+
+  // A link like /products?m=leviat (from the home page logos) opens that company.
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get("m");
+    if (id) setSelected(companies.find((c) => c.id === id) ?? null);
+  }, [companies]);
 
   // With no filter on, show everyone; otherwise anyone in a chosen category.
   const filtered = useMemo(() => {
@@ -184,7 +228,7 @@ export default function ProductsClient({
         )}
       </section>
 
-      <CompanyModal company={selected} onClose={() => setSelected(null)} />
+      <CompanyModal company={selected} counts={counts} onClose={() => setSelected(null)} />
     </div>
   );
 }

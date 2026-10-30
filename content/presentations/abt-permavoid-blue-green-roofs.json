@@ -12,6 +12,6 @@
     "Architecture"
   ],
   "banner": "/presentations/abt-permavoid-blue-green-roofs/banner.jpg",
-  "bannerFit": "cover",
+  "bannerFit": "contain",
   "order": 20
 }

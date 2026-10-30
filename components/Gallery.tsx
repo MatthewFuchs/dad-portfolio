@@ -79,7 +79,8 @@ export default function Gallery({ items }: { items: Item[] }) {
   return (
     <>
       {/* Thumbs */}
-      <div className="grid grid-cols-2 gap-2 md:grid-cols-3">
+      {/* Two photos share the row rather than leaving a third of it empty. */}
+      <div className={`grid grid-cols-2 gap-2 ${items.length === 2 ? "" : "md:grid-cols-3"}`}>
         {items.map((it, i) => (
           <button
             key={it.src + i}

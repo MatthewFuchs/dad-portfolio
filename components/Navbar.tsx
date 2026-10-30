@@ -70,7 +70,7 @@ export default function Navbar() {
   // The menu items, used by both the desktop bar and the phone menu. Contact is
   // added separately because it's styled as a button.
   const navLinks = [
-    { href: "/products", label: "Products" },
+    { href: "/products", label: "Manufacturers" },
     { href: "/projects", label: "Projects" },
     { href: "/presentations", label: "Presentations" },
     { href: "/resources", label: "Resources" },

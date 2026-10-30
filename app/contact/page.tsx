@@ -95,7 +95,7 @@ export default function ContactPage() {
       <section className="gutter pt-24 lg:pt-28 pb-16 md:pb-24 grid gap-14 md:grid-cols-12 md:gap-x-6">
         <div className="md:col-span-5">
           <h1 className="text-[length:var(--text-display)] leading-[0.98] tracking-[-0.035em]">
-            Talk to Greg
+            Contact us
           </h1>
           <p className="mt-5 text-[length:var(--text-lead)] leading-snug max-w-[34ch]">
             Representation, a product question or a project in tilt-up or

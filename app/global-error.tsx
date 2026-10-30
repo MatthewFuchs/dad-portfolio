@@ -27,7 +27,7 @@ export default function GlobalError({
             Fuchs Sales &amp; Consulting is having trouble
           </h1>
           <p style={{ fontSize: "1.125rem", lineHeight: 1.5 }}>
-            The site could not load. Please try again, or reach Greg directly
+            The site could not load. Please try again, or reach us directly
             at <a href="mailto:gfuchs@fuchs-sales.ca">gfuchs@fuchs-sales.ca</a>{" "}
             or <a href="tel:+17782416316">+1 (778) 241-6316</a>.
           </p>
