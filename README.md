@@ -1,146 +1,107 @@
-# Fuchs Sales & Consulting — Website
+# Fuchs Sales & Consulting website
 
-Website for Fuchs Sales & Consulting, technical sales and manufacturer representation for commercial and industrial construction across Canada (tilt-up, precast, building envelope and stormwater products).
+The website for Fuchs Sales & Consulting, which provides technical sales and manufacturer representation for commercial and industrial construction across Canada.
 
 **Live site:** https://www.fuchs-sales.ca
 
----
-
 ## Getting started
 
-Requires Node.js 20+.
+Requires Node.js 20 or later.
 
 ```bash
 npm install
-cp .env.example .env.local   # then fill in the SMTP values (see below)
+cp .env.example .env.local   # then fill in the values (see Environment variables)
 npm run dev                  # http://localhost:3000
 ```
 
-## Scripts
+## Commands
 
 ```bash
-npm run dev         # Development server (Turbopack)
-npm run build       # Production build
-npm start           # Serve the production build on port 3000
-npm run test:unit   # Vitest: contact API, content files, admin sign-in and saving
-npm run test:e2e    # Playwright: builds, starts the server, runs tests/e2e on desktop Chrome + iPhone 12
-npm run test:e2e:admin  # Playwright: signed-in admin flow on port 3100, saving to a temporary copy of the content
-npm test            # All of them
+npm run dev             # Development server
+npm run build           # Production build
+npm start               # Serve the production build on port 3000
+npm run test:unit       # Unit tests (Vitest)
+npm run test:e2e        # Browser tests (Playwright), desktop Chrome and iPhone 12
+npm run test:e2e:admin  # Signed-in admin tests, using a temporary copy of the content
+npm test                # All of the above
 ```
 
-`test:e2e` starts its own server on port 3000, so stop `npm run dev` first. The e2e suite covers responsive layout (360–1440px), tap-target sizes, SEO metadata, security headers / CSP, accessibility (axe) and the contact form's loading and failure states. Contact tests mock the API, so no email is sent.
+`test:e2e` builds the site and starts its own server on port 3000, so stop `npm run dev` first. The contact tests use a fake API, so no email is sent.
 
 ## Environment variables
 
-The contact form (`app/api/contact/route.ts`) sends mail through iCloud SMTP with nodemailer. Set these in `.env.local` locally and in Vercel → Settings → Environment Variables:
+Set these in `.env.local` locally and in Vercel under Settings > Environment Variables. `.env.example` lists them all. A change in Vercel takes effect after the next deploy.
 
-| Variable | Example | Notes |
-| --- | --- | --- |
-| `SMTP_HOST` | `smtp.mail.me.com` | |
-| `SMTP_PORT` | `587` | |
-| `SMTP_SECURE` | `false` | STARTTLS on 587 |
-| `SMTP_USER` | `you@icloud.com` | iCloud account |
-| `SMTP_PASS` | — | An Apple **app-specific password** (appleid.apple.com → Sign-In and Security). Apple revokes these when the Apple ID password changes; if the form stops sending, Vercel logs show `CONTACT SEND ERROR: EAUTH 535`. Create a new one, update it here and redeploy. |
-| `SMTP_FROM` | `Fuchs Sales and Consulting <you@icloud.com>` | Must use the `SMTP_USER` address; iCloud rejects other senders. |
-| `SMTP_TO` | `you@icloud.com` | Inbox that receives enquiries (defaults to `fuchsgreg@icloud.com`). |
-| `NEXT_PUBLIC_CONTACT_EMAIL` | `gfuchs@fuchs-sales.ca` | Address shown in mailto links. |
-| `ADMIN_USERS` | `[{"email":…,"name":"Greg","hash":"scrypt:…"}]` | Who can sign in to `/admin`. Make an entry with `node scripts/hash-password.mjs`. |
-| `ADMIN_SESSION_SECRET` | 32+ random characters | Signs the sign-in cookie. Changing it signs everyone out. Without this or `ADMIN_USERS`, `/admin` returns 404. |
-| `GITHUB_TOKEN` | — | Live site only. Fine-grained token for this repo with **Contents: read and write**; admin saves are commits to `main`. |
-| `GITHUB_REPO` / `GITHUB_BRANCH` | `MatthewFuchs/dad-portfolio` / `main` | Where admin saves go. |
+| Variable | What it's for |
+| --- | --- |
+| `SMTP_HOST`, `SMTP_PORT`, `SMTP_SECURE` | Mail server for the contact form (iCloud: `smtp.mail.me.com`, `587`, `false`) |
+| `SMTP_USER`, `SMTP_PASS` | iCloud account and an Apple app-specific password |
+| `SMTP_FROM` | Sender. It must use the `SMTP_USER` address, or iCloud rejects it. |
+| `SMTP_TO` | Inbox that receives enquiries |
+| `NEXT_PUBLIC_CONTACT_EMAIL` | Address shown in email links on the site |
+| `ADMIN_USERS` | Who can sign in to `/admin`. Create an entry with `node scripts/hash-password.mjs`. |
+| `ADMIN_SESSION_SECRET` | Signs the sign-in cookie. Changing it signs everyone out. |
+| `GITHUB_TOKEN`, `GITHUB_REPO`, `GITHUB_BRANCH` | Live site only: where admin saves are committed |
+| `GOOGLE_SITE_VERIFICATION`, `BING_SITE_VERIFICATION` | Optional ownership codes for Google Search Console and Bing Webmaster Tools |
 
-Changing a variable in Vercel only takes effect after a redeploy.
+Without `ADMIN_USERS` and `ADMIN_SESSION_SECRET`, `/admin` is switched off.
 
-## What's inside
+**If the contact form stops sending:** Apple cancels app-specific passwords when the Apple ID password changes. The Vercel logs will show `CONTACT SEND ERROR: EAUTH 535`. Create a new password, update `SMTP_PASS` and redeploy.
 
-- **Next.js 15** (App Router, statically rendered pages), **React 19**, **TypeScript**
-- **Tailwind CSS 4**: design tokens in `app/globals.css` (concrete-grey ground, ink, olive accent; `btn`, `btn-light`, `btn-ghost`, `link`, `gutter` utilities)
-- **Switzer** typeface, self-hosted in `app/fonts/` via `next/font/local`
-- **Lenis** smooth scrolling with a light parallax on large photos (`components/SmoothScroll.tsx`); both are off for `prefers-reduced-motion`
-- **Hero video**: re-encoded 720p/540p clips in `public/video/`, poster shown first, loaded after the page; skipped on reduced motion, Data Saver and 2G
-- **Contact API**: validation, honeypot, same-origin check, 20 KB body cap and a per-IP rate limit
-- **Security headers** (CSP, frame, nosniff, referrer, permissions) in `next.config.ts`
-- **SEO**: per-page metadata with `www` canonicals, one Organization/WebSite JSON-LD graph in `app/layout.tsx`, per-page BreadcrumbList, project CreativeWork JSON-LD, `app/sitemap.ts` and `app/robots.ts`
-- Error and global-error pages, plus loading and failure states on the form, photos and video
+## Editing content
+
+Projects, manufacturers and presentations are edited at **`/admin`**. The About and Contact pages, and the wording on the home page, are edited in their files under `app/`. The legal text is in `public/legal/`.
+
+- **Live site:** each save is one commit to `main`, and Vercel redeploys in about 2 minutes.
+- **Locally:** saves write straight to `content/` and `public/` in your working copy.
+- **Web addresses:** a new entry's address comes from its name and doesn't change afterwards.
+- **Files:** uploads are stored under `public/<collection>/<id>/` with fixed names, such as `hero.jpg` or `gallery/0/image.jpg`.
+- **Broken entries:** an entry with a missing file is skipped with a build warning, so one mistake can't block a deploy. `tests/content.spec.ts` checks every reference and file.
+
+To add content by hand, copy an existing JSON file in `content/<collection>/`, put its files under `public/<collection>/<id>/`, then run `npm run test:unit`.
+
+## How it's built
+
+- **Next.js 15**, **React 19**, **TypeScript** and **Tailwind CSS 4**. Pages are built ahead of time from the files in `content/`.
+- **Design:** colours, type sizes and the `btn`, `link` and `gutter` styles are in `app/globals.css`. The Switzer typeface is in `app/fonts/`.
+- **Contact form:** `app/api/contact/route.ts` sends email with nodemailer.
+- **Search:** page titles and descriptions, structured data, `app/sitemap.ts` and `app/robots.ts`. Each manufacturer has its own page so search engines can find it.
+- **Images:** addresses carry a version based on the file's contents, so a replaced photo appears straight away.
+- **Security:** headers are set in `next.config.ts`.
 
 ## Project structure
 
 ```text
 app/
-  layout.tsx                 # Shell: fonts, Navbar, Breadcrumbs, Footer, JSON-LD, smooth scroll
-  page.tsx                   # Home
-  globals.css                # Design tokens and utilities
-  error.tsx, global-error.tsx, not-found.tsx
-  api/contact/route.ts       # Contact form endpoint (nodemailer)
-  admin/, api/admin/         # Website editor: sign-in, dashboard, lists, edit forms; save/upload/delete APIs
-  products/                  # Manufacturers (logo cards + details dialog)
-  projects/                  # Project index + [slug] detail (gallery or build sequence)
-  presentations/             # Technical presentations (manufacturer filter, request by email)
-  resources/                 # Downloadable PDFs per manufacturer
+  layout.tsx          Frame around every page: fonts, nav, footer, search details
+  page.tsx            Home
+  products/           Manufacturers list, and [id]/ for each company's page
+  projects/           Projects list, and [slug]/ for each project's page
+  presentations/      Technical presentations
+  resources/          Documents by manufacturer
   about/, contact/, privacy/, terms/
-  fonts/                     # Switzer woff2 files
-  sitemap.ts, robots.ts
+  admin/, api/admin/  Website editor and its save, upload and sign-in routes
+  api/contact/        Contact form
 
-components/
-  admin/                     # Website editor forms (photos, documents, save bar)
-  Navbar.tsx, Footer.tsx, Breadcrumbs.tsx, PageHeader.tsx
-  Card.tsx                   # Shared tappable card (projects, manufacturers)
-  HeroVideo.tsx              # Poster-first hero video with fallbacks
-  BuildSequence.tsx          # Step-through photo sequence on project pages
-  Gallery.tsx                # Photo grid + lightbox
-  FilterBar.tsx              # Filter chips (single swipeable row on phones)
-  EmailForm.tsx              # Contact form with sending / sent / error states
-  SmoothScroll.tsx, JsonLd.tsx
-
-content/                     # Site content edited in the admin panel (JSON)
-  projects/, manufacturers/, presentations/
-
-lib/
-  content.ts                 # Reads content/ at build time (types + loaders)
-  auth.ts, session.ts        # Admin passwords (scrypt), lock-out, signed session cookie
-  admin-content.ts           # Admin: checks fields, names files, builds each save
-  admin-store.ts             # Admin: saves to GitHub (live) or disk (local)
-  admin-uploads.ts           # Admin: upload tokens and file-type checks
-  legacy-redirects.json      # Old asset URLs -> new files
-
-middleware.ts                # Sends signed-out visitors from /admin to sign-in
-scripts/hash-password.mjs    # Makes an ADMIN_USERS entry
-
-data/
-  team.ts                    # Kept for future team members (not used yet)
-
-public/
-  video/                     # Hero clips + poster
-  logos/, presentations/, projects/, resources/, team/
-  legal/                     # terms.html, privacy.html (shown in iframes)
-  fuchs.png, fuchs-grey.png, og.jpg
-
-tests/
-  contact-api.spec.ts, content.spec.ts, admin.spec.ts  # Unit tests (Vitest)
-  e2e/                       # Playwright: smoke, a11y, responsive, seo, states, security, admin off
-  e2e-admin/                 # Playwright: signed-in admin flow (playwright.admin.config.ts)
+components/           Shared parts: nav, footer, cards, gallery, contact form
+components/admin/     Website editor forms
+content/              Projects, manufacturers and presentations (JSON)
+lib/content.ts        Reads content/ when the site is built
+lib/admin-*.ts        Website editor: checking, saving and uploads
+lib/auth.ts, session.ts  Admin sign-in
+public/               Images, documents, video and legal pages
+scripts/              Admin password tool
+tests/                Unit tests, plus browser tests in e2e/ and e2e-admin/
 ```
 
-## Editing content (admin panel)
-
-Projects, manufacturers (with their documents) and presentations are edited at **`/admin`**, a simple editor in the site's own style.
-
-- **Sign-in:** email and password for each person in `ADMIN_USERS` (scrypt hashes), an 8-hour HttpOnly, SameSite=Strict cookie, 5 wrong tries per email or IP pause sign-in for 15 minutes. `middleware.ts` guards `/admin` and `/api/admin`, and every page and API route checks the session again. Admin pages are `noindex`, `no-store` and disallowed in `robots.txt`.
-- **Locally:** set `ADMIN_USERS` and `ADMIN_SESSION_SECRET` in `.env.local`, run `npm run dev`, open http://localhost:3000/admin. Saves write straight to `content/` and `public/` in your working copy.
-- **Live:** with `GITHUB_TOKEN` and `GITHUB_REPO` set, each save is one commit to `main` (via the Git Data API) and Vercel redeploys in about 2 minutes. The editor reads from GitHub, so it shows a save straight away. Without a token the live editor signs in but says saving isn't set up.
-- **Uploads:** photos are resized in the browser to 2400 px JPEG, sent in 3 MB parts (Vercel's request limit is 4.5 MB) and checked by their contents. Limits: photos 15 MB, logos 5 MB, PDFs 25 MB.
-- **Files:** content lives in `content/{projects,manufacturers,presentations}/*.json`; files go to `public/<collection>/<id>/` with fixed names (`hero.jpg`, `gallery/0/image.jpg`, `resources/0/file.pdf`, `logo.png`, `banner.png`). The editor renumbers them when photos are reordered and deletes ones no longer used. The web address (id) comes from the name and never changes afterwards.
-- `lib/content.ts` reads the content at build time. Entries with a missing file or unknown manufacturer are skipped with a build warning instead of failing the deploy; `tests/content.spec.ts` checks every reference and file.
-- Old document and photo URLs redirect to the new files (`lib/legacy-redirects.json`).
-
-## Adding content by hand
-
-Prefer the admin panel. By hand: add a JSON file to `content/<collection>/` following an existing one, with its files under `public/<collection>/<id>/` using the fixed names above, then run `npm run test:unit`.
+`data/team.ts` isn't used by the site at the moment.
 
 ## Deployment
 
-Deployed on [Vercel](https://vercel.com/). Every push to `main` deploys to https://www.fuchs-sales.ca (the bare domain redirects to `www`).
+Hosted on [Vercel](https://vercel.com/). Every push to `main` deploys to https://www.fuchs-sales.ca.
+
+If you turn on Vercel's Bot Protection or Attack Challenge Mode, check that search engines can still reach the site: `curl -I https://www.fuchs-sales.ca/robots.txt` should return 200.
 
 ## License
 
-All Rights Reserved — see `LICENSE`.
+All rights reserved. See `LICENSE`.
