@@ -1,71 +1,15 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ChevronDown, FileText, Download, ArrowUpRight } from "lucide-react";
+import { ChevronDown, ArrowUpRight } from "lucide-react";
 import type { Manufacturer } from "../../lib/content";
 import PageHeader from "../../components/PageHeader";
+import ResourceRow from "../../components/ResourceRow";
 
 const cx = (...c: Array<string | false | null | undefined>) =>
   c.filter(Boolean).join(" ");
-
-// Uploaded files can have generic names (e.g. ".../0/file.pdf"); save them
-// under the document's title instead.
-function downloadName(title: string, href: string) {
-  const ext = href.match(/\.[a-z0-9]+$/i)?.[0] ?? ".pdf";
-  return title.replace(/[\\/:*?"<>|]+/g, "").trim() + ext;
-}
-
-// One document: its name and details, with View and Download links.
-function ResourceRow({
-  title,
-  href,
-  type = "PDF",
-  size,
-  updated,
-  tags = [],
-}: {
-  title: string;
-  href: string;
-  type?: string;
-  size?: string;
-  updated?: string;
-  tags?: string[];
-}) {
-  const meta = [type, ...tags, size, updated && `Updated ${updated}`]
-    .filter(Boolean)
-    .join(" · ");
-  return (
-    <li className="grid gap-3 py-4 sm:grid-cols-[1fr_auto] sm:items-center sm:gap-6">
-      <div className="min-w-0 flex gap-3">
-        <FileText className="mt-1 h-4 w-4 shrink-0 text-soft" aria-hidden />
-        <div className="min-w-0">
-          <p className="font-medium leading-snug">{title}</p>
-          <p className="mt-1 text-[length:var(--text-small)] text-soft">{meta}</p>
-        </div>
-      </div>
-      <div className="flex gap-6 pl-7 sm:pl-0 text-[length:var(--text-small)]">
-        <a
-          href={href}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="link inline-flex min-h-11 items-center font-medium"
-        >
-          View
-        </a>
-        <a
-          href={href}
-          download={downloadName(title, href)}
-          className="link inline-flex min-h-11 items-center gap-1.5 font-medium"
-        >
-          <Download className="h-3.5 w-3.5" aria-hidden />
-          Download
-        </a>
-      </div>
-    </li>
-  );
-}
 
 // One manufacturer: a row that opens to show its documents.
 function BrandRow({
@@ -81,7 +25,7 @@ function BrandRow({
   const hasResources = count > 0;
 
   return (
-    <article id={m.id} className="scroll-mt-28 bg-white">
+    <article id={m.id} className="bg-white">
       <button
         type="button"
         onClick={() => hasResources && onToggle(m.id)}
@@ -167,12 +111,6 @@ export default function ResourcesClient({
   const [openId, setOpenId] = useState<string | null>(null);
   const items = manufacturers;
   const onToggle = (id: string) => setOpenId((cur) => (cur === id ? null : id));
-
-  // A link like /resources#leviat opens that company's documents.
-  useEffect(() => {
-    const id = window.location.hash.slice(1);
-    if (items.some((m) => m.id === id)) setOpenId(id);
-  }, [items]);
 
   return (
     <div className="bg-ground text-ink">

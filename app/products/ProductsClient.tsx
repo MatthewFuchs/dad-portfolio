@@ -1,9 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
-import Link from "next/link";
-import { createPortal } from "react-dom";
-import { X, ArrowUpRight } from "lucide-react";
+import { useMemo, useState } from "react";
 import FilterBar from "@/components/FilterBar";
 import PageHeader from "@/components/PageHeader";
 import Card from "@/components/Card";
@@ -11,162 +8,21 @@ import Card from "@/components/Card";
 type Company = {
   id: string;
   name: string;
-  website: string;
   shortInfo: string;
-  innovation: string;
   categories: string[];
-  resources: unknown[];
   logoSrc?: string;
   logoBgClass?: string;
-  logoImgClass?: string;
 };
 
-type Counts = Record<string, { projects: number; presentations: number }>;
-
-const plural = (n: number, word: string) => `${n} ${word}${n === 1 ? "" : "s"}`;
-
-const cx = (...cls: Array<string | false | null | undefined>) =>
-  cls.filter(Boolean).join(" ");
-
-// The pop-up with a manufacturer's full details, opened from its card. It closes
-// with the Close button, the Escape key or a tap outside it.
-function CompanyModal({
-  company,
-  counts,
-  onClose,
-}: {
-  company: Company | null;
-  counts: Counts;
-  onClose: () => void;
-}) {
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
-  useEffect(() => {
-    document.body.style.overflow = company ? "hidden" : "";
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [company]);
-  useEffect(() => {
-    const handler = (e: KeyboardEvent) => e.key === "Escape" && onClose();
-    if (company) window.addEventListener("keydown", handler);
-    return () => window.removeEventListener("keydown", handler);
-  }, [company, onClose]);
-  if (!company || !mounted) return null;
-
-  // Links to everything else about this company; a section with nothing is left out.
-  const { projects = 0, presentations = 0 } = counts[company.id] ?? {};
-  const links = [
-    company.resources.length > 0 && {
-      href: `/resources#${company.id}`,
-      label: plural(company.resources.length, "document"),
-    },
-    projects > 0 && {
-      href: `/projects?manufacturer=${company.id}`,
-      label: plural(projects, "project"),
-    },
-    presentations > 0 && {
-      href: `/presentations?manufacturer=${encodeURIComponent(company.name)}`,
-      label: plural(presentations, "presentation"),
-    },
-  ].filter((l) => l !== false);
-
-  return createPortal(
-    <>
-      <div className="fixed inset-0 z-[100] bg-black/55" onClick={onClose} />
-      <div
-        className="fixed inset-0 z-[110] flex items-end sm:items-center justify-center sm:p-4"
-        role="dialog"
-        aria-modal="true"
-        aria-label={company.name}
-        onClick={onClose}
-      >
-        <div
-          data-lenis-prevent
-          className="relative w-full max-w-3xl max-h-[92svh] overflow-y-auto bg-ground text-ink animate-[fade-up_400ms_var(--ease-out-strong)_both] motion-reduce:animate-none"
-          onClick={(e) => e.stopPropagation()}
-        >
-          <div
-            className={cx(
-              "relative h-40 sm:h-52",
-              company.logoBgClass ?? "bg-white",
-            )}
-          >
-            {company.logoSrc && (
-              <img
-                src={company.logoSrc}
-                alt={`${company.name} logo`}
-                className={cx(
-                  "absolute inset-0 h-full w-full object-contain p-8",
-                  company.logoImgClass,
-                )}
-              />
-            )}
-          </div>
-          <button
-            onClick={onClose}
-            aria-label="Close"
-            className="absolute top-3 right-3 inline-flex min-h-11 items-center gap-2 bg-ink px-4 text-[length:var(--text-small)] text-white transition-colors hover:bg-black"
-          >
-            <X className="h-4 w-4" /> Close
-          </button>
-          <div className="p-6 sm:p-10">
-            <h2 className="text-[length:var(--text-head)]">{company.name}</h2>
-            <p className="mt-4 text-[length:var(--text-lead)] leading-snug">
-              {company.shortInfo}
-            </p>
-            <p className="mt-2 text-soft">{company.categories.join(", ")}</p>
-            <h3 className="mt-8 text-[length:var(--text-body)] font-medium tracking-normal">
-              Innovation
-            </h3>
-            <p className="mt-2 max-w-[60ch]">{company.innovation}</p>
-            {links.length > 0 && (
-              <ul className="mt-6">
-                {links.map((l) => (
-                  <li key={l.href}>
-                    <Link href={l.href} className="link inline-flex min-h-11 items-center font-medium">
-                      {l.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            )}
-            <a
-              href={company.website}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn mt-8"
-            >
-              Visit website <ArrowUpRight className="h-4 w-4" />
-            </a>
-          </div>
-        </div>
-      </div>
-    </>,
-    document.body,
-  );
-}
-
-export default function ProductsClient({
-  companies,
-  counts,
-}: {
-  companies: Company[];
-  counts: Counts;
-}) {
+// The manufacturer cards and filters. Each card is a real link to that
+// company's own page, which search engines can follow.
+export default function ProductsClient({ companies }: { companies: Company[] }) {
   // The filter buttons: every category used by at least one manufacturer.
   const ALL_CATEGORIES = useMemo(
     () => Array.from(new Set(companies.flatMap((c) => c.categories))).sort(),
     [companies],
   );
   const [activeCats, setActiveCats] = useState<string[]>([]);
-  const [selected, setSelected] = useState<Company | null>(null);
-
-  // A link like /products?m=leviat (from the home page logos) opens that company.
-  useEffect(() => {
-    const id = new URLSearchParams(window.location.search).get("m");
-    if (id) setSelected(companies.find((c) => c.id === id) ?? null);
-  }, [companies]);
 
   // With no filter on, show everyone; otherwise anyone in a chosen category.
   const filtered = useMemo(() => {
@@ -209,7 +65,7 @@ export default function ProductsClient({
               <li key={c.id}>
                 <Card
                   testId="company-card"
-                  onClick={() => setSelected(c)}
+                  href={`/products/${c.id}`}
                   title={c.name}
                   meta={c.shortInfo}
                   cue="Details"
@@ -227,8 +83,6 @@ export default function ProductsClient({
           </ul>
         )}
       </section>
-
-      <CompanyModal company={selected} counts={counts} onClose={() => setSelected(null)} />
     </div>
   );
 }

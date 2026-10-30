@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import fs from "fs";
 import path from "path";
-import { getProjects } from "../lib/content";
+import { getManufacturers, getProjects } from "../lib/content";
 
 export const runtime = "nodejs";
 
@@ -41,7 +41,7 @@ function fileMtimeOrNow(relativeFile?: string): Date {
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const PROJECTS = await getProjects();
+  const [PROJECTS, MANUFACTURERS] = await Promise.all([getProjects(), getManufacturers()]);
   const staticEntries: MetadataRoute.Sitemap = PAGES.map(
     ({ url, file, priority, changeFrequency }) => ({
       url: `${BASE_URL}${url}`,
@@ -67,5 +67,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     };
   });
 
-  return [...staticEntries, ...projectEntries];
+  const manufacturerEntries: MetadataRoute.Sitemap = MANUFACTURERS.map((m) => ({
+    url: `${BASE_URL}/products/${m.id}`,
+    changeFrequency: "monthly",
+    priority: 0.7,
+  }));
+
+  return [...staticEntries, ...manufacturerEntries, ...projectEntries];
 }

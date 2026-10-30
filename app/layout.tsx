@@ -54,6 +54,14 @@ export const metadata: Metadata = {
     images: ["/og.jpg"],
   },
   icons: { icon: "icon.png" },
+  // Proves ownership to Google Search Console and Bing Webmaster Tools. Set the
+  // codes they give you in Vercel; nothing is added while these are empty.
+  verification: {
+    google: process.env.GOOGLE_SITE_VERIFICATION,
+    other: process.env.BING_SITE_VERIFICATION
+      ? { "msvalidate.01": process.env.BING_SITE_VERIFICATION }
+      : undefined,
+  },
 };
 
 export default function RootLayout({
@@ -65,6 +73,9 @@ export default function RootLayout({
   // rather than the wording of the web address.
   const projectNames = Object.fromEntries(
     readCollection("projects").map(({ slug, entry }) => [slug, entry.name])
+  );
+  const manufacturerNames = Object.fromEntries(
+    readCollection("manufacturers").map(({ slug, entry }) => [slug, entry.name])
   );
 
   return (
@@ -88,6 +99,7 @@ export default function RootLayout({
                   terms: "Terms of Use",
                   team: "Team",
                   ...projectNames,
+                  ...manufacturerNames,
                 }}
               />
             </>

@@ -14,11 +14,13 @@ export default function ManufacturerForm({
   initial,
   categoryOptions,
   usedBy,
+  webAddress,
 }: {
   id: string | null;
   initial: ManufacturerDraft;
   categoryOptions: string[];
   usedBy?: string;
+  webAddress?: string;
 }) {
   const [f, setF] = useState(initial);
   const [logo, setLogo] = useState<ImageValue>(
@@ -81,6 +83,18 @@ export default function ManufacturerForm({
         >
           <textarea id="innovation" rows={3} value={f.innovation} onChange={(e) => set("innovation", e.target.value)} className="admin-input" {...describe("innovation", true, errors.innovation)} />
         </Field>
+        <p className="text-[15px] text-soft">
+          {webAddress ? (
+            <>
+              Web page:{" "}
+              <a href={webAddress} target="_blank" rel="noopener" className="link">
+                fuchs-sales.ca{webAddress}
+              </a>
+            </>
+          ) : (
+            "The company's web page address is made from its name when you add it."
+          )}
+        </p>
       </Section>
 
       <Section title="Logo" help="A PNG with a see-through background looks best.">

@@ -89,24 +89,22 @@ test('products category chips filter grid', async ({ page }) => {
   await expect(cards).toHaveCount(initial);
 });
 
-test('a manufacturer links to its documents', async ({ page }) => {
-  await gotoOk(page, '/products?m=leviat');
-  const dialog = page.getByRole('dialog', { name: 'Leviat' });
-  await expect(dialog).toBeVisible();
+test('a manufacturer card opens a page with everything about the company', async ({ page }) => {
+  await gotoOk(page, '/products');
+  await expect(page.locator('a[href="/products/leviat"]')).toHaveCount(1);
 
-  await dialog.getByRole('link', { name: /document/ }).click();
-  await expect(page).toHaveURL(/\/resources#leviat$/);
-  await expect(page.locator('#leviat button[aria-expanded]')).toHaveAttribute('aria-expanded', 'true');
+  await gotoOk(page, '/products/leviat');
+  await expect(page.getByRole('heading', { level: 1, name: 'Leviat' })).toBeVisible();
+  await expect(page.getByText('represents Leviat across Canada')).toBeVisible();
+  await expect(page.getByRole('link', { name: 'View', exact: true }).first()).toBeVisible();
+  await expect(page.locator('a[href^="/projects/"]').first()).toBeVisible();
+
+  await page.getByRole('link', { name: 'See Leviat presentations' }).click();
+  await expect(page).toHaveURL(/\/presentations\?manufacturer=Leviat$/);
 });
 
-test('a manufacturer links to its presentations', async ({ page }) => {
-  await gotoOk(page, '/products?m=leviat');
-  await page.getByRole('dialog', { name: 'Leviat' }).getByRole('link', { name: /presentation/ }).click();
-  await expect(page).toHaveURL(/\/presentations\?manufacturer=Leviat$/);
-  await expect(page.getByRole('heading', { level: 2 }).first()).toBeVisible();
-  const shown = await page.getByRole('link', { name: /request this session/i }).count();
-  expect(shown).toBeGreaterThan(0);
-  expect(shown).toBeLessThan(8);
+test('an unknown manufacturer is not found', async ({ request }) => {
+  expect((await request.get('/products/not-a-company')).status()).toBe(404);
 });
 
 test('the contact form starts from a presentation request', async ({ page }) => {

@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-const PAGES = ['/', '/products', '/projects', '/projects/cloverdale-athletic-park-clubhouse', '/presentations', '/resources', '/about', '/contact', '/privacy', '/terms'];
+const PAGES = ['/', '/products', '/products/leviat', '/projects', '/projects/cloverdale-athletic-park-clubhouse', '/presentations', '/resources', '/about', '/contact', '/privacy', '/terms'];
 
 test('security headers are sent and the framework is not advertised', async ({ request }) => {
   const res = await request.get('/');

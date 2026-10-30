@@ -2,7 +2,7 @@
 // manufacturers from the admin content. ProductsClient.tsx draws the page.
 import { jsonLdHtml } from "../../components/JsonLd";
 import type { Metadata } from "next";
-import { getManufacturers, getPresentations, getProjects } from "../../lib/content";
+import { getManufacturers } from "../../lib/content";
 import ProductsClient from "./ProductsClient";
 
 const SITE_URL = "https://www.fuchs-sales.ca";
@@ -38,22 +38,6 @@ export const metadata: Metadata = {
 };
 
 export default async function ProductsPage() {
-  const [companies, projects, presentations] = await Promise.all([
-    getManufacturers(),
-    getProjects(),
-    getPresentations(),
-  ]);
-  // How much each manufacturer has elsewhere on the site, for the links in its pop-up.
-  const counts = Object.fromEntries(
-    companies.map((m) => [
-      m.id,
-      {
-        projects: projects.filter((p) => p.manufacturers.includes(m.id)).length,
-        presentations: presentations.filter((p) => p.brand === m.name).length,
-      },
-    ])
-  );
-
   // Tells search engines where this page sits in the site. Visitors never see it.
   const breadcrumbsJsonLd = {
     "@context": "https://schema.org",
@@ -75,7 +59,7 @@ export default async function ProductsPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: jsonLdHtml(breadcrumbsJsonLd) }}
       />
-      <ProductsClient companies={companies} counts={counts} />
+      <ProductsClient companies={await getManufacturers()} />
     </>
   );
 }

@@ -58,6 +58,7 @@ export default async function Editor({
         initial={draft}
         categoryOptions={unique(manufacturers.flatMap((m) => m.entry.categories ?? []))}
         usedBy={projects.length ? `${projects.length} project${projects.length === 1 ? "" : "s"}` : undefined}
+        webAddress={id ? `/products/${id}` : undefined}
       />
     );
   } else {

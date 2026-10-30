@@ -269,7 +269,7 @@ export default async function HomePage() {
           {MANUFACTURERS.map((m) => (
             <li key={m.id}>
               <Link
-                href={`/products?m=${m.id}`}
+                href={`/products/${m.id}`}
                 aria-label={`${m.name}: see details`}
                 className={`group relative block aspect-[3/2] overflow-hidden transition-transform active:scale-[0.98] ${
                   m.logoBgClass ?? "bg-white"

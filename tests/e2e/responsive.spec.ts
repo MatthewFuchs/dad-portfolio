@@ -7,6 +7,7 @@ const WIDTHS = [360, 390, 768, 1024, 1440];
 const PAGES = [
   '/',
   '/products',
+  '/products/thermomass',
   '/projects',
   '/projects/cloverdale-athletic-park-clubhouse',
   '/presentations',
@@ -137,7 +138,7 @@ test('home shows three tappable project cards and the partner logos', async ({ p
   const logos = page.locator('section', { has: page.getByRole('heading', { name: 'Who we represent' }) })
     .getByRole('link', { name: /see details/ });
   await expect(logos).toHaveCount(MANUFACTURER_COUNT);
-  await expect(logos.first()).toHaveAttribute('href', /^\/products\?m=[a-z0-9-]+$/);
+  await expect(logos.first()).toHaveAttribute('href', /^\/products\/[a-z0-9-]+$/);
 });
 
 test.describe('tap targets on a phone', () => {

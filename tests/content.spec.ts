@@ -23,6 +23,10 @@ describe('content files', () => {
     expect(presentations.length).toBeGreaterThan(0);
   });
 
+  it('every manufacturer has a usable web address', () => {
+    for (const { slug } of manufacturers) expect(slug).toMatch(/^[a-z0-9-]+$/);
+  });
+
   it('every manufacturer logo and document exists', () => {
     for (const { slug, data } of manufacturers) {
       expect(inPublic(data.logo), `${slug} logo ${data.logo}`).toBe(true);

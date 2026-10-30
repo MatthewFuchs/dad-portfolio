@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 const SITE = 'https://www.fuchs-sales.ca';
-const PAGES = ['/', '/products', '/projects', '/presentations', '/resources', '/about', '/contact', '/projects/seaborne-tilit-up-project'];
+const PAGES = ['/', '/products', '/products/leviat', '/projects', '/presentations', '/resources', '/about', '/contact', '/projects/seaborne-tilit-up-project'];
 
 test('every page has one brand in its title, a www canonical and a short description', async ({ page }) => {
   for (const path of PAGES) {
@@ -45,6 +45,7 @@ test('sitemap lists every project and robots points to it', async ({ request }) 
   const sitemap = await (await request.get('/sitemap.xml')).text();
   expect(sitemap).toContain(`${SITE}/projects/cloverdale-athletic-park-clubhouse`);
   expect(sitemap).toContain(`${SITE}/presentations`);
+  expect(sitemap).toContain(`${SITE}/products/leviat`);
   const robots = await (await request.get('/robots.txt')).text();
   expect(robots).toContain(`Sitemap: ${SITE}/sitemap.xml`);
 });

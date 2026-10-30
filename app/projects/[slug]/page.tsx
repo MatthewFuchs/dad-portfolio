@@ -4,7 +4,7 @@
 import { jsonLdHtml } from "../../../components/JsonLd";
 import type { Metadata } from "next";
 import Image from "next/image";
-import { ArrowUpRight } from "lucide-react";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getManufacturers, getProject, getProjects } from "../../../lib/content";
 import Gallery from "../../../components/Gallery";
@@ -206,12 +206,7 @@ export default async function ProjectDetailPage({
               if (!m) return null;
               return (
                 <li key={id}>
-                  <a
-                    href={m.website}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="group block"
-                  >
+                  <Link href={`/products/${id}`} className="group block">
                     <span
                       className={`relative block h-20 overflow-hidden ${
                         m.logoBgClass ?? "bg-white"
@@ -225,11 +220,10 @@ export default async function ProjectDetailPage({
                         className="object-contain p-4 transition-transform duration-500 ease-[var(--ease-out-strong)] group-hover:scale-[1.05]"
                       />
                     </span>
-                    <span className="mt-2 flex min-h-11 items-center gap-1.5 text-[length:var(--text-small)] font-medium">
+                    <span className="mt-2 flex min-h-11 items-center text-[length:var(--text-small)] font-medium">
                       {m.name}
-                      <ArrowUpRight className="h-3.5 w-3.5" aria-hidden />
                     </span>
-                  </a>
+                  </Link>
                 </li>
               );
             })}
